@@ -19,9 +19,10 @@
 \newcolumntype{Y}{>{\raggedright\arraybackslash}X}
 \newcommand{\tool}{\textsc{LEAP}}
 \newcommand{\bluebook}{\emph{Interactive Bluebook}}
-\lstset{basicstyle=\ttfamily\footnotesize,showstringspaces=false,columns=flexible,breaklines=true,frame=single,numbers=left,numberstyle=\tiny,captionpos=b}
+\lstset{basicstyle=\ttfamily\scriptsize,showstringspaces=false,columns=fullflexible,keepspaces=true,breaklines=false,frame=single,numbers=none,captionpos=b,aboveskip=\intextsep,belowskip=\intextsep,xleftmargin=\fboxsep,xrightmargin=\fboxsep}
 \hypersetup{colorlinks=true,linkcolor=blue,citecolor=blue,urlcolor=blue}
 
+% Journal-specific preprint footer; Elsevier class files remain unmodified.
 \ExplSyntaxOn
 \cs_set:Npn \__first_footerline:
 {
@@ -32,7 +33,7 @@
   \else
     \__short_authors: :~
   \fi
-  { \rmfamily \itshape Preprint~submitted~to~Journal~of~Systems~and~Software }
+  { \rmfamily \itshape Preprint~submitted~to~Information~and~Software~Technology }
   \group_end:
 }
 \ExplSyntaxOff
@@ -42,10 +43,10 @@
 \def\floatpagepagefraction{1}
 \def\textpagefraction{.001}
 
-\shorttitle{Explanation Fidelity in KPI Publication}
+\shorttitle{Explanation-Fidelity Audit in LEAP}
 \shortauthors{M.O. Mouawad}
 
-\title[mode=title]{From Source Linkage to Explanation Fidelity: An Executable Audit of Enterprise KPI Knowledge Publication}
+\title[mode=title]{Independent Evaluation of an Explanation-Fidelity Audit in LEAP: Construct Refinement and Checker Failure Modes}
 
 \author[1]{Meshaal Obaid Mouawad}[auid=001,orcid=0000-0002-1152-8324]
 \cormark[1]
@@ -55,11 +56,11 @@
 \cortext[cor1]{Corresponding author}
 
 \begin{abstract}
-\textbf{Context:} Source linkage and explanation fidelity are distinct verification properties of software-derived documentation. A publication can preserve the correct source relationship while misrepresenting the source role, executable conditions, representation disagreement, or review authority.
-\textbf{Objective:} We operationalize this distinction as four auditable publication obligations---source-role accuracy, condition disclosure, representation-disagreement preservation, and review-authority consistency---and evaluate their ability to localize publication defects and transfer across documentation generators.
-\textbf{Method:} Deterministic rules audit a frozen 28-dossier LEAP publication, an earlier 18-dossier state, and two additional LEAP input configurations. The checker is exercised against 18 predeclared rule fixtures and 14 artifact-derived controls. An external pilot reads expected roles and constraints directly from four official FastAPI source examples, compares them with generated OpenAPI 3.1 descriptions, and confirms runtime enforcement for constrained inputs.
-\textbf{Results:} All 32 checker-validation outcomes match their expected labels. The current LEAP audit localizes three generator defect classes: lineage typing in 4 dossiers with 12 visible manifestations, guard-to-safeguard binding in 5 of 10 eligible guards, and unconditional certification language in all 19 unresolved dossiers. All 6 eligible explicit-conflict dossiers retain Needs Review and Review Queue routing. The earlier LEAP state preserves the same 4 lineage-affected dossiers and the same 6 conflict-routed dossiers. In FastAPI, all 7 directly applicable source-role and condition checks pass, 9 cells receive N/A through the applicability rules, and 2 lifecycle-status analogue checks pass.
-\textbf{Conclusion:} The evidence demonstrates that provenance-preserving publication still requires semantic verification at the reader-facing boundary. The resulting audit procedure separates source identity from explanation fidelity, localizes generator repair targets, and transfers the source-role and declarative-condition checks to an independently developed OpenAPI generator.
+\textbf{Context:} Source-linked documentation can preserve provenance while misrepresenting linked evidence in reader-facing fields.
+\textbf{Objective:} We evaluate four candidate explanation-fidelity dimensions and their released checker rules in a single LEAP case study, retaining only dimensions supported by independent reviewer evidence.
+\textbf{Method:} Deterministic rules audit 28 frozen LEAP dossiers. Three independent reviewers evaluate the same blinded dossiers in unaided and guided phases. We measure agreement, compare checker output with majority labels, and analyze condition disclosure under two observed criteria.
+\textbf{Results:} Source-role accuracy has Fleiss' $\kappa=0.407$, but the checker detects 2 of 16 majority failures (12.5\% recall). Condition disclosure has $\kappa=0.553$. Under the source-visibility criterion represented by R1/R2, condition-checker precision is 40\% with 100\% recall; under the reader-facing criterion represented by R3, the same eligible set yields 100\% precision and recall, a self-consistency result for the criterion the checker implements. Broad disagreement loses support under explicit-only sensitivity ($\kappa=-0.167$) and is narrowed to LEAP-specific explicit-conflict routing. Review-authority consistency fails reliability ($\kappa=-0.285$) across 84/84 explicit labels. Unaided majority identifies stable issues in 18/28 dossiers; five guided-only cases arise from the rejected authority candidate and are treated as order/priming artifacts.
+\textbf{Conclusion:} Independent evaluation retains source-role accuracy and condition disclosure as publication dimensions while rejecting the current source-role automation as inadequate and showing condition-rule performance to be criterion-dependent. The study empirically separates construct support, criterion definition, and checker behavior within LEAP.
 \end{abstract}
 
 \begin{keywords}
@@ -69,210 +70,293 @@ software documentation \sep program comprehension \sep provenance \sep traceabil
 \hypersetup{pdfauthor={Meshaal Obaid Mouawad}}
 
 \section{Introduction}
-Source linkage and explanation fidelity are distinct verification properties of generated software documentation. The frozen LEAP publication provides direct evidence: its dossiers retain source evidence while generated text can misclassify a function docstring as an output alias, reduce a non-positive guard to generic zero-handling prose, or place certification-oriented language beside unresolved review state. These cases establish the engineering problem addressed in this paper: publication quality depends on both provenance and faithful communication of what the linked evidence means.
+This paper independently evaluates explanation fidelity in source-linked KPI documentation using LEAP as a single-system case study. In this study, \emph{explanation fidelity} denotes two publication-layer dimensions supported by the independent data: semantic source-role accuracy and communication of behavior-qualifying conditions. The provenance link is held fixed while the audit asks whether the transformation from linked evidence to reader-facing documentation preserves the meaning carried by that evidence. A separate explicit-conflict-routing verification remains specific to LEAP, and the original review-authority candidate is rejected after negative inter-reviewer reliability.
 
-Prior research supplies the foundations for evaluating that communication. Code--text consistency and documentation equivalence address behavioral fidelity \citep{Wen2019,Xu2024,Eghbali2026}; API directive analysis addresses parameter constraints and exceptions \citep{Zhou2017}; inconsistency management preserves competing representations \citep{Nuseibeh2001}; evidence models distinguish evidence and assertion roles \citep{Brush2016,Giglio2019}; and provenance and governance frameworks represent lineage, validity, and publication state \citep{Missier2013,W3CProvConstraints2013,Psallidas2023,Sadiq2026}. We integrate these concerns at the publication boundary where source evidence, declared representations, generated explanation, and status metadata appear together for a reader.
+Prior work establishes the underlying problems. Code--text consistency research measures divergence between source and documentation \citep{Wen2019,Xu2024,Eghbali2026}, and API-documentation research detects missing or inconsistent parameter, constraint, and exception directives \citep{Zhou2017}. The contribution here occurs at an already source-linked publication surface: generated dossier fields are evaluated for semantic role and condition preservation while reviewer agreement is measured separately from the released automation. This fixed-provenance design isolates publication semantics from trace recovery.
 
-We call the resulting property \emph{explanation fidelity} and operationalize it through four obligations: source-role accuracy, condition disclosure, representation-disagreement preservation, and review-authority consistency. The selection follows three explicit criteria: each obligation is grounded in prior software-engineering or provenance research; each corresponds to a distinct publication transformation observable in the frozen artifact; and each admits a deterministic failure condition. This yields an executable audit contract rather than an informal review checklist.
+The study begins with four literature-derived candidates---source-role accuracy, condition disclosure, representation-disagreement preservation, and review-authority consistency---and allows the independent data to prune them. Source-role accuracy and condition disclosure show positive reviewer agreement. The released source-role rule finds only 2 of 16 reviewer-majority failures (12.5\% recall), establishing a coverage failure. Condition-rule performance depends on the operational meaning of disclosure: reviewer majority, which accepts source visibility in three disputed cells, yields 40\% precision, whereas the reader-facing criterion represented by R3 yields 100\% precision and recall on the 10 checker-eligible cases. Broad disagreement judgments collapse under explicit-label sensitivity, and authority judgments are worse than chance-corrected agreement across 84/84 explicit labels.
 
-The evaluation combines three evidence layers. First, a complete-corpus LEAP audit classifies publication manifestations and traces repeated manifestations to generator mechanisms. Second, checker controls and frozen LEAP states test deterministic behavior, temporal persistence, and input sensitivity. Third, an external FastAPI/OpenAPI pilot reads expected roles and constraints from independently authored source, then compares those values with independently generated publication artifacts and runtime responses. Together these layers test the paper's central claim and the portability of the audit procedure.
-
-The paper contributes:
+These findings yield four contributions:
 \begin{enumerate}[leftmargin=*]
-\item an executable four-obligation contract for explanation fidelity at a multi-representation software publication boundary;
-\item complete-corpus localization of three LEAP generator defect classes and measured preservation of explicit-conflict routing;
-\item a provenance-presence baseline showing that correct source linkage can coexist with explanation-fidelity failures;
-\item checker-validation, temporal-persistence, and input-sensitivity evidence tied to frozen artifacts; and
-\item an external FastAPI/OpenAPI application in which the source-role and declarative-condition checks transfer directly through explicit adapters.
+\item an independent evaluation of four candidate publication dimensions on 28 blinded LEAP dossiers;
+\item an empirical refinement in which independent reviewer evidence retains source-role accuracy and condition disclosure, narrows disagreement to LEAP-specific routing verification, and rejects review-authority consistency;
+\item unconditional confusion matrices plus a dual-criterion condition analysis that separates source-role coverage failure from condition-definition sensitivity; and
+\item reproducible LEAP case-study evidence that separates the retained publication dimensions from a system-specific explicit-conflict-routing verification and a rejected authority operationalization.
 \end{enumerate}
+\section{Related Work and Candidate Check Derivation}
+\subsection{Behavioral fidelity and source roles}
+Software documentation remains difficult to create and maintain \citep{Aghajani2019}. Traceability identifies relationships between documentation and software artifacts \citep{MaderGotel2012}; code-comment inconsistency studies show that linked text can still diverge from code semantics \citep{Wen2019,Xu2024}. Eghbali et al. formalize code-documentation equivalence around accurate and complete description of program behavior \citep{Eghbali2026}. Zhou et al. compare API code with parameter-constraint and exception directives to detect documentation defects \citep{Zhou2017}. These results motivate source-role accuracy and condition disclosure as publication obligations.
 
-\subsection{Claims and falsification conditions}
-The study evaluates four major claims under explicit failure conditions:
-\begin{enumerate}[leftmargin=*]
-\item \textbf{C1---Source linkage and explanation fidelity are distinct verification properties.} Evidence: the source-linked Yield and Gross Margin dossiers retain provenance while exhibiting applicable source-role, condition, representation, or authority failures. Falsification condition: every source-linked audited case preserves all applicable explanation-fidelity obligations.
-\item \textbf{C2---The current LEAP corpus contains three generator defect classes.} Evidence: 4 dossiers with 12 lineage manifestations, 5 guard-binding failures among 10 eligible guards, 19 authority-language failures among 19 unresolved dossiers, and root-cause excerpts mapping each class to one generator mechanism. Falsification condition: a frozen-corpus rerun changes the class assignments or the root-cause mapping fails to reproduce the reported manifestations.
-\item \textbf{C3---Explicit-conflict routing preserves disagreement in the eligible LEAP cases.} Evidence: all 6 current eligible conflict dossiers retain \emph{Needs Review} and Review Queue, and the same 6 named cases persist in the earlier state. Falsification condition: any eligible explicit-conflict dossier loses either routing element.
-\item \textbf{C4---Source-role and declarative-condition checks transfer to the FastAPI/OpenAPI publication path.} Evidence: all 7 directly applicable checks pass; official source declarations, OpenAPI fields, negative role mutations, and HTTP 422 responses provide observable counterparts. Falsification condition: any directly applicable official example fails the source-to-publication comparison under the released adapter.
-\end{enumerate}
+The present study operates one layer later in the documentation pipeline. Each audited dossier already contains a source link; the question is whether generated publication fields preserve the role and qualifying conditions of that linked evidence. This fixed-provenance design separates link correctness from publication semantics and permits independent evaluation of the publication transformation itself.
 
-\section{Related Work and Derivation of the Publication Contract}
-\subsection{Source roles and behavioral fidelity}
-Software documentation quality depends on semantic agreement between code and text \citep{Aghajani2019,Wen2019,Xu2024}. Eghbali et al. formalize code-documentation equivalence around accurate and complete descriptions of program behavior \citep{Eghbali2026}. Zhou et al. compare API code with parameter-constraint and exception directives to detect documentation defects \citep{Zhou2017}. These lines of work establish source-role accuracy and condition disclosure as independently inspectable publication responsibilities.
+\subsection{Disagreement, evidence roles, and authority}
+Nuseibeh et al. show that inconsistency can be retained and managed rather than silently eliminated \citep{Nuseibeh2001}. SEPIO represents claims, evidence lines, data, methods, tools, agents, and supporting or refuting relations \citep{Brush2016}; ECO distinguishes evidence and assertion-method types \citep{Giglio2019}. These precedents motivate explicit preservation of representation disagreement and separation between evidence state and the authority communicated by surrounding prose.
 
-\subsection{Representation disagreement and authority}
-Software artifacts can retain inconsistent representations while managing their consequences explicitly \citep{Nuseibeh2001}. SEPIO represents claims, evidence lines, methods, tools, and supporting or refuting relations \citep{Brush2016}; ECO distinguishes evidence and assertion-method types \citep{Giglio2019}. These models support two additional publication responsibilities: explicit disagreement must remain visible, and reader-facing authority language must correspond to the recorded review state.
+PROV supplies interoperable entity--activity--agent provenance and formal validity constraints \citep{Missier2013,W3CProvConstraints2013}. OneProvenance reconstructs dynamic query lineage from database events \citep{Psallidas2023}. ESDPKI adds semantic provenance, validation-gated ingestion, publication, governance, and access controls in an enterprise infrastructure \citep{Sadiq2026}. Together, these systems establish provenance, validation, and governance as distinct information structures whose reader-facing communication can be audited.
 
-\subsection{Provenance and source-bound publication}
-PROV supplies entity--activity--agent provenance and formal validity constraints \citep{Missier2013,W3CProvConstraints2013}. OneProvenance reconstructs dynamic query lineage from database events \citep{Psallidas2023}, and ESDPKI combines semantic provenance with validation-gated publication and governance \citep{Sadiq2026}. Source-bound software-knowledge proposals extend the same direction toward evidence-linked projections and explicit validation state \citep{Gao2026,MacedoCosta2026}. The present contract connects these provenance structures to reader-facing explanation checks.
+\subsection{Source-bound software knowledge}
+ECK defines source-bound executable knowledge with evidence, provenance, validation state, freshness, downstream projections, and projection-fidelity evaluation \citep{Gao2026}. Reversa preserves traceability, confidence, and explicit validation gaps in reconstructed specifications \citep{MacedoCosta2026}. The candidate checklist focuses on the publication transformation itself: source-role description, behavior-qualifying conditions, explicit representation conflict, and review/status language are each evaluated as potentially distinct publication checks.
 
 \begin{table*}[t]
 \centering
-\caption{Derivation of the four explanation-fidelity obligations from prior work, observable publication failures, and executable rules.}
+\caption{Literature basis and initial operationalization of the four candidate explanation-fidelity dimensions evaluated in this study.}
 \label{tab:contract}
-\begin{tabularx}{\textwidth}{@{}lYYY@{}}
+\begin{tabularx}{\textwidth}{@{}lYY@{}}
 \toprule
-Obligation & Established basis & Observable publication failure & Executable rule \\
+Candidate dimension & Established basis & Initial LEAP operationalization \\
 \midrule
-Source-role accuracy & Code--text consistency and documentation equivalence \citep{Wen2019,Xu2024,Eghbali2026} & A comment, docstring, or SQL element receives an executable role unsupported by its source syntax & Compare source role/name with the published role/name and fail mismatches \\
-Condition disclosure & Behavioral completeness and API directive consistency \citep{Eghbali2026,Zhou2017} & Reader-facing safeguard text loses the guarded variable or condition semantics & Require denominator correspondence and affirmative zero/non-positive handling semantics \\
-Disagreement preservation & Inconsistency management and conflicting evidence \citep{Nuseibeh2001,Brush2016} & Publication collapses an explicit source conflict into an apparently settled representation & Require Needs Review and Review Queue for eligible explicit conflicts \\
-Review-authority consistency & Evidence/assertion roles, provenance validity, and validation-governance separation \citep{Giglio2019,W3CProvConstraints2013,Sadiq2026} & Unresolved status appears beside certification-oriented publication language & Fail unresolved pages carrying bounded certification phrases \\
+Source-role accuracy & Code--text consistency and documentation equivalence \citep{Wen2019,Xu2024,Eghbali2026} & Flag a published explanation that assigns a source element the wrong syntactic/semantic role. \\
+Condition disclosure & Completeness of behavioral/API directives \citep{Eghbali2026,Zhou2017} & For explicit zero/non-positive denominator guards, preserve the guarded variable and condition semantics. \\
+Representation disagreement & Inconsistency management and conflicting evidence \citep{Nuseibeh2001,Brush2016} & For source evidence carrying an explicit conflict marker, preserve the conflict in review routing. \\
+Review-authority consistency & Evidence/assertion roles, provenance validity, and validation-governance separation \citep{Giglio2019,W3CProvConstraints2013,Sadiq2026} & On unresolved dossiers, flag bounded certification-oriented wording. \\
 \bottomrule
 \end{tabularx}
 \end{table*}
 
-KPI semantics provide the domain in which the contract is evaluated. Semantic KPI research formalizes indicator definitions and derivations \citep{Mate2017,RoldanGarcia2021,Diamantini2025}, while AFFECTK makes traceability and consistency explicit during KPI evolution \citep{Dominguez2025}. LEAP adds a publication surface where these representations, source evidence, and review state can be inspected together.
-
+KPI semantics provide the domain context. Semantic KPI work formalizes indicator definitions and derivations \citep{Mate2017,RoldanGarcia2021,Diamantini2025}, and AFFECTK makes traceability and consistency explicit during KPI evolution \citep{Dominguez2025}. The four initial candidates are evaluated where KPI representations meet executable source and publication state; the independent evidence determines which constructs survive and which automation requires redesign.
 \section{Research Questions and Method}
 The study asks:
 \begin{description}[leftmargin=1.2cm,style=nextline]
-\item[RQ1] Which publication defect classes and preserved mechanisms are exposed by the four-obligation audit in the current complete LEAP dossier build, and which generator mechanisms explain them?
-\item[RQ2] Which manifestations persist across an earlier LEAP state and alternative LEAP input configurations, and how does input variation change the observed classes?
-\item[RQ3] Which parts of the publication-audit procedure instantiate directly on an independently developed FastAPI/OpenAPI generator, and what adapter behavior is required?
+\item[RQ1] Which publication defects and preserved mechanisms are exposed in the full 28-dossier LEAP output, and which generator mechanisms explain the repeated manifestations?
+\item[RQ2] Which LEAP manifestations persist or vary across an earlier project state and alternative input configurations?
+\item[RQ3] Which candidate explanation-fidelity dimensions achieve reproducible independent reviewer agreement?
+\item[RQ4] What checker failure modes and criterion sensitivities appear when the released rules are compared with independently produced reviewer labels?
 \end{description}
 
-\subsection{LEAP corpora}
-The primary corpus contains all 28 rendered dossier HTML pages from the frozen LEAP sample-project publication artifact: 9 carry \emph{Validated} status and 19 carry \emph{Needs Review}. A public artifact copy at commit \texttt{5e697b5b} matches the 28 submitted pages byte-for-byte by SHA-256. The earlier archived state contains 18 rendered dossiers: 6 \emph{Validated} and 12 \emph{Needs Review}. Two additional frozen input configurations use the same generator: a 38-file scenario-fixture scope producing 29 dossier publication sources and an 8-file challenge scope producing 8.
-
-The unit of analysis is a generated dossier. For temporal analysis, named manifestations are compared across the current and earlier frozen states. For input-sensitivity analysis, the scenario and challenge configurations are audited with the same released rules.
-
-\subsection{External FastAPI/OpenAPI corpus}
-The external corpus uses four official FastAPI tutorial source files from the public \texttt{fastapi/fastapi} repository at commit \texttt{33d411dbc3236275dd64d200bfe18d5d60a49b2e}. The examples cover a constrained query parameter, constrained path/query parameters, constrained request-body fields, and a deprecated path operation. Their Git blob identities and SHA-256 values are retained in the supplement. The released environment pins FastAPI 0.128.2 and Pydantic 2.13.4 and archives the generated OpenAPI 3.1 descriptions and runtime validation outcomes \citep{FastAPI2026,OpenAPI31}.
-
-Expected external roles and constraints are read directly from the official source declarations. Source-role accuracy maps to OpenAPI parameter location, parameter name, or request-body placement. Condition disclosure maps to generated minimum, maximum, pattern, and field constraints. The applicability layer assigns N/A when an external example lacks the state required by a given obligation. Lifecycle/deprecation propagation is reported as a separate status analogue.
-
-\subsection{Deterministic audit rules}
-The released audit library implements four predicates.
-\begin{enumerate}[leftmargin=*]
-\item \textbf{Source-role accuracy.} A failure is recorded when a published role/name disagrees with the source role/name. LEAP-specific parsing also detects comments or docstrings assigned executable roles and SQL \texttt{CAST} types assigned as output aliases.
-\item \textbf{Condition disclosure.} Eligible LEAP cases contain explicit zero or non-positive denominator guards expressed as \texttt{NULLIF(variable,0)} or an \texttt{if}-family comparison to zero. Preservation requires a nonempty displayed denominator, variable correspondence, affirmative handling semantics, and non-positive wording for \texttt{<=0} guards. FastAPI uses the same comparison principle over declarative validation constraints.
-\item \textbf{Representation-disagreement preservation.} Eligible LEAP pages carry an explicit conflict, mismatch, or inversion marker. Preservation requires \emph{Needs Review} and Review Queue routing.
-\item \textbf{Review-authority consistency.} Eligible pages carry \emph{Needs Review}. A failure occurs when the same page contains bounded certification-oriented phrases such as "Certified metric dossier", "certified calculation expression", or "Print Certified Dossier".
-\end{enumerate}
-
-\subsection{Checker validation and audit execution}
-The condition rule evolved through retained protocols. R3 replaced the earlier 11-row manual condition table with deterministic rules before the later corpus reruns. R4 negative-control testing exposed two checker faults: unconditional acceptance of one external query-role cell and guard acceptance with missing denominator or contradictory safeguard wording. The released checker repairs both behaviors.
-
-Validation uses two oracle-separated layers. Eighteen predeclared rule fixtures cover correct and substituted source roles, denominator binding, contradictory safeguard prose, loss of non-positive semantics, conflict routing, authority language, benign controls, and N/A behavior. Fourteen artifact-derived controls add five unchanged baselines, eight extracted-input substitutions, and one document-level HTML mutation reparsed through the production publication adapter. The release requires all oracle comparisons and all corpus summaries to pass.
-
-The primary audit then verifies corpus identity, status counts, lineage pairs, guard instances, conflict routing, certification wording, and root-cause source excerpts. Repeated page manifestations are grouped into a defect class only when a common frozen generator mechanism explains them.
-
-\section{Results}
-\subsection{Current LEAP corpus: three defect classes and preserved conflict routing}
-The 28-dossier audit localizes three generator defect classes. Lineage typing affects 4 dossiers with 12 visible manifestations. Guard-to-safeguard binding fails in 5 of 10 eligible guards and preserves 5. Authority-language consistency fails in all 19 unresolved dossiers. Explicit-conflict routing preserves all 6 eligible cases through both \emph{Needs Review} and Review Queue.
+\subsection{Claims and falsification conditions}
+Table~\ref{tab:falsification} binds the study's major claims to observable evidence and an explicit overturning condition.
 
 \begin{table*}[t]
 \centering
-\caption{LEAP audit results across the current and earlier frozen states. Counts report observed manifestations and eligible cases.}
-\label{tab:results}
-\begin{tabularx}{\textwidth}{@{}lYYY@{}}
+\caption{Major claims, supporting evidence, and falsification conditions.}
+\label{tab:falsification}
+\begin{tabularx}{\textwidth}{@{}p{0.27\textwidth}YY@{}}
 \toprule
-Class / mechanism & Current 28-dossier build & Earlier 18-dossier build & Cross-state observation \\
+Claim & Supporting evidence & Falsification condition \\
 \midrule
-Lineage typing & 4 dossiers; 12 manifestations & Same 4 dossiers; same 12 manifestations & Same named manifestations persist across both states \\
-Guard-to-safeguard binding & 5 failures / 10 eligible guards & 4 failures / 9 eligible guards & Shared generator weakness with one changed eligible outcome \\
-Authority-language consistency & 19 failures / 19 unresolved dossiers & 12 failures / 12 unresolved dossiers & Unconditional template behavior appears on every unresolved page in each state \\
-Conflict routing & 6 preserved / 6 eligible conflicts & Same 6 preserved / 6 eligible conflicts & Same named conflicts retain routing across both states \\
+Within the LEAP case study, source linkage can coexist with publication discrepancies. & Source-linked Yield and Gross Margin dossiers retain inspectable source evidence while direct comparison identifies role and condition discrepancies. & The claim fails if the retained evidence link is absent or direct source comparison removes the reported discrepancy. \\
+Three root-caused LEAP generator mechanisms explain repeated primary-output manifestations. & Root-cause tracing maps lineage, safeguard, and certification-string manifestations to three shared generator mechanisms. & The claim fails if rerunning the released audit changes the manifestations or if repeated manifestations map to different generator mechanisms. \\
+Independent review differentiates the candidate dimensions. & Three reviewers provide 112 guided cells; Fleiss' $\kappa$ ranges from 0.553 to $-0.285$, and explicit-label sensitivity changes the disagreement result. & The claim fails if the preserved reviewer forms and deterministic aggregation reproduce uniform agreement across the four candidates. \\
+The released source-role rule fails coverage, while condition-rule performance is criterion-sensitive. & Source-role recall is 12.5\% against reviewer majority. On the 10 checker-eligible condition cases, precision is 40\% under the source-visibility criterion and 100\% under the reader-facing criterion; recall is 100\% under both. & The claim fails if deterministic recomputation removes the source-role confusion matrix or the dual-criterion condition results. \\
 \bottomrule
 \end{tabularx}
 \end{table*}
 
-The alternative configurations reproduce lineage and authority failures under changed inputs. The 29-dossier scenario build contains one lineage-affected dossier, authority-language failures on all 11 unresolved dossiers, one preserved eligible guard, and 2/2 preserved explicit conflicts. The 8-dossier challenge build contains one lineage-affected dossier, authority-language failures on all 6 unresolved dossiers, one preserved eligible guard, and 5/5 preserved explicit conflicts. These results identify guard binding as input-sensitive within the evaluated configurations, while lineage, authority language, and conflict routing recur under the alternative inputs.
+\subsection{Case-study system and publication pipeline}
+LEAP is a source-to-publication system for KPI knowledge. Its frozen research artifact discovers KPI candidates from source files, prepares formula and business-context fields, attaches provenance and review information, and renders each selected KPI as an HTML dossier in the Interactive Bluebook. The dossier combines source context, formal formula presentation, developer-lineage prose, safeguards, ownership metadata, conflict signals, and a review state. This paper treats that rendered publication surface as the audit object and traces repeated publication findings back to the frozen generator implementation.
+
+\subsection{Case-study artifacts and within-system design}
+The primary case-study artifact contains all 28 rendered dossier HTML pages produced by the frozen LEAP sample-project build. A public artifact copy at commit \texttt{5e697b5b} (full identity in the supplement) matches all 28 submitted pages byte-for-byte by SHA-256. The build contains 9 \emph{Validated} and 19 \emph{Needs Review} dossiers. These recorded states support the concrete LEAP certification-string analysis and also provide evidence for evaluating the broader review-authority candidate independently.
+
+A separately archived earlier LEAP project state contains 18 rendered dossier HTML pages, including 6 \emph{Validated} and 12 \emph{Needs Review} dossiers. We use this archived state to test temporal persistence of named manifestations. Two further frozen LEAP input configurations use the same generator: a 38-file scenario-fixture scope producing 29 dossier publication sources and an 8-file challenge scope producing 8. These runs test input sensitivity. The unit of analysis is a generated dossier, and the audit operates on published source roles, formula-related conditions, conflict signals, and review-state language.
+
+\paragraph{External adapter check.} Four official FastAPI tutorial sources and their generated OpenAPI 3.1 descriptions at fixed upstream identities \citep{FastAPI2026,OpenAPI31} verify that the source-role and declarative-condition adapters execute outside LEAP. This check is implementation evidence for adapter feasibility and is excluded from the independent construct evaluation.
+
+\subsection{Deterministic operational rules}
+The released checker implements the following four initial rules; the independent evaluation determines their empirical status.
+\begin{enumerate}[leftmargin=*]
+\item \textbf{Source-role accuracy.} A failure is recorded when a comment or docstring is assigned an executable role, or when a SQL \texttt{CAST} type is labeled as the output alias instead of the actual alias. The rule scans published developer-lineage pairs.
+\item \textbf{Executable-guard disclosure.} Eligibility covers explicit zero or non-positive denominator guards expressed as \texttt{NULLIF(variable,0)} or an \texttt{if}-family comparison to zero. Preservation requires reader-facing safeguard text to communicate zero/non-positive handling and bind the guarded variable to the denominator displayed in the formal formula. A \texttt{<= 0} guard requires non-positive semantics; zero-only wording fails the rule.
+\item \textbf{Representation-disagreement candidate.} The released rule covers pages whose retained source explicitly carries a conflict, mismatch, or inversion marker and checks preservation through \emph{Needs Review} plus a Review Queue. The independent evaluation tests whether this narrow rule supports a broader disagreement construct.
+\item \textbf{Review-authority candidate.} The released rule checks unresolved \emph{Needs Review} dossiers for bounded certification-oriented wording such as ``Certified metric dossier'', ``certified calculation expression'', or ``Print Certified Dossier''. Independent reviewer reliability determines this candidate's empirical disposition.
+\end{enumerate}
+The complete guard table and all line-level role findings are emitted by the scripts for inspection, and Table~\ref{tab:contract} records the literature basis of each initial candidate.
+
+\subsection{Rule-development chronology and checker conformance tests}
+The condition rule evolved from an earlier 11-row manual adjudication into the deterministic R3 protocol used for the later corpus reruns. Subsequent negative-control testing exposed two checker faults in the R4 implementation: an external query-role cell could pass before comparing generated role/name against source, and the guard checker could accept an empty denominator or contradictory safeguard wording. Both faults were repaired before the reported results were regenerated.
+
+The released checker is exercised in two conformance-test layers against author-specified control-oracle tables stored separately from checker output. Eighteen rule fixtures exercise correct and substituted source roles, correct/missing/wrong denominator binding, contradictory or disabled safeguard prose, zero-only loss of non-positive semantics, preserved/suppressed conflict routing, certification beside unresolved status, benign controls, and N/A behavior. Fourteen artifact-derived controls add five unchanged baselines, eight substitutions of extracted inputs, and one document-level HTML mutation reparsed through the same publication adapter used for the archived LEAP page. All 32 oracle-labeled outcomes match; the 30 binary Pass/Fail controls produce zero observed misses on deliberately introduced defects and zero observed false alarms on benign controls.
+
+
+\subsection{Independent reviewer evaluation and unaided baseline}
+Three independent reviewers evaluated the same 28 dossier cases using blinded identifiers C01--C28. Reviewer packets excluded checker outputs, manuscript result tables, the organizer mapping key, and other reviewer responses. Phase A recorded unaided issue discovery. Phase B applied the four candidate dimensions and recorded Pass, Fail, or NA with evidence.
+
+The returned Phase-A forms are complete for all 28 cases. In Phase B, reviewers left 94 of 336 possible obligation labels blank (28.0\%). All blanks occur in the applicability-dependent condition and disagreement columns: 40/84 condition labels and 54/84 disagreement labels. The primary analysis preserves the raw forms and maps these blanks to NA according to the collection protocol; every explicit Pass/Fail label remains unchanged. A sensitivity analysis is also reported for cells with three explicit labels.
+
+For each case-dimension cell, a reviewer-majority label requires at least two matching labels; one three-way split remains unresolved. We report average pair agreement and Fleiss' $\kappa$ \citep{Fleiss1971}. We use reviewer majority as an independent comparison reference. Checker comparison is unconditional across the 28 cases: exact three-state agreement uses Pass/Fail/NA, and a binary defect confusion matrix treats reviewer-majority Fail as positive and Pass/NA as non-fail. This design exposes both checker underflagging and overflagging without conditioning performance on checker-defined eligibility sets.
+
+Phase B followed Phase A on the same cases. The five cases that enter the majority issue set only in Phase B are inspected case-by-case to identify the source of the phase shift.
+
+\subsection{Verification and root-cause procedure}
+The primary audit verifies corpus size, SHA-256 identity, status counts, lineage pairs, guard instances, conflict routing, and certification wording. Primary, historical, robustness, and external scripts import the same released rule library for denominator binding, safeguard semantics, conflict routing, authority consistency, and source-role comparison where applicable. The primary guard inventory contains ten eligible guards and is produced directly by the scanner. The release verifier requires the control-oracle comparison and both checker-conformance execution layers to pass before accepting corpus summaries.
+
+After classifying page manifestations, we inspect frozen generator source to determine whether repeated manifestations share one implementation cause. Root-cause evidence is accepted when one source mechanism explains the repeated page behavior. The supplement retains the exact generator excerpts and source hashes used for this trace.
+\section{Results}
+\subsection{LEAP case-study findings: three root-caused generator defects and preserved conflict routing}
+The full 28-dossier case-study audit localizes three root-caused LEAP generator defects: lineage typing, guard-to-safeguard binding, and unconditional certification wording. It also verifies preserved conflict routing in all six eligible explicit-conflict dossiers. Table~\ref{tab:results} separates generator mechanisms from their page-level manifestations.
+
+\begin{table*}[t]
+\centering
+\caption{Within-LEAP temporal persistence of generator manifestations and conflict routing.}
+\label{tab:results}
+\begin{tabularx}{\textwidth}{@{}lYY Y@{}}
+\toprule
+Class / mechanism & Current 28-dossier build & Earlier 18-dossier build & Interpretation \\
+\midrule
+Lineage typing defect & 4 dossiers; 12 manifestations & Same 4 dossiers; same 12 manifestations & Same classifier defect persists across the two archived project states \\
+Guard-to-safeguard binding defect & 5 failures / 10 eligible guards & 4 failures / 9 eligible guards & Same generator weakness with one changed eligible outcome \\
+Certification-wording template defect & 19 / 19 unresolved dossiers & 12 / 12 unresolved dossiers & Same unconditional template behavior appears on every unresolved page in each build \\
+Conflict routing mechanism & Same 6 explicit-conflict dossiers, 6 / 6 preserved & Same 6 dossiers, 6 / 6 preserved & Intended routing behavior persists across all shared conflict cases \\
+\bottomrule
+\end{tabularx}
+\end{table*}
+
+The two alternative LEAP configurations show lineage and certification-wording findings while both eligible zero guards pass. The 29-dossier scenario build contains one lineage finding and certification-wording findings on all 11 unresolved dossiers; its one eligible zero guard passes. The 8-dossier challenge build contains one lineage finding and certification-wording findings on all six unresolved dossiers; its one eligible zero guard also passes. Generated conflict flags retain their review routing in both configurations. The guard result therefore varies with input configuration, whereas lineage and certification-wording findings recur.
 
 \subsection{Root-cause localization}
-The lineage manifestations map to the developer-lineage classifier: calculation/formula keywords are tested before comment typing, the ABAP \texttt{*} comment prefix is omitted from comment recognition, and a generic SQL \texttt{AS} pattern can select a \texttt{CAST} type instead of the final alias. One classifier mechanism therefore explains the repeated source-role failures.
+The repeated LEAP manifestations map to three generator mechanisms. First, the developer-lineage classifier tests calculation/formula keywords before comment typing, leaves the ABAP \texttt{*} comment prefix outside its recognized comment prefixes, and applies a generic SQL \texttt{AS} pattern that can select a \texttt{CAST} type instead of the final alias. This classifier explains the source-role manifestations. The On-Spec Rate page provides a concrete SQL example: \texttt{CAST(... AS FLOAT) AS on\_spec\_percentage} is published as ``Output alias: maps this expression to FLOAT'', even though \texttt{on\_spec\_percentage} is the actual SQL alias and \texttt{FLOAT} is the cast type.
 
-The guard manifestations map to safeguard generation. The generator recognizes \texttt{NULLIF} and selected equality-to-zero patterns and emits generic zero-denominator prose. Variable-to-denominator binding and \texttt{<=0} semantics are absent from that generation step, producing the observed failures while aligned \texttt{NULLIF} cases pass.
+Second, safeguard generation recognizes \texttt{NULLIF} and selected equality-to-zero patterns and emits generic ``zero denominator'' language. Its output drops variable-to-denominator binding and \texttt{<= 0} semantics in the affected cases. This mechanism explains the five current guard failures while correctly aligned \texttt{NULLIF} cases pass.
 
-The authority manifestations map to certification strings emitted independently of review state in generator prose and the page template. Conflict routing follows a separate mechanism that assigns explicit conflicts to \emph{Needs Review} and the Review Queue; this accounts for the 6/6 preserved conflict cases.
+Third, certification-oriented strings are emitted independently of review state in generator prose and the page template. That mechanism explains the 19/19 certification-wording findings on unresolved pages. Explicit conflict signals follow a separate routing path to \emph{Needs Review} and the Review Queue, producing the 6/6 preserved-conflict result.
 
-\subsection{Checker validation}
-All 18 predeclared rule fixtures and all 14 artifact-derived controls match their expected labels. Across the 30 binary Pass/Fail controls, the checker records zero misses on deliberately introduced defects and zero false alarms on benign controls. Two additional fixtures verify N/A behavior. The repaired cases include wrong external parameter location/name, missing displayed denominator, contradictory safeguard prose, heading-only safeguard text reparsed through the production adapter, suppressed Review Queue routing, and certification language beside unresolved status.
+\subsection{Checker conformance-test results}
+The repaired rule implementation matches all 18 predeclared rule fixtures and all 14 artifact-derived controls using the author-specified control labels. Changing the external query parameter from \texttt{query/item-query} to a header or wrong name triggers a source-role failure. Removing the displayed denominator, replacing safeguard prose with ``No zero handling is provided.'', stating that the zero guard is disabled, or reparsing a page whose explanatory sentence is replaced by a second ``Zero-Division Guard:'' heading triggers the guard rule. Suppressing a Review Queue entry from an explicit conflict and placing certification wording beside unresolved status are also detected. Across the 30 binary controls, the checker produces zero observed misses on defect controls and zero observed false alarms on benign controls; two additional fixtures produce their author-specified N/A outcomes.
 
-\subsection{External FastAPI/OpenAPI application}
-All 7 directly applicable source-role and condition checks pass across the four official examples. Nine of the 16 example-by-obligation cells receive N/A through the applicability rules. Two negative mutations of the query role/name are rejected. Two separately labeled lifecycle-status analogue checks pass: source-level \texttt{deprecated=True} is propagated to OpenAPI \texttt{deprecated=true}. Invalid inputs for the three constrained examples return HTTP 422, matching the constraints represented in the generated descriptions.
+
+\subsection{Independent reviewer evaluation and empirical refinement}
+Across all 112 guided cells, average pair agreement is 0.634 and Fleiss' $\kappa$ is 0.446, with one unresolved cell. Per-candidate agreement is 0.553 for condition disclosure, 0.407 for source-role accuracy, 0.452 for disagreement preservation in the normalized analysis, and $-0.285$ for review-authority consistency. The authority result uses all 84 possible labels: reviewers left zero authority cells blank, so its $\kappa=-0.285$ is unconditional with respect to the blank-to-NA normalization procedure. The authority operationalization therefore fails inter-reviewer reliability \citep{Fleiss1971}.
+
+Normalization materially affects the disagreement candidate. The 94 blank-to-NA mappings represent 28.0\% of the 336 possible reviewer labels, including 40/84 condition labels and 54/84 disagreement labels. On the seven disagreement cells with three explicit reviewer labels, $\kappa=-0.167$. The broad disagreement candidate is therefore removed from the retained explanation-fidelity construct. LEAP's narrower explicit-conflict-routing verification is reported separately as a system-specific routing check.
+
+Table~\ref{tab:independent} reports unconditional checker comparison against reviewer-majority labels. The released source-role rule has a coverage failure: reviewer majority marks 16 failures while the checker flags four, producing TP=2, FP=2, FN=14, TN=10, precision 50\%, and recall 12.5\%. The condition rule yields TP=2, FP=3, FN=0, TN=22, precision 40\%, and recall 100\% against majority. Evidence inspection shows that all three apparent condition false positives are the same 2--1 criterion split, so Table~\ref{tab:condition_criteria} reports the condition rule under both observed disclosure criteria.
 
 \begin{table*}[t]
 \centering
-\caption{External FastAPI/OpenAPI audit outcomes. Lifecycle status is reported separately as an analogue to publication-state propagation.}
-\label{tab:external}
-\begin{tabularx}{\textwidth}{@{}lYYYY@{}}
+\caption{Independent reviewer agreement and unconditional checker comparison. FAIL is the positive class. Precision and recall are computed against reviewer-majority labels on the fixed dossier set.}
+\label{tab:independent}
+\begin{tabularx}{\textwidth}{@{}lrrrrrrrrY@{}}
 \toprule
-Official FastAPI example & Source role & Condition disclosure & Disagreement & Review authority / lifecycle status \\
+Candidate & Fleiss' $\kappa$ & TP & FP & FN & TN & Precision & Recall & Exact / $n$ & Empirical disposition \\
 \midrule
-Constrained query parameter & Pass & Pass & N/A & N/A; lifecycle Pass \\
-Constrained path/query parameters & Pass & Pass & N/A & N/A \\
-Constrained request-body fields & Pass & Pass & N/A & N/A \\
-Deprecated path operation & Pass & N/A & N/A & N/A; lifecycle Pass \\
+Source-role accuracy & 0.407 & 2 & 2 & 14 & 10 & 0.50 & 0.125 & 12/28 & Dimension retained; released rule fails coverage at 12.5\% recall. \\
+Condition disclosure & 0.553 & 2 & 3 & 0 & 22 & 0.40 & 1.00 & 22/27 & Dimension retained; majority comparison reflects the source-visibility criterion in three disputed cells. \\
+Disagreement candidate & 0.452 & 0 & 0 & 4 & 24 & -- & 0.00 & 24/28 & Broad construct removed; explicit-only sensitivity gives $\kappa=-0.167$; LEAP routing verification reported separately. \\
+Review-authority candidate & $-0.285$ & 19 & 0 & 3 & 6 & 1.00 & 0.864 & 19/28 & Operationalization rejected; all 84 reviewer labels are explicit, so the negative $\kappa$ is unconditional. \\
 \bottomrule
 \end{tabularx}
 \end{table*}
 
-\section{Detailed Case Analysis and Provenance Baseline}
+The three condition checker-majority disagreements are C01 (Gross Margin Percentage), C12 (Ethylene Production Yield), and C26 (Yield Percentage). Each has the same vote split: R1=Pass, R2=Pass, R3=Fail, while the checker records Fail. Evidence inspection shows a consistent definition boundary. R1 and R2 use a \emph{source-visibility} criterion: a visible source condition counts as disclosed. R3 and the checker use a \emph{reader-facing} criterion: the published safeguard layer must communicate the condition and bind it to the displayed representation. In C01, the source guard protects \texttt{cost == 0} while the displayed business formula denominator is Revenue and the safeguard says only ``zero denominator.'' In C12 and C26, the source visibly contains the zero/non-positive branch while the Logic Safeguards block omits that branch.
+
+On the 10 checker-eligible condition cases, R1 and R2 provide identical labels. Under their source-visibility criterion, the checker has TP=2, FP=3, FN=0, TN=5, precision 40\%, and recall 100\%. Under the reader-facing criterion represented by R3, the same checker outputs have TP=5, FP=0, FN=0, TN=5, precision 100\%, and recall 100\%. The condition dimension therefore survives independent review, while the automation result is criterion-sensitive rather than characterized by a single criterion-independent precision.
+
+\begin{table*}[t]
+\centering
+\caption{Condition cells where checker FAIL conflicts with reviewer-majority PASS. Every cell is a 2--1 split over what counts as disclosure.}
+\label{tab:condition_disagreement}
+\begin{tabularx}{\textwidth}{@{}llYYY@{}}
+\toprule
+Case & Dossier & Majority basis & Checker/R3 basis & Interpretation \\
+\midrule
+C01 & Gross Margin Percentage & Visible \texttt{cost==0} branch counted as disclosed & Guarded Cost conflicts with displayed Revenue denominator; generic safeguard loses binding & Representation-binding criterion disagreement \\
+C12 & Ethylene Production Yield & Visible \texttt{feedstock\_input\_tons <= 0} branch counted as disclosed & Reader-facing safeguards omit the non-positive branch & Source-visibility versus reader-facing-disclosure disagreement \\
+C26 & Yield Percentage & Visible \texttt{total\_input = 0} branch counted as disclosed & Reader-facing safeguards omit the zero-input branch & Source-visibility versus reader-facing-disclosure disagreement \\
+\bottomrule
+\end{tabularx}
+\end{table*}
+
+\begin{table*}[t]
+\centering
+\caption{Condition-rule sensitivity on the same 10 checker-eligible cases under the two disclosure criteria observed in independent review. FAIL is the positive class. The R3 row measures self-consistency with the reader-facing criterion implemented by the checker; the multi-reviewer analysis provides the independent comparison.}
+\label{tab:condition_criteria}
+\begin{tabularx}{\textwidth}{@{}Xrrrrrr@{}}
+\toprule
+Criterion & TP & FP & FN & TN & Precision & Recall \\
+\midrule
+Source visibility (R1/R2) & 2 & 3 & 0 & 5 & 0.40 & 1.00 \\
+Reader-facing publication (R3) & 5 & 0 & 0 & 5 & 1.00 & 1.00 \\
+\bottomrule
+\end{tabularx}
+\end{table*}
+
+The sequential design yields one stable unaided result and one priming result. Unaided majority identifies issues in 18/28 dossiers. Phase B adds five majority-flagged cases---C03, C08, C11, C20, and C21---and every addition is driven by the authority candidate with the same R1/R3 Fail versus R2 Pass split. Because the added cases arise entirely from the construct that fails reliability, the analysis treats the five additions as rubric/order artifacts rather than additional discoveries.
+
+The retained case-study result is two reviewer-supported explanation-fidelity dimensions---source-role accuracy and condition disclosure---plus one LEAP-specific explicit-conflict-routing verification and one rejected review-authority operationalization. Source-role automation fails coverage. Condition automation is criterion-sensitive: it aligns perfectly with the reader-facing criterion on the 10 eligible cases and disagrees with the source-visibility criterion in three cases.
+
+\subsection{Provenance-only case baseline}
+The two detailed LEAP cases provide a direct baseline for the paper's central distinction. Both dossiers retain source-linked evidence sufficient for the audit to identify the source statement and executable behavior. The Yield dossier nevertheless assigns a function docstring an output-alias role and omits the non-positive-input condition from reader-facing safeguards. The Gross Margin dossier preserves its explicit formula disagreement in review routing while its safeguard language loses denominator identity and its unresolved page carries certification-oriented language. Provenance therefore succeeds as linkage in these cases while the explanation-fidelity audit localizes additional publication defects.
+
+\begin{table}[t]
+\centering
+\caption{Source-linkage baseline and additional explanation-fidelity findings in the two detailed cases.}
+\label{tab:baseline}
+\begin{tabularx}{\columnwidth}{@{}lYY@{}}
+\toprule
+Case & Source linkage / provenance & Explanation-fidelity result \\
+\midrule
+Ethylene Production Yield & Source statement and executable guard retained & Source-role and condition-disclosure failures \\
+Gross Margin Percentage & Declared and executable representations retained with review state & Condition-to-representation binding discrepancy; explicit-conflict routing preserved \\
+\bottomrule
+\end{tabularx}
+\end{table}
+\FloatBarrier
+\section{Detailed Case Analysis}
 \subsection{Ethylene Production Yield}
 The Yield source contains a percentage calculation and a non-positive-input guard:
-\begin{lstlisting}[language=Python,float=htbp,caption={Selected Yield source retained in the dossier.}]
-def calculate_ethylene_yield_pct(ethylene_produced_tons,
-                                 feedstock_input_tons):
-    """Calculates ethylene production yield as a percentage."""
+\begin{lstlisting}[language=Python,breaklines=true,breakatwhitespace=true,caption={Verbatim Yield source excerpt from the frozen dossier source; SHA-256 identity is retained in the supplement.}]
+def calculate_ethylene_yield_pct(ethylene_produced_tons: float, feedstock_input_tons: float) -> float:
+    """Calculates ethylene production yield as a percentage of feedstock input."""
     if feedstock_input_tons <= 0:
         return 0.0
     return (ethylene_produced_tons / feedstock_input_tons) * 100.0
 \end{lstlisting}
-The dossier retains the source path and source text and therefore passes the provenance-presence baseline. Its generated lineage prose labels the function docstring as an output alias, and its safeguard prose loses the non-positive-input semantics. The same source-linked page therefore fails source-role accuracy and condition disclosure.
+The dossier displays the positive-input ratio as its Formal Formula. The frozen source uses \texttt{feedstock\_input\_tons <= 0} and returns 0.0 on that branch. The reader-facing Logic Safeguards block omits this non-positive-input behavior. For the docstring shown in Listing~1, the generated lineage prose is ``Output alias: maps this expression to a in the result set.'' Direct source comparison identifies the statement as a function docstring, establishing the lineage-typing defect. The condition finding illustrates the criterion boundary exposed by independent review: two reviewers counted the visible source branch as disclosure, whereas one reviewer and the checker required the reader-facing safeguard layer to state the branch.
 
 \subsection{Gross Margin Percentage}
 The Gross Margin dossier retains the declared formula
-\begin{equation}
-D=100\frac{R-C}{R},
-\end{equation}
-while the implementation, after guarding zero cost, returns
-\begin{equation}
-I=100\frac{R}{C}.
-\end{equation}
+\[
+D=100\frac{R-C}{R}, \qquad I=100\frac{R}{C}.
+\]
 For $R>0$ and $C>0$,
-\begin{align}
-I-D &=100\left(\frac{R}{C}+\frac{C}{R}-1\right)\\
-&=100\left(1+\frac{(R-C)^2}{RC}\right)\ge 100.
-\end{align}
-The implemented expression therefore exceeds the declaration by at least 100 percentage points throughout the strictly positive domain, with equality in the lower bound at $R=C$. At positive revenue and zero cost, the declaration evaluates to 100 while the implementation guard returns zero; at zero revenue and positive cost, the declaration is undefined while the implementation returns zero.
+\[
+I-D=100\left(\frac{R}{C}+\frac{C}{R}-1\right)
+=100\left(1+\frac{(R-C)^2}{RC}\right)\ge 100.
+\]
+Thus the implemented expression exceeds the declaration by at least 100 percentage points throughout the strictly positive domain, with equality in this lower bound when $R=C$. At positive revenue and zero cost, the declaration evaluates to 100 while the implementation guard returns zero; at zero revenue and positive cost, the declaration is undefined while the implementation returns zero.
 
-The dossier retains both source and declared representation and therefore passes the provenance-presence baseline. It also preserves the explicit disagreement through \emph{Needs Review} and Review Queue. The same page fails guard binding and review-authority consistency because its safeguard prose describes a generic zero denominator and certification-oriented language accompanies the unresolved status.
-
-\subsection{What the provenance baseline adds}
-The two detailed cases produce the same baseline pattern: source identity and local provenance are present, yet the explanation-fidelity audit detects publication-semantic failures. This paired evidence directly supports C1. Provenance answers which artifact a statement came from; the four-obligation audit verifies whether the publication describes that artifact and its state faithfully.
+The dossier correctly routes the explicit disagreement through \emph{Needs Review} and a Review Queue. Its safeguard text nevertheless describes a generic zero denominator even though the declared and executable representations use different denominators, and certification-oriented language appears alongside unresolved status. The page preserves explicit-conflict routing while also exhibiting a guard-binding discrepancy and certification wording beside an unresolved review state.
 
 \section{Discussion}
 \subsection{Answers to the research questions}
-\textbf{RQ1.} The complete current LEAP corpus exposes three generator defect classes and one preserved routing mechanism. Root-cause tracing maps lineage failures to classification order and syntax recognition, guard failures to missing variable/condition binding, and authority failures to unconditional certification templates. All 6 eligible explicit conflicts retain the intended review routing.
+\textbf{RQ1.} The full 28-dossier LEAP output exposes three root-caused generator mechanisms---lineage typing, guard-to-safeguard binding, and unconditional certification wording---and preserves explicit-conflict routing in 6/6 eligible dossiers. Root-cause tracing maps repeated publication manifestations to shared generator mechanisms.
 
-\textbf{RQ2.} The earlier LEAP state preserves the same 4 lineage-affected dossiers with 12 manifestations and the same 6 conflict-routed dossiers. Guard outcomes change from 5/10 failures to 4/9, while authority language affects every unresolved dossier in both states. The scenario and challenge configurations reproduce lineage and authority failures and preserve their eligible guards, showing that the evaluated guard defect depends on the specific input patterns reaching the generator.
+\textbf{RQ2.} The earlier LEAP state repeats the same four lineage-affected dossiers and six preserved explicit-conflict cases. Guard outcomes change from 5/10 failures in the current build to 4/9 in the earlier build. The scenario and challenge configurations again expose lineage and certification-wording manifestations while their two eligible zero guards pass. These runs separate recurring generator behavior from input-sensitive guard outcomes within the project.
 
-\textbf{RQ3.} The FastAPI/OpenAPI application instantiates the source-role and declarative-condition checks directly. Expected values come from official FastAPI source declarations; generated OpenAPI fields and runtime responses provide the comparison surface. Seven applicable checks pass, wrong role/name mutations fail, and constrained invalid requests return HTTP 422. The applicability mechanism assigns N/A to obligations whose required state is absent from a selected example.
+\textbf{RQ3.} Two dimensions retain positive independent agreement in this LEAP case study: condition disclosure ($\kappa=0.553$) and source-role accuracy ($\kappa=0.407$). The broad disagreement candidate loses support under explicit-only sensitivity ($\kappa=-0.167$) and is replaced by a LEAP-specific explicit-conflict-routing verification. Review-authority consistency fails unconditionally with 84/84 explicit labels and $\kappa=-0.285$.
 
-\subsection{Engineering implications}
-The root causes yield three concrete repair targets. Source-line explanation should type a statement before generating role-specific prose. Safeguard generation should bind each condition to the variable and mathematical representation it governs. Certification language should be conditional on review state. The conflict-routing path should remain intact because it preserves explicit disagreement for review.
+\textbf{RQ4.} The released automation has two different empirical outcomes. Source-role screening misses 14 of 16 reviewer-majority failures, yielding 12.5\% recall. Condition screening is criterion-sensitive: precision is 40\% under the source-visibility criterion represented by R1/R2 and 100\% under the reader-facing criterion represented by R3 on the same 10 checker-eligible cases; recall is 100\% under both criteria.
 
-The audit also separates page manifestation from generator cause. A page-level finding identifies where communication fails; root-cause grouping identifies the implementation mechanism responsible for repeated manifestations. This distinction converts a long list of page defects into a small set of repairable generator classes.
+\subsection{What explanation fidelity means after empirical pruning}
+After independent evaluation, explanation fidelity in this LEAP case study comprises two retained publication dimensions: semantic source-role accuracy and communication of behavior-qualifying conditions. The unit of analysis is the transformation from already-linked source evidence into reader-facing dossier fields. The provenance link is held fixed while the audit asks whether the publication transformation preserves the meaning carried by the linked evidence.
 
-The external application shows how adapters preserve the same verification logic across publication models. OpenAPI offers explicit parameter locations, names, schemas, and deprecation metadata \citep{OpenAPI31}; these fields provide direct counterparts for source-role and declarative-condition checks. Applicability gates allow the audit to represent absent state as N/A and keep each obligation tied to observable evidence.
+Prior code--comment and documentation-equivalence research establishes semantic consistency as a software-documentation problem \citep{Wen2019,Xu2024,Eghbali2026}; API directive-defect work establishes the importance of constraint and exception disclosure \citep{Zhou2017}. The LEAP case study contributes a later-stage operationalization: the source link already exists, generated multi-representation dossier fields are the audit object, reviewer agreement is estimated separately from checker behavior, and candidate constructs are empirically retained, narrowed, or rejected. This fixed-provenance publication boundary is the specific empirical setting evaluated here.
 
-\section{Conclusion}
-Source linkage and explanation fidelity are separate verification properties at the software-publication boundary. The complete LEAP audit demonstrates this separation by locating source-linked pages whose generated explanation misstates source role, guard semantics, or review authority. The audit reduces those manifestations to three generator defect classes and confirms preservation of all 6 eligible explicit conflicts through review routing.
+\subsection{Source-role rule failure and condition-criterion sensitivity}
+The source-role result is decisive for the released rule: 2/16 majority failures are detected, yielding 12.5\% recall. The dimension has positive reviewer agreement, but the implemented pattern set is unsuitable for automated screening in its current form.
 
-The checker-validation layer reproduces all 32 expected outcomes, and the earlier and alternative LEAP states expose which manifestations persist under time and input variation. The external FastAPI/OpenAPI application then carries the source-role and declarative-condition checks to an independently developed generator, with 7/7 applicable checks passing, negative role mutations rejected, and runtime constraint behavior matching the generated descriptions.
+The condition result is criterion-sensitive rather than a single precision estimate. Against reviewer majority---which follows R1/R2 on the three disputed cells---precision is 40\% and recall is 100\%. On the 10 checker-eligible cases, R1 and R2 are identical and operationalize source visibility as disclosure; the checker yields 40\% precision and 100\% recall against that criterion. R3 operationalizes disclosure at the reader-facing publication layer; against those labels the checker yields 100\% precision and 100\% recall. The underlying condition-disclosure dimension has the strongest reviewer agreement, while the automation's apparent precision depends on the disclosure definition selected before evaluation.
 
-The resulting contribution is an executable publication-audit method that complements provenance with semantic checks over source role, conditions, disagreement, and authority. Its output identifies concrete generator repair targets and provides falsifiable evidence for whether reader-facing documentation preserves the meaning and state of its linked software evidence.
+\subsection{Sequential review and priming}
+Unaided review yields a stable majority issue set of 18/28 dossiers. Guided review adds five majority flags, and every added case is produced by the authority candidate that fails inter-reviewer reliability. The added C03, C08, C11, C20, and C21 cases therefore provide evidence of priming/order sensitivity rather than reliable incremental issue discovery. This study uses the unaided 18/28 majority set as the stable discovery result and treats the guided phase as construct/rule evaluation.
+
+\subsection{LEAP-specific routing and provenance baseline}
+Explicit-conflict routing is a system-specific verification: when LEAP already records an explicit conflict marker, the check verifies that the dossier preserves \emph{Needs Review} and Review Queue routing. It verifies routing of marked conflicts rather than the broader representation-disagreement construct.
+
+The Yield and Gross Margin cases show the added publication-layer question beyond provenance. Both retain source evidence. Yield still contains a lineage-role defect and a disputed condition-disclosure presentation. Gross Margin retains its conflicting formulas and preserves conflict routing while the generic safeguard loses denominator identity. The audit therefore evaluates how linked evidence is communicated after linkage has succeeded.
 
 \section{Limitations}
-The four obligations define an operational subset of explanation fidelity centered on source role, condition disclosure, explicit representation disagreement, and review authority. Dimensions such as freshness, accessibility, multilingual paraphrase, and broader semantic completeness remain future extensions of the contract.
+The empirical corpus centers on one author-developed system and its archived states, so cross-system recurrence of the LEAP generator mechanisms remains unresolved. The three-reviewer majority is a moderate independent comparison reference (overall guided $\kappa=0.446$), and 94/336 guided labels required protocol-based blank-to-NA normalization in the condition and disagreement columns. The authority result is unaffected by that normalization because all 84 authority labels were explicit. Phase B followed Phase A on the same dossiers, creating familiarity and priming sensitivity; the five guided-only majority flags are therefore treated as order artifacts. Source-role automation requires substantial coverage redesign. Condition automation requires a preregistered disclosure criterion because the observed precision changes from 40\% under source visibility to 100\% under reader-facing disclosure on the 10 eligible cases. The explicit-conflict-routing verification covers only conflicts already marked by LEAP. The FastAPI adapter check uses four tutorial examples and establishes adapter execution only.
 
-The checker controls are author-developed edge cases tied to the released predicates. Independent human annotation and held-out cross-project defect corpora remain future validation steps. A tool-to-tool baseline against documentation linters, OpenAPI validators, and semantic inconsistency detectors also remains a future comparative evaluation.
+\section{Conclusion}
+Independent evaluation changes both the construct and the automation within this LEAP case study. Explanation fidelity is retained as two publication dimensions: source-role accuracy and condition disclosure. The released source-role rule fails coverage because it detects only 2 of 16 reviewer-majority failures (12.5\% recall). Condition-rule performance is criterion-sensitive: on the same 10 checker-eligible cases, precision is 40\% under the source-visibility criterion represented by R1/R2 and 100\% under the reader-facing criterion represented by R3; recall is 100\% under both.
 
-The historical and alternative LEAP corpora are states and configurations of the same generator. Their role in this study is temporal persistence and input sensitivity. The external FastAPI corpus contains four official examples and directly exercises source-role and declarative-condition behavior; the selected examples contain no explicit competing representation and no human review state, so those two obligations receive N/A. Generator repair-and-rerun evaluation remains a separate engineering follow-up to the localized root causes.
+The other two original candidates are removed from the retained explanation-fidelity construct. Broad disagreement judgments become unstable under explicit-only sensitivity, so the analysis reports only the narrower LEAP-specific explicit-conflict-routing verification. Review-authority consistency fails inter-reviewer reliability at $\kappa=-0.285$ across 84/84 explicit labels, establishing that the failure is independent of normalization. The guided phase adds five majority flags, all from this rejected authority candidate; the stable unaided discovery result remains 18/28 dossiers.
+
+The contribution is an independently evaluated single-system case study that separates construct support, criterion definition, and checker performance at the point where already-linked evidence becomes reader-facing documentation. The evidence retains two dimensions, rejects one operational construct, narrows one LEAP-specific routing claim, exposes a severe source-role coverage failure, and shows that condition-rule performance changes with the disclosure criterion. The reproducible LEAP artifacts and reviewer evidence make each retained claim and each failure mode inspectable.
 
 \section*{Data and artifact availability}
-The supplementary archive contains the LEAP rendered corpora, archive and page hashes, shared audit-rule library, checker-validation fixtures and artifact-derived mutations, deterministic audit scripts and outputs, guard inventory, alternative-configuration results, root-cause generator excerpts, and the detailed Yield and Gross Margin sources. It also contains the four official FastAPI tutorial source snapshots, verified upstream blob identities, generated OpenAPI descriptions, external audit tables, negative controls, runtime validation outcomes, and release manifests.
+The frozen technical supplement contains the LEAP rendered corpora, archive and page hashes, shared audit-rule library, checker-conformance fixtures and artifact-derived mutations, deterministic audit scripts and outputs, guard inventory, alternative-configuration results, root-cause generator excerpts, detailed Yield and Gross Margin sources, and the FastAPI/OpenAPI probe artifacts. The independent-evaluation supplement contains anonymized raw reviewer forms, normalized forms, the case mapping key, normalization audit, reviewer agreement outputs, unconditional confusion matrices, guided-only case analysis, authority out-of-scope cases, the dual-criterion condition audit, and deterministic analysis scripts. Together these materials reproduce every result reported in the paper.
 
 \section*{CRediT authorship contribution statement}
 Meshaal Obaid Mouawad: Conceptualization, Methodology, Formal analysis, Investigation, Data curation, Visualization, Writing -- original draft.
