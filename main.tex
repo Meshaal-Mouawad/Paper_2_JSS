@@ -12,9 +12,6 @@
 \usepackage{microtype}
 \usepackage{placeins}
 \usepackage{enumitem}
-% Otherwise, I get a "pdftex error (font expansion) auto expansion is only possible with scalable fonts."
-\usepackage[T1]{fontenc}
-\usepackage{lmodern}
 
 \newcolumntype{Y}{>{\raggedright\arraybackslash}X}
 \newcommand{\tool}{\textsc{LEAP}}
@@ -44,16 +41,19 @@
 \def\textpagefraction{.001}
 
 \shorttitle{Explanation-Fidelity Audit in LEAP}
-\shortauthors{M.O. Mouawad}
+\shortauthors{M.O. Mouawad and B. Jones}
 
 \title[mode=title]{Independent Evaluation of an Explanation-Fidelity Audit in LEAP: Construct Refinement and Checker Failure Modes}
 
 \author[1]{Meshaal Obaid Mouawad}[auid=001,orcid=0000-0002-1152-8324]
 \cormark[1]
 \ead{mm4922@msstate.edu}
-\credit{Conceptualization, Methodology, Formal analysis, Investigation, Data curation, Visualization, Writing -- original draft}
+
+\author[1]{Bryan Jones}[auid=002,orcid=0000-0002-5807-8797]
+\ead{bjones@ece.msstate.edu}
+
 \affiliation[1]{organization={Department of Electrical and Computer Engineering, Mississippi State University},city={Mississippi State},postcode={39762},state={MS},country={USA}}
-\cortext[cor1]{Corresponding author}
+\cortext[cor1]{Corresponding author: Meshaal Obaid Mouawad}
 
 \begin{abstract}
 \textbf{Context:} Source-linked documentation can preserve provenance while misrepresenting linked evidence in reader-facing fields.
@@ -67,7 +67,7 @@
 software documentation \sep program comprehension \sep provenance \sep traceability \sep key performance indicators \sep explanation fidelity \sep knowledge engineering
 \end{keywords}
 \maketitle
-\hypersetup{pdfauthor={Meshaal Obaid Mouawad}}
+\hypersetup{pdfauthor={Meshaal Obaid Mouawad; Bryan Jones}}
 
 \section{Introduction}
 This paper independently evaluates explanation fidelity in source-linked KPI documentation using LEAP as a single-system case study. In this study, \emph{explanation fidelity} denotes two publication-layer dimensions supported by the independent data: semantic source-role accuracy and communication of behavior-qualifying conditions. The provenance link is held fixed while the audit asks whether the transformation from linked evidence to reader-facing documentation preserves the meaning carried by that evidence. A separate explicit-conflict-routing verification remains specific to LEAP, and the original review-authority candidate is rejected after negative inter-reviewer reliability.
@@ -358,14 +358,11 @@ The contribution is an independently evaluated single-system case study that sep
 \section*{Data and artifact availability}
 The frozen technical supplement contains the LEAP rendered corpora, archive and page hashes, shared audit-rule library, checker-conformance fixtures and artifact-derived mutations, deterministic audit scripts and outputs, guard inventory, alternative-configuration results, root-cause generator excerpts, detailed Yield and Gross Margin sources, and the FastAPI/OpenAPI probe artifacts. The independent-evaluation supplement contains anonymized raw reviewer forms, normalized forms, the case mapping key, normalization audit, reviewer agreement outputs, unconditional confusion matrices, guided-only case analysis, authority out-of-scope cases, the dual-criterion condition audit, and deterministic analysis scripts. Together these materials reproduce every result reported in the paper.
 
-\section*{CRediT authorship contribution statement}
-Meshaal Obaid Mouawad: Conceptualization, Methodology, Formal analysis, Investigation, Data curation, Visualization, Writing -- original draft.
-
 \section*{Declaration of competing interest}
-The author declares that there are no known competing financial interests or personal relationships that could have appeared to influence the work reported in this paper.
+The authors declare that there are no known competing financial interests or personal relationships that could have appeared to influence the work reported in this paper.
 
 \section*{Declaration of generative AI and AI-assisted technologies in the manuscript preparation process}
-During preparation of this work, the author used Elsevier LeapSpace to support literature discovery, manuscript organization, language refinement, and consistency checking. The author reviewed and edited the resulting material and takes full responsibility for the content of the article.
+During preparation of this work, Meshaal Obaid Mouawad used Elsevier LeapSpace to support literature discovery, manuscript organization, language refinement, and consistency checking. The authors take responsibility for the content of the article.
 
 \bibliographystyle{cas-model2-names}
 \bibliography{references}
