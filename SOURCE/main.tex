@@ -12,6 +12,9 @@
 \usepackage{microtype}
 \usepackage{placeins}
 \usepackage{enumitem}
+% Otherwise, I get a "pdftex error (font expansion) auto expansion is only possible with scalable fonts."
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
 
 \newcolumntype{Y}{>{\raggedright\arraybackslash}X}
 \newcommand{\tool}{\textsc{LEAP}}
