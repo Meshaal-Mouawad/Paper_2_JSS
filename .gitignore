@@ -16,7 +16,6 @@
 *.bcf
 
 # Generated PDF
-main.pdf
 
 # macOS
 .DS_Store
