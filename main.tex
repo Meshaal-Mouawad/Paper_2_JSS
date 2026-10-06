@@ -13,6 +13,16 @@
 \usepackage{placeins}
 \usepackage{enumitem}
 
+% Otherwise, I get a "pdftex error (font expansion) auto expansion is only possible with scalable fonts."
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+
+% Support \hl
+\usepackage{soul}
+
+\newcommand{\baj}[1]{\hl{BAJ: #1}}
+\newcommand{\mes}[1]{{\sethlcolor{orange}\hl{MES: #1}}}
+
 \newcolumntype{Y}{>{\raggedright\arraybackslash}X}
 \newcommand{\tool}{\textsc{LEAP}}
 \newcommand{\bluebook}{\emph{Interactive Bluebook}}
@@ -56,6 +66,8 @@
 \cortext[cor1]{Corresponding author: Meshaal Obaid Mouawad}
 
 \begin{abstract}
+\textbf{Ignore me.}
+\baj{Given the brevity, avoid the bolded headings; instead, write a sentences which naturally lead from one topic to the next.}
 \textbf{Context:} Source-linked documentation can preserve provenance while misrepresenting linked evidence in reader-facing fields.
 \textbf{Objective:} We evaluate four candidate explanation-fidelity dimensions and their released checker rules in a single LEAP case study, retaining only dimensions supported by independent reviewer evidence.
 \textbf{Method:} Deterministic rules audit 28 frozen LEAP dossiers. Three independent reviewers evaluate the same blinded dossiers in unaided and guided phases. We measure agreement, compare checker output with majority labels, and analyze condition disclosure under two observed criteria.
@@ -70,9 +82,12 @@ software documentation \sep program comprehension \sep provenance \sep traceabil
 \hypersetup{pdfauthor={Meshaal Obaid Mouawad; Bryan Jones}}
 
 \section{Introduction}
-This paper independently evaluates explanation fidelity in source-linked KPI documentation using LEAP as a single-system case study. In this study, \emph{explanation fidelity} denotes two publication-layer dimensions supported by the independent data: semantic source-role accuracy and communication of behavior-qualifying conditions. The provenance link is held fixed while the audit asks whether the transformation from linked evidence to reader-facing documentation preserves the meaning carried by that evidence. A separate explicit-conflict-routing verification remains specific to LEAP, and the original review-authority candidate is rejected after negative inter-reviewer reliability.
+\baj{This paper needs a proper introduction: begin by stating the problem, then why this approach solves the problem. The material here comes after these paragraphs. Define KPIs, why these are important, how they're not traditionally linked to code, etc.}
 
-Prior work establishes the underlying problems. Code--text consistency research measures divergence between source and documentation \citep{Wen2019,Xu2024,Eghbali2026}, and API-documentation research detects missing or inconsistent parameter, constraint, and exception directives \citep{Zhou2017}. The contribution here occurs at an already source-linked publication surface: generated dossier fields are evaluated for semantic role and condition preservation while reviewer agreement is measured separately from the released automation. This fixed-provenance design isolates publication semantics from trace recovery.
+\baj{[Tying to the need for LEAP...] Therefore,}
+this paper independently evaluates explanation fidelity in source-linked KPI documentation using LEAP as a single-system case study. In this study, \emph{explanation fidelity} denotes two publication-layer dimensions supported by the independent data: semantic source-role accuracy and communication of behavior-qualifying conditions. The provenance link is held fixed while the audit asks whether the transformation from linked evidence to reader-facing documentation preserves the meaning carried by that evidence. A separate explicit-conflict-routing verification remains specific to LEAP, and the original review-authority candidate is rejected after negative inter-reviewer reliability.
+
+Prior work establishes the underlying problems. Code--text consistency research measures divergence between source and documentation \citep{Wen2019,Xu2024,Eghbali2026}, and API-documentation research detects missing or inconsistent parameter, constraint, and exception directives \citep{Zhou2017}. \baj{What about traditional literate programming approaches, or documentation generators such as Doxygen, Javadoc, Rustdoc, etc.? These do an excellent job of code--text consistency.} The contribution here occurs at an already source-linked publication surface: generated dossier fields are evaluated for semantic role and condition preservation while reviewer agreement is measured separately from the released automation. This fixed-provenance design isolates publication semantics from trace recovery.
 
 The study begins with four literature-derived candidates---source-role accuracy, condition disclosure, representation-disagreement preservation, and review-authority consistency---and allows the independent data to prune them. Source-role accuracy and condition disclosure show positive reviewer agreement. The released source-role rule finds only 2 of 16 reviewer-majority failures (12.5\% recall), establishing a coverage failure. Condition-rule performance depends on the operational meaning of disclosure: reviewer majority, which accepts source visibility in three disputed cells, yields 40\% precision, whereas the reader-facing criterion represented by R3 yields 100\% precision and recall on the 10 checker-eligible cases. Broad disagreement judgments collapse under explicit-label sensitivity, and authority judgments are worse than chance-corrected agreement across 84/84 explicit labels.
 
@@ -85,17 +100,21 @@ These findings yield four contributions:
 \end{enumerate}
 \section{Related Work and Candidate Check Derivation}
 \subsection{Behavioral fidelity and source roles}
-Software documentation remains difficult to create and maintain \citep{Aghajani2019}. Traceability identifies relationships between documentation and software artifacts \citep{MaderGotel2012}; code-comment inconsistency studies show that linked text can still diverge from code semantics \citep{Wen2019,Xu2024}. Eghbali et al. formalize code-documentation equivalence around accurate and complete description of program behavior \citep{Eghbali2026}. Zhou et al. compare API code with parameter-constraint and exception directives to detect documentation defects \citep{Zhou2017}. These results motivate source-role accuracy and condition disclosure as publication obligations.
+Software documentation remains difficult to create and maintain \citep{Aghajani2019}. Traceability identifies relationships between documentation and software artifacts \citep{MaderGotel2012}; code-comment inconsistency studies show that linked text can still diverge from code semantics \citep{Wen2019,Xu2024}. Eghbali et al. formalize code-documentation equivalence around accurate and complete description of program behavior \citep{Eghbali2026}. Zhou et al. compare API code with parameter-constraint and exception directives to detect documentation defects \citep{Zhou2017}. \baj{Need another sentence--``This research demonstrates the ongoing problem of failed code--documentation equivalence. The LEAP system addresses this problems by...''} These results motivate source-role accuracy and condition disclosure as publication obligations.
 
-The present study operates one layer later in the documentation pipeline. Each audited dossier already contains a source link; the question is whether generated publication fields preserve the role and qualifying conditions of that linked evidence. This fixed-provenance design separates link correctness from publication semantics and permits independent evaluation of the publication transformation itself.
+The present study operates one layer later in the documentation pipeline.
+\baj{Then why reference these as related works?}
+Each audited dossier already contains a source link; the question is whether generated publication fields preserve the role and qualifying conditions of that linked evidence. This fixed-provenance design separates link correctness from publication semantics and permits independent evaluation of the publication transformation itself.
 
 \subsection{Disagreement, evidence roles, and authority}
-Nuseibeh et al. show that inconsistency can be retained and managed rather than silently eliminated \citep{Nuseibeh2001}. SEPIO represents claims, evidence lines, data, methods, tools, agents, and supporting or refuting relations \citep{Brush2016}; ECO distinguishes evidence and assertion-method types \citep{Giglio2019}. These precedents motivate explicit preservation of representation disagreement and separation between evidence state and the authority communicated by surrounding prose.
+Nuseibeh et al. show that inconsistency can be retained and managed rather than silently eliminated \citep{Nuseibeh2001}. SEPIO \baj{A bit confusing -- SEPIO is a new acronym not defined yet, but appears in the referenced paper. State more explicitly that SEPIO is the name of the system in this paper. The same goes for the following acronyms.} represents claims, evidence lines, data, methods, tools, agents, and supporting or refuting relations \citep{Brush2016}; ECO distinguishes evidence and assertion-method types \citep{Giglio2019}. These precedents motivate explicit preservation of representation disagreement and separation between evidence state and the authority communicated by surrounding prose. \baj{Tie this back to LEAP. How does LEAP do this? Does it merely follow this existing work, or does it provide a new contribution?}
 
-PROV supplies interoperable entity--activity--agent provenance and formal validity constraints \citep{Missier2013,W3CProvConstraints2013}. OneProvenance reconstructs dynamic query lineage from database events \citep{Psallidas2023}. ESDPKI adds semantic provenance, validation-gated ingestion, publication, governance, and access controls in an enterprise infrastructure \citep{Sadiq2026}. Together, these systems establish provenance, validation, and governance as distinct information structures whose reader-facing communication can be audited.
+PROV supplies interoperable entity--activity--agent provenance and formal validity constraints \citep{Missier2013,W3CProvConstraints2013}. OneProvenance reconstructs dynamic query lineage from database events \citep{Psallidas2023}. ESDPKI adds semantic provenance, validation-gated ingestion, publication, governance, and access controls in an enterprise infrastructure \citep{Sadiq2026}. Together, these systems establish provenance, validation, and governance as distinct information structures whose reader-facing communication can be audited. \baj{Again, how does this affect LEAP? How do you distinguish your contribution from earlier work? Same for following paragraphs.}
 
 \subsection{Source-bound software knowledge}
 ECK defines source-bound executable knowledge with evidence, provenance, validation state, freshness, downstream projections, and projection-fidelity evaluation \citep{Gao2026}. Reversa preserves traceability, confidence, and explicit validation gaps in reconstructed specifications \citep{MacedoCosta2026}. The candidate checklist focuses on the publication transformation itself: source-role description, behavior-qualifying conditions, explicit representation conflict, and review/status language are each evaluated as potentially distinct publication checks.
+
+\baj{Summarize: while previous research shows the need for... LEAP therefore provides these needed enhancements, by... as detailed in the following section.}
 
 \begin{table*}[t]
 \centering
@@ -114,6 +133,7 @@ Review-authority consistency & Evidence/assertion roles, provenance validity, an
 \end{table*}
 
 KPI semantics provide the domain context. Semantic KPI work formalizes indicator definitions and derivations \citep{Mate2017,RoldanGarcia2021,Diamantini2025}, and AFFECTK makes traceability and consistency explicit during KPI evolution \citep{Dominguez2025}. The four initial candidates are evaluated where KPI representations meet executable source and publication state; the independent evidence determines which constructs survive and which automation requires redesign.
+\baj{You need to show how LEAP improves on earlier designs, or offers new abilities. RQs about software behavior are less relevant here. What's the core contribution LEAP provides in this context?}
 \section{Research Questions and Method}
 The study asks:
 \begin{description}[leftmargin=1.2cm,style=nextline]
@@ -136,14 +156,18 @@ Claim & Supporting evidence & Falsification condition \\
 \midrule
 Within the LEAP case study, source linkage can coexist with publication discrepancies. & Source-linked Yield and Gross Margin dossiers retain inspectable source evidence while direct comparison identifies role and condition discrepancies. & The claim fails if the retained evidence link is absent or direct source comparison removes the reported discrepancy. \\
 Three root-caused LEAP generator mechanisms explain repeated primary-output manifestations. & Root-cause tracing maps lineage, safeguard, and certification-string manifestations to three shared generator mechanisms. & The claim fails if rerunning the released audit changes the manifestations or if repeated manifestations map to different generator mechanisms. \\
-Independent review differentiates the candidate dimensions. & Three reviewers provide 112 guided cells; Fleiss' $\kappa$ ranges from 0.553 to $-0.285$, and explicit-label sensitivity changes the disagreement result. & The claim fails if the preserved reviewer forms and deterministic aggregation reproduce uniform agreement across the four candidates. \\
+Independent review differentiates the candidate dimensions. & Three reviewers provide 112 guided cells; Fleiss' $\kappa$ ranges from 0.553 to \baj{Why does this render as *0.285?} $-0.285$, and explicit-label sensitivity changes the disagreement result. & The claim fails if the preserved reviewer forms and deterministic aggregation reproduce uniform agreement across the four candidates. \\
 The released source-role rule fails coverage, while condition-rule performance is criterion-sensitive. & Source-role recall is 12.5\% against reviewer majority. On the 10 checker-eligible condition cases, precision is 40\% under the source-visibility criterion and 100\% under the reader-facing criterion; recall is 100\% under both. & The claim fails if deterministic recomputation removes the source-role confusion matrix or the dual-criterion condition results. \\
 \bottomrule
 \end{tabularx}
 \end{table*}
 
 \subsection{Case-study system and publication pipeline}
-LEAP is a source-to-publication system for KPI knowledge. Its frozen research artifact discovers KPI candidates from source files, prepares formula and business-context fields, attaches provenance and review information, and renders each selected KPI as an HTML dossier in the Interactive Bluebook. The dossier combines source context, formal formula presentation, developer-lineage prose, safeguards, ownership metadata, conflict signals, and a review state. This paper treats that rendered publication surface as the audit object and traces repeated publication findings back to the frozen generator implementation.
+LEAP is a source-to-publication system for KPI knowledge. Its
+\baj{[seems extraneous; do you means that this is frozen for publication purposes?] frozen research artifact}
+discovers KPI candidates from source files, prepares formula and business-context fields, attaches provenance and review information, and renders each selected KPI as an HTML dossier in the Interactive Bluebook. The dossier combines source context, formal formula presentation, developer-lineage prose, safeguards, ownership metadata, conflict signals, and a review state. This paper treats that rendered publication surface as the audit object and traces repeated publication findings back to the
+\baj{[Again, distracting from the goal of the sentence] frozen generator}
+implementation.
 
 \subsection{Case-study artifacts and within-system design}
 The primary case-study artifact contains all 28 rendered dossier HTML pages produced by the frozen LEAP sample-project build. A public artifact copy at commit \texttt{5e697b5b} (full identity in the supplement) matches all 28 submitted pages byte-for-byte by SHA-256. The build contains 9 \emph{Validated} and 19 \emph{Needs Review} dossiers. These recorded states support the concrete LEAP certification-string analysis and also provide evidence for evaluating the broader review-authority candidate independently.
@@ -153,19 +177,23 @@ A separately archived earlier LEAP project state contains 18 rendered dossier HT
 \paragraph{External adapter check.} Four official FastAPI tutorial sources and their generated OpenAPI 3.1 descriptions at fixed upstream identities \citep{FastAPI2026,OpenAPI31} verify that the source-role and declarative-condition adapters execute outside LEAP. This check is implementation evidence for adapter feasibility and is excluded from the independent construct evaluation.
 
 \subsection{Deterministic operational rules}
+\baj{Why are these rules sufficient? What inputs cause them to produce incorrect results?}
 The released checker implements the following four initial rules; the independent evaluation determines their empirical status.
 \begin{enumerate}[leftmargin=*]
 \item \textbf{Source-role accuracy.} A failure is recorded when a comment or docstring is assigned an executable role, or when a SQL \texttt{CAST} type is labeled as the output alias instead of the actual alias. The rule scans published developer-lineage pairs.
-\item \textbf{Executable-guard disclosure.} Eligibility covers explicit zero or non-positive denominator guards expressed as \texttt{NULLIF(variable,0)} or an \texttt{if}-family comparison to zero. Preservation requires reader-facing safeguard text to communicate zero/non-positive handling and bind the guarded variable to the denominator displayed in the formal formula. A \texttt{<= 0} guard requires non-positive semantics; zero-only wording fails the rule.
+\item \textbf{Executable-guard disclosure.} Eligibility covers explicit zero or non-positive denominator
+\baj{Why is a negative denominator a problem? For zero checks, does it also include values that are close to zero? What about other places where the answer is problematic, such as negative values for a square root, negative values for an inverse log, invalid values for arc sin/cos/tan, etc.?}
+guards expressed as \texttt{NULLIF(variable,0)} or an \texttt{if}-family comparison to zero. Preservation requires reader-facing safeguard text to communicate zero/non-positive handling and bind the guarded variable to the denominator displayed in the formal formula. A \texttt{<= 0} guard requires non-positive semantics; zero-only wording fails the rule.
 \item \textbf{Representation-disagreement candidate.} The released rule covers pages whose retained source explicitly carries a conflict, mismatch, or inversion marker and checks preservation through \emph{Needs Review} plus a Review Queue. The independent evaluation tests whether this narrow rule supports a broader disagreement construct.
 \item \textbf{Review-authority candidate.} The released rule checks unresolved \emph{Needs Review} dossiers for bounded certification-oriented wording such as ``Certified metric dossier'', ``certified calculation expression'', or ``Print Certified Dossier''. Independent reviewer reliability determines this candidate's empirical disposition.
 \end{enumerate}
 The complete guard table and all line-level role findings are emitted by the scripts for inspection, and Table~\ref{tab:contract} records the literature basis of each initial candidate.
 
 \subsection{Rule-development chronology and checker conformance tests}
-The condition rule evolved from an earlier 11-row manual adjudication into the deterministic R3 protocol used for the later corpus reruns. Subsequent negative-control testing exposed two checker faults in the R4 implementation: an external query-role cell could pass before comparing generated role/name against source, and the guard checker could accept an empty denominator or contradictory safeguard wording. Both faults were repaired before the reported results were regenerated.
+The condition rule evolved from an earlier 11-row manual adjudication into the deterministic R3 \baj{does this mean rule 3?} protocol used for the later corpus reruns. Subsequent negative-control testing exposed two checker faults in the R4 implementation: an external query-role cell could pass before comparing generated role/name against source, and the guard checker could accept an empty denominator or contradictory safeguard wording. Both faults were repaired before the reported results were regenerated.
 
 The released checker is exercised in two conformance-test layers against author-specified control-oracle tables stored separately from checker output. Eighteen rule fixtures exercise correct and substituted source roles, correct/missing/wrong denominator binding, contradictory or disabled safeguard prose, zero-only loss of non-positive semantics, preserved/suppressed conflict routing, certification beside unresolved status, benign controls, and N/A behavior. Fourteen artifact-derived controls add five unchanged baselines, eight substitutions of extracted inputs, and one document-level HTML mutation reparsed through the same publication adapter used for the archived LEAP page. All 32 oracle-labeled outcomes match; the 30 binary Pass/Fail controls produce zero observed misses on deliberately introduced defects and zero observed false alarms on benign controls.
+\baj{Reviews will be suspicious here -- the test found no failures for any of the rules? This would be more convincing if failures are in areas that humans will catch, etc.}
 
 
 \subsection{Independent reviewer evaluation and unaided baseline}
