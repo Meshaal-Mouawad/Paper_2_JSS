@@ -1,0 +1,47 @@
+% New supporting illustration only. Scientific results and study design are unchanged.
+% Not a screenshot: diagram reconstructed from the frozen source, Bluebook HTML,
+% R15 independent reviewer condition labels and checker outputs.
+\usetikzlibrary{fit}
+\begin{figure*}[t]
+\centering
+\begin{tikzpicture}[
+  font=\footnotesize,
+  >=Stealth,
+  panel/.style={draw=black!65,rounded corners=2pt,fill=black!3,align=left,text width=7.25cm,minimum height=2.45cm,inner sep=8pt},
+  verdict/.style={draw=black!65,rounded corners=2pt,fill=black!7,align=left,text width=7.25cm,minimum height=2.2cm,inner sep=8pt},
+  finalbox/.style={draw=black!65,rounded corners=2pt,fill=black!11,align=center,text width=15.1cm,minimum height=.9cm,inner sep=6pt},
+  ar/.style={-{Stealth[length=2.1mm]},semithick}
+]
+\node[panel] (src) at (0,0) {\textbf{1. What the archived Python code does}\par\smallskip
+  \texttt{if feedstock\_input\_tons <= 0:}\par
+  \texttt{\ \ \ \ return 0.0}\par
+  \texttt{return (ethylene\_produced\_tons /}\par
+  \texttt{\ \ \ \ feedstock\_input\_tons) * 100.0}\par\smallskip
+  \emph{Meaning:} zero/negative feedstock produces 0, not the nominal ratio.};
+\node[panel] (pub) at (8.25,0) {\textbf{2. LEAP extracts and publishes a Bluebook dossier}\par\smallskip
+  \textbf{Formal Formula:} Produced / Feedstock $\times100$.\par
+  \textbf{Source link:} retained and inspectable.\par
+  \textbf{Logic Safeguards:} does not state the non-positive return branch.\par
+  \textbf{Developer Lineage:} calls a function docstring an ``Output alias''.};
+\draw[ar] (src.east) -- (pub.west);
+\node[verdict] (check) at (0,-3.35) {\textbf{3a. What the bounded checker tests}\par\smallskip
+  Compares selected published descriptions with the retained code.\par
+  For case C12, its \emph{reader-facing condition} check records \textbf{Fail}: the safeguard does not state the branch.\par
+  The checker applied the specified condition rule.};
+\node[verdict] (human) at (8.25,-3.35) {\textbf{3b. What each independent reviewer sees}\par\smallskip
+  Source evidence and the generated page; checker decisions withheld.\par
+  Phase A: instructed to note issues before using the checklist.\par
+  Phase B: checklist labels: Pass / Fail / NA.\par
+  For C12 condition disclosure: R1/R2 \textbf{Pass}; R3 \textbf{Fail}.};
+\draw[ar] (src.south) -- (check.north);
+\draw[ar] (pub.south) -- (human.north);
+% Place the comparison below the complete review row using font-relative clearance.
+\node[fit=(check)(human),inner sep=0pt,outer sep=0pt] (reviewpair) {};
+\node[finalbox,anchor=north] (result) at ([yshift=-2\baselineskip]reviewpair.south) {\textbf{4. Compare the findings:} Source is linked, but the written safeguard omits the branch.\par
+  The packet contained both phase instructions. R1/R2 counted source visibility as disclosure; R3 required safeguard wording.};
+\draw[ar] (check.south) -- (check.south |- result.north);
+\draw[ar] (human.south) -- (human.south |- result.north);
+\end{tikzpicture}
+\caption{Schematic of the archived Ethylene Production Yield source, generated page, and recorded audit decisions. The checker assessed the condition using its reader-facing rule; reviewers assessed the supplied source and page independently of the checker outputs. Their condition labels differed over what counted as disclosure.}
+\label{fig:worked-yield-flow}
+\end{figure*}

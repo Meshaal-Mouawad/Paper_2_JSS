@@ -1,0 +1,38 @@
+% Evidence-grounded diagram; see verification/SQL_SOURCE_EVIDENCE.json.
+% Ellipsis replaces only arithmetic. The generated explanation is verbatim.
+% Ordinary manuscript figure: no BAJ/MES annotations or editorial highlights.
+\begingroup
+\renewcommand{\ttdefault}{lmtt}
+\usetikzlibrary{matrix,positioning,calc}
+\begin{tikzpicture}[
+  font=\sffamily\footnotesize,
+  >=Stealth,
+  box/.style={draw=black!65,rounded corners=1pt,inner sep=4pt,align=left},
+  role/.style={box,text width=3.55cm,minimum height=1.2cm},
+  wide/.style={box,text width=7.7cm},
+  arrow/.style={-{Stealth[length=1.5mm]},semithick}
+]
+\node[anchor=north west,inner sep=0pt,font=\sffamily\footnotesize\bfseries]
+  (heading) {Source SQL: two \texttt{AS} clauses, two roles};
+\matrix (code) at ([yshift=-5pt]heading.south west) [matrix of nodes,anchor=north west,
+  nodes={font=\ttfamily\footnotesize,inner xsep=.6pt,inner ysep=3pt},
+  column sep=0pt,row sep=0pt] {
+  CAST(... & |[draw=black!65]| AS FLOAT & ) & |[draw=black!65]| AS on\_spec\_percentage \\
+};
+\node[role,anchor=north west] (type) at ([yshift=-12pt]code.south west)
+  {\textbf{Inside \texttt{CAST(...)}}\par
+   \texttt{FLOAT}\par Conversion data type.};
+\node[role,anchor=north west] (alias) at ([xshift=5pt]type.north east)
+  {\textbf{After \texttt{CAST(...)}}\par
+   \texttt{on\_spec\_percentage}\par Output name (alias).};
+\draw[arrow] (code-1-2.south) -- (code-1-2.south |- type.north);
+\draw[arrow] (code-1-4.south) -- (code-1-4.south |- alias.north);
+\node[wide,fill=black!5,anchor=north west] (published) at ([yshift=-7pt]type.south west)
+  {\textbf{Generated explanation}\par\smallskip
+   ``Output alias: maps this expression to FLOAT in the result set.''};
+\node[wide,anchor=north west] (finding) at ([yshift=-7pt]published.south west)
+  {\textbf{Audit finding}\par\smallskip
+   The alias is \texttt{on\_spec\_percentage}.\par
+   The source is retained; its role is described incorrectly.};
+\end{tikzpicture}
+\endgroup
