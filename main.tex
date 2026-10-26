@@ -161,6 +161,8 @@ These findings yielded three contributions:
 \item reproducible comparisons showing which discrepancies remained after source links were verified, which reviewer findings the checker missed, and how its measured precision changed with the definition of disclosure.
 \end{enumerate}
 \section{\texorpdfstring{Related Work and Basis of the Assessment Criteria}{Related Work and Basis of the Assessment Criteria}}
+Research on code--documentation consistency, evidence provenance, and management of unresolved inconsistencies provides the basis for this audit. The following themes explain which problems those approaches address and how each informs a question we tested on generated KPI pages.
+
 \subsection{\texorpdfstring{Accuracy of Source Descriptions and Conditions}{Accuracy of Source Descriptions and Conditions}}
 Software documentation remains difficult to create and maintain \citep{Aghajani2019}. Traceability identifies relationships between documentation and software artifacts \citep{MaderGotel2012}; code-comment inconsistency studies show that linked text can still diverge from code semantics \citep{Wen2019,Xu2024}. Eghbali et al. formalize code-documentation equivalence around accurate and complete description of program behavior \citep{Eghbali2026}. Zhou et al. compare API code with parameter-constraint and exception directives to detect documentation defects \citep{Zhou2017}. \baj{Need another sentence– “This research demonstrates the ongoing problem of failed code–documentation equivalence. The LEAP system addresses this problems by...”}
 \mes{These studies identify errors in explanations of code and its behavior. LEAP places the source beside generated formulas, explanations, and safeguards; we compared those fields with the retained source. This comparison applied the two requirements motivated by the cited work: describe source elements correctly and state the conditions that qualify their behavior.}
@@ -209,6 +211,8 @@ The completed study addressed the following research questions:
 \item[RQ3] Which candidate explanation-fidelity dimensions achieve reproducible independent reviewer agreement?
 \item[RQ4] What checker failure modes and criterion sensitivities appear when the released rules are compared with independently produced reviewer labels?
 \end{description}
+
+We addressed RQ1 by comparing published KPI explanations with their linked code and tracing recurring errors to generator logic. For RQ2, we inspected an earlier output and outputs from alternative inputs. Three independent reviewers then assessed the four proposed criteria for RQ3; RQ4 compared their recorded judgments with the automated rules. The following sections specify the artifacts, decisions, and comparison procedures used at each stage.
 
 \subsection{Claims and falsification conditions}
 Table~\ref{tab:falsification} links each main claim to its evidence and states what observation would overturn it.
@@ -438,6 +442,8 @@ Gross Margin Percentage & Pass: declared and executable representations retained
 \end{table}
 \FloatBarrier
 \section{Detailed Case Analysis}
+The Yield and Gross Margin cases show how an inaccurate explanation can coexist with accessible source evidence. The first case concerns a missing condition that changes the returned value; the second concerns conflicting formulas and an incomplete safeguard description. Both are traced to their source statements below.
+
 \subsection{Ethylene Production Yield}
 Listing~\ref{lst:yield-source} shows the Yield source, including its percentage calculation and non-positive-input guard.
 \begin{lstlisting}[float=htbp,label={lst:yield-source},language=Python,breaklines=true,breakatwhitespace=true,caption={Verbatim Yield source excerpt from the frozen dossier source; SHA-256 identity is retained in the supplement.}]
@@ -498,7 +504,7 @@ We audited 28 source-linked KPI documentation pages and found descriptions that 
 
 The source-role checker achieved 12.5\% recall. On the same 10 eligible condition cases, precision was 40\% under source visibility and 100\% under reader-facing disclosure, with 100\% recall under both. The 100\% comparison measured agreement with the criterion the checker implemented. The broad disagreement criterion was narrowed to a separate check of explicit-conflict routing, which was preserved in 6/6 cases; negative reviewer agreement led us to reject the review-authority criterion. The initial majority issue set contained 18 of 28 pages.
 
-The contribution is a source-grounded audit and an evaluation of its automated checks. The worked cases show why a reader needs both access to the code and an accurate explanation of it. The evidence identifies the faulty descriptions, their generator causes, and the gaps that remain in the checking rules.
+The study contributed a source-grounded procedure for checking generated KPI explanations and an evaluation that distinguished reviewer support for assessment criteria from the coverage of automated rules. The worked cases located incorrect descriptions in their source evidence and traced repeated errors to generator logic. Subsequent evaluations can test revised checking rules on additional codebases using a disclosure criterion specified before reviewer assessment.
 
 \section*{Data and artifact availability}
 The frozen technical supplement contains the 28 published pages, historical and alternative-input outputs, source and page hashes, audit rules, control labels, scripts, generator excerpts, and the Yield and Gross Margin sources. The unchanged independent-evaluation archive contains the returned-form derivatives, normalized analysis forms, case mapping, reviewer agreement and checker comparisons, and analysis scripts. Files in that archive's raw directory are intermediate exports: 94 original NA labels appear there as blanks. The accompanying reporting-correction supplement preserves the original obligation responses, a cell-by-cell reconciliation, and both protocol documents. The reconciliation restores the original NA values and matches all 336 labels used in the analysis.
