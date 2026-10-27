@@ -36,7 +36,7 @@
   \node[font=\sffamily\footnotesize\bfseries] at (\x,-4.32) {\cid};
 }
 \node[anchor=west,align=left,text width=6.1cm] at (0,-4.88)
-  {\textbf{R1/R2: source visibility}\par A visible source condition counted as disclosure.};
+  {\textbf{Raters A and B: source visibility}\par A visible source condition counted as disclosure.};
 \node[support] at (6.95,-4.88) {Fail};
 \node[support] at (8.25,-4.88) {Fail};
 \node[disputed] at (9.55,-4.88) {Pass};
@@ -46,7 +46,7 @@
   {\textbf{\FigVisibilitySupported/\FigConditionFlags{} supported}\par Precision \FigVisibilityPrecisionPct\%};
 
 \node[anchor=west,align=left,text width=6.1cm] at (0,-5.97)
-  {\textbf{R3: reader-facing explanation}\par The written safeguard had to state the condition and its variable.};
+  {\textbf{Rater C: reader-facing explanation}\par The written safeguard had to state the condition and its variable.};
 \foreach \x in {6.95,8.25,9.55,10.85,12.15}{\node[support] at (\x,-5.97) {Fail};}
 \node[anchor=west,align=left,text width=2.6cm] at (14.1,-5.97)
   {\textbf{\FigReaderSupported/\FigConditionFlags{} supported}\par Precision \FigReaderPrecisionPct\%};
@@ -54,6 +54,6 @@
 \node[note] at (0,-6.67) {\textbf{Fail:} reviewer supported the checker flag.
   \quad\textbf{Pass:} reviewer disputed the flag.\par
   The \FigConditionOther{} other eligible pages were Pass for the checker and all reviewers; recall was \FigConditionRecallPct\% under both criteria.};
-\node[note] at (0,-7.38) {The R3 row measured agreement with the reader-facing criterion implemented by the checker.};
+\node[note] at (0,-7.38) {The Rater C row measured agreement with the reader-facing criterion implemented by the checker.};
 \end{tikzpicture}
 \endgroup

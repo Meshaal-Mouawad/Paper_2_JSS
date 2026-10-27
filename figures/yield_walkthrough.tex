@@ -1,6 +1,6 @@
 % New supporting illustration only. Scientific results and study design are unchanged.
 % Not a screenshot: diagram reconstructed from the frozen source, Bluebook HTML,
-% R15 independent reviewer condition labels and checker outputs.
+% Independent reviewer condition labels for case C12 and checker outputs.
 \usetikzlibrary{fit}
 \begin{figure*}[t]
 \centering
@@ -32,13 +32,13 @@
   Source evidence and the generated page; checker decisions withheld.\par
   Phase A: instructed to note issues before using the checklist.\par
   Phase B: checklist labels: Pass / Fail / NA.\par
-  For C12 condition disclosure: R1/R2 \textbf{Pass}; R3 \textbf{Fail}.};
+  For C12: Raters A and B \textbf{Pass}; Rater C \textbf{Fail}.};
 \draw[ar] (src.south) -- (check.north);
 \draw[ar] (pub.south) -- (human.north);
 % Place the comparison below the complete review row using font-relative clearance.
 \node[fit=(check)(human),inner sep=0pt,outer sep=0pt] (reviewpair) {};
 \node[finalbox,anchor=north] (result) at ([yshift=-2\baselineskip]reviewpair.south) {\textbf{4. Compare the findings:} Source is linked, but the written safeguard omits the branch.\par
-  The packet contained both phase instructions. R1/R2 counted source visibility as disclosure; R3 required safeguard wording.};
+  The packet contained both phase instructions. Raters A and B counted source visibility as disclosure; Rater C required safeguard wording.};
 \draw[ar] (check.south) -- (check.south |- result.north);
 \draw[ar] (human.south) -- (human.south |- result.north);
 \end{tikzpicture}
