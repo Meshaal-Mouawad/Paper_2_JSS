@@ -336,7 +336,9 @@ Conflict routing mechanism & Same 6 explicit-conflict dossiers, 6 / 6 preserved 
 
 The alternative-input runs reproduced source-role and certification-wording findings. The 29-page scenario output had one source-role finding and certification wording on all 11 unresolved pages; its one eligible zero guard passed. The 8-page challenge output had one source-role finding and certification wording on all six unresolved pages; its one eligible zero guard also passed. Marked conflicts retained their review routing in both outputs. Guard results varied with the input configuration, while the other two findings recurred.
 
-The generator-code inspection identified three causes corresponding to the recurring findings: a source-role classifier that misidentified comments and SQL conversion types, safeguard text generated without consistently retaining the guarded variable or non-positive condition, and certification language emitted without checking the recorded review state. This explains why multiple affected pages share the same underlying mechanisms.\n\n%\baj{I think we can omit this section, given the paper length.}
+The generator-code inspection identified three causes corresponding to the recurring findings: a source-role classifier that misidentified comments and SQL conversion types, safeguard text generated without consistently retaining the guarded variable or non-positive condition, and certification language emitted without checking the recorded review state. This explains why multiple affected pages share the same underlying mechanisms.
+
+%\baj{I think we can omit this section, given the paper length.}
 %\subsection{Root-cause localization}
 %A wrong sentence in a generated page shows the reader-facing error, but it does not explain why the software wrote it. We therefore inspected the code that produces those explanations and identified which generation logic was responsible for repeated mistakes. This distinguishes one shared cause from the several pages on which it appears.
 %
