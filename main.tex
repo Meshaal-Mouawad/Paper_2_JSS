@@ -1,9 +1,6 @@
 \documentclass[a4paper,fleqn]{cas-dc}
 
-% CAS loads STIX when available. Use Latin Modern only on its fallback path;
-% replacing STIX symbol fonts after its mathcodes are set corrupts operators.
 \IfFileExists{stix.sty}{}{\usepackage{lmodern}}
-% Keep the source package self-contained: CAS's optional email icon is external.
 \ExplSyntaxOn
 \bool_gset_true:N \g_stm_nologo_bool
 \ExplSyntaxOff
@@ -18,12 +15,6 @@
 \usepackage{tikz}
 \usetikzlibrary{arrows.meta}
 
-% Coauthor review convention: yellow BAJ comments; orange MES only for direct replies.
-% Later manuscript text and general editorial additions are unhighlighted.
-\newcommand{\baj}[1]{{\sethlcolor{yellow}\hl{BAJ: #1}}}
-\newcommand{\mes}[1]{{\sethlcolor{orange}\hl{MES: #1}}}
-% Continue the same orange addition across normally typeset, breakable citations.
-\newcommand{\mescont}[1]{{\sethlcolor{orange}\hl{#1}}}
 \soulregister\citep7
 \soulregister\citet7
 \soulregister\ref7
@@ -44,9 +35,8 @@
 \soulregister\bluebook0
 \soulregister\tool0
 \lstset{basicstyle=\ttfamily\scriptsize,showstringspaces=false,columns=fullflexible,keepspaces=true,breaklines=false,frame=single,numbers=none,captionpos=b,aboveskip=\intextsep,belowskip=\intextsep,xleftmargin=\fboxsep,xrightmargin=\fboxsep}
-\hypersetup{colorlinks=true,linkcolor=blue,citecolor=blue,urlcolor=blue}
+\hypersetup{colorlinks=true,linkcolor=black,citecolor=black,urlcolor=black}
 
-% Journal-specific preprint footer; Elsevier class files remain unmodified.
 \ExplSyntaxOn
 \cs_set:Npn \__first_footerline:
 {
@@ -57,7 +47,7 @@
   \else
     \__short_authors: :~
   \fi
-  { \rmfamily \itshape Preprint~submitted~to~Journal~of~Systems~and~Software }
+  { \rmfamily \itshape Science~of~Computer~Programming:~research~manuscript }
   \group_end:
 }
 \ExplSyntaxOff
@@ -67,10 +57,10 @@
 \def\floatpagepagefraction{1}
 \def\textpagefraction{.001}
 
-\shorttitle{Auditing Generated KPI Documentation}
+\shorttitle{Evaluating Checks for Generated KPI Documentation}
 \shortauthors{M.O. Mouawad and B. Jones}
 
-\title[mode=title]{Auditing Generated KPI Documentation Against Source Code: A Study of 28 KPI Pages}
+\title[mode=title]{Evaluating Checks for Generated KPI Documentation: Rule Coverage and Reference Criteria}
 
 \author[1]{Meshaal Obaid Mouawad}[auid=001,orcid=0000-0002-1152-8324]
 \cormark[1]
@@ -83,446 +73,368 @@
 \cortext[cor1]{Corresponding author: Meshaal Obaid Mouawad}
 
 \begin{abstract}[]
-Software calculates key performance indicators (KPIs), but the documentation explaining those calculations may not accurately describe what the code does. Even when documentation links to the correct source code, its explanations may contain errors or omit conditions that affect the calculated result. We evaluated this problem using LEAP (Literate Programming for Automated KPI Extraction), a research software tool that extracts KPI information from source code and publishes source-linked documentation in an Interactive Bluebook.
-%For example, one generated KPI page presented a production-yield formula but omitted a condition under which the software returns zero.
-
-We audited 28 generated KPI documentation pages using deterministic checking rules and assessments from three independent reviewers. The evaluation tested four candidate dimensions of documentation accuracy.
-%Two received reproducible reviewer support: correct descriptions of source-code elements (Fleiss' $\kappa = 0.407$) and disclosure of conditions affecting calculations ($\kappa = 0.553$).
-The automated source-role checker detected only 2 of 16 errors identified by reviewer majority (12.5\% recall). For condition disclosure, checker precision differed between two assessment criteria: 40\% when source visibility counted as disclosure and 100\% under the reader-facing criterion used by the checker. The latter result reflected agreement with that criterion, not independent proof of perfect detection. The study demonstrated that linking documentation to source code does not guarantee an accurate explanation. It also identified specific documentation errors and limitations of the automated rules used to detect them.
+Evaluating a documentation checker requires agreement about the property being checked and the unit counted as an error. We investigate these requirements using 28 generated key performance indicator (KPI) documents, their linked source code, 32 checker controls, and 336 categorical assessments from three code reviewers. The checker returned every expected control decision. Its source-role rule flagged two of the 16 documents assigned Fail by the reviewer majority, yielding 12.5\% recall against those document labels. Inspection of the recorded rationales showed that, in both overlapping documents, the majority reviewers and checker identified different problems. Conversely, two alerts on majority-Pass documents identified concrete source-role errors. The source-role comparison therefore exposed differences between implemented patterns and the properties assessed under the same criterion. A second comparison examined ten documents with eligible calculation conditions. The same five checker alerts had precision of 40\% against the identical labels of reviewers A and B and 100\% against reviewer C's labels. Their rationales differed in both the condition assessed and the observations about its explanation. We connect these results to source excerpts, generated descriptions, reviewer rationales, and generator code. The study contributes an empirical account of how rule scope, document-level aggregation, and reference interpretation shape checking results, together with a reproducible case ledger for distinguishing these mechanisms.
 \end{abstract}
-
 \begin{keywords}
-software documentation \sep program comprehension \sep provenance \sep traceability \sep key performance indicators \sep explanation fidelity \sep knowledge engineering
+software documentation \sep empirical evaluation \sep program comprehension \sep checking rules \sep reference criteria \sep key performance indicators
 \end{keywords}
 \maketitle
 \hypersetup{pdfauthor={Meshaal Obaid Mouawad; Bryan Jones}}
 
 \section{Introduction}
-Key performance indicators (KPIs) are quantifiable measures used to evaluate progress toward strategic and operational objectives. Their meaning connects a business definition of what should be measured with the calculation that produces the reported value. In software-based reporting, this connection includes the inputs, formula, and conditions implemented in source code. Understanding a KPI therefore requires access to both its business interpretation and the computational decisions that determine its value \citep{Mate2017,RoldanGarcia2021}. We investigated this connection by auditing 28 generated KPI documentation pages against their source code and comparing automated decisions with judgments from three independent reviewers. The study identified inaccurate explanations, traced recurring errors to the code that generated them, and measured which reviewer findings the automated checks detected.
+Automated checks for generated software documentation can follow their specified rules and still disagree with reviewers about the documents they assess. Understanding that disagreement requires examining both the checker and the reference judgments. This study investigates that relationship in 28 source-linked key performance indicator (KPI) documents. All 32 prepared control outcomes were reproduced, yet the checker and reviewer majority agreed on failure for only two of 16 source-role documents. Inspection of the rationales showed that even those matching labels referred to different problems. The contribution is a source-grounded explanation of how rule scope and reference meaning determine the interpretation of checking results.
 
-In the manual workflow motivating this study, the business definition, software, and documentation are maintained separately. A business analyst specifies the indicator, a developer implements its calculation, and a separate reference document explains it to business readers. When a reported value is questioned or the code changes, the team must compare that document with the implementation to check which inputs, formula, and exceptional cases apply. The code produces the number; the document is meant to explain its meaning. Research on documentation maintenance and code--comment consistency shows why that connection must be maintained as software evolves \citep{Aghajani2019,Wen2019,Xu2024}.
+A KPI connects an organizational measure to the calculation producing its value. Its documentation may bring together a business formula, source excerpts, descriptions of those excerpts, safeguards for exceptional inputs, and a review status. These fields make a calculation inspectable. They also create several relationships to check: whether a source description assigns the correct programming role, whether the formula matches the implementation, and whether the written explanation states conditions that change the returned value. Research on documentation defects and code--comment inconsistencies establishes the importance of inspecting these relationships \citep{Aghajani2019,Wen2019,Zhou2017}.
 
-LEAP (Literate Programming for Automated KPI Extraction) is a research software tool that scans source files for potential KPI calculations and generates documentation pages linked to the code. Its collection of pages is called the Interactive Bluebook; each page is called a dossier. In the evaluated 28-page set, each dossier \baj{can show, or does it always show? Preferred: A dossier shows...} presents a reported formula, source-code location, descriptions of code, safeguards, and review status. While the links help people find the source, they cannot guarantee that the generated descriptions are correct.
+We study documents generated by LEAP, short for Literate Programming for Automated KPI Extraction. In the evaluated version, LEAP scans source files for KPI candidates and publishes an individual HTML document for each selected calculation. The collection is called the Interactive Bluebook. The document's \emph{Developer Lineage} field explains the role of a source excerpt; its \emph{Formal Formula} shows the calculation; and its \emph{Logic Safeguards} field describes exceptional-input handling. A separate checker compares selected source and document fields using deterministic rules. Three code reviewers assessed the same saved documents without seeing the checker outputs.
 
-For a page combining a business formula, source excerpts, safeguards, and review information, the question pursued here is which discrepancies remain in the published explanations and how reliably the proposed checks identify them. We compared each page with its source, traced recurring discrepancies to generation logic, and used independently recorded judgments to assess both the proposed criteria and the checker. The worked example below makes this question concrete.
+The Ethylene Production Yield document provides a concrete example. The retained Python function returns zero when feedstock input is zero or negative. Its written safeguard omits that branch. Two reviewers assigned condition Pass, whereas the third reviewer and checker assigned Fail. One Pass rationale states that the guard is explicitly safeguarded, in conflict with the preserved explanatory field. This makes the relationship between a label, its rationale, and the document evidence directly inspectable. A second error on this document concerns a source role: the generator calls the word ``a'' in a function docstring an output alias, a programming name assigned to a result. The source-role checker and one reviewer flag that error, while the majority assigns Pass.
 
-For a concrete example, consider Ethylene Production Yield. The ordinary formula divides the tons of ethylene produced by the tons of feedstock supplied, then multiplies by 100. However, the archived source returns zero whenever the feedstock input is zero or negative. LEAP publishes the ordinary ratio and retains a link to the code, but its Logic Safeguards section, the part intended to explain exceptional-input handling, does not tell the reader about that branch. Someone reading only the documented ratio cannot see what the software will report for those inputs. Figure~\ref{fig:worked-yield-flow} follows this example through LEAP, the audit, and the independent reviewers. Table~\ref{tab:early-yield} gives illustrative outputs for the same function.
+These observations connect two established research concerns. Documentation-verification methods define particular properties to check \citep{KuhnBergel2014,Lozano2015}, and empirical evaluations examine which real problems those methods find \citep{HabibPradel2018}. Documentation-to-code equivalence additionally makes behavioral completeness an explicit target \citep{Eghbali2026}. Our question concerns evaluation when a generated document combines several explanatory fields and reviewers apply a criterion more broadly, or to a different publication layer, than its automated implementation.
 
-\begin{table}[t]
-\centering
-\caption{Illustrative outputs of the archived Yield function for positive, zero, and negative feedstock inputs.}
-\label{tab:early-yield}
-\begin{tabular}{@{}rrr@{}}
-\toprule
-Ethylene produced & Feedstock input & Returned yield \\
-(tons) & (tons) & (\%) \\
-\midrule
-20 & 100 & 20 \\
-20 & 0 & 0 \\
-20 & $-10$ & 0 \\
-\bottomrule
-\end{tabular}
-\end{table}
+We answer that question by preserving the original control outcomes and document-level comparisons, then inspecting the source and rationales behind agreements and disagreements. The source-role analysis covers all 16 majority-Fail documents and all four checker alerts. The condition analysis compares unchanged alerts against each reviewer's recorded labels and examines the accompanying rationales. Historical and alternative-input outputs provide further evidence about the generator mechanisms associated with the observed descriptions.
 
-\input{figures/yield_walkthrough.tex}
+The study contributes three connected results: a case-level account of how source-role judgments exceed or differ from the implemented patterns; evidence that matching document labels can conceal different defect rationales; and an exact comparison showing how recorded reference judgments change support for the same alerts. The accompanying source/document/rationale ledger makes these distinctions inspectable and gives subsequent checker evaluations a concrete basis for defining their comparison unit and reference criteria.
 
-The source link makes the calculation available for inspection; the omitted branch shows why the explanation itself must also be checked. We call this correspondence between the published description and its linked source \emph{explanation fidelity}. The audit considered source roles, behavior-changing conditions, preservation of marked conflicts, and wording about review status. Section~\ref{sec:related-foundation} explains how prior work motivates these four questions.
+\section{Related Work}
+\subsection{Making source-derived documentation checkable}
+Source-connected documentation has a long history. Literate programming connects program explanation and executable structure \citep{Knuth1984}. For documentation derived from existing systems, \citet{VanDeursenMoonen2006} used inferred types to expose abstractions and dependencies in COBOL programs. Their TypeExplorer study demonstrates how generated views can communicate relationships beyond source cross-references. This provides context for LEAP's combination of code, formulas, and explanatory fields: the generated representation must communicate the intended relationship accurately.
 
-Reviewer judgments supported source-role accuracy and condition disclosure as the two retained criteria. The source-role rule detected two of 16 reviewer-majority failures (12.5\% recall). Condition precision was 40\% or 100\% depending on which of the two disclosure criteria identified in reviewer judgments were employed. We narrowed disagreement preservation to a LEAP-specific routing check and rejected the review-authority criterion. These findings distinguish agreement on what should be assessed from the coverage of its automated implementation.
+\citet{KuhnBergel2014} investigated whether internal software documentation could be stated in controlled natural language and verified against a source model. Their approach combines controlled English, extracted code facts, reasoning, and queries. A software case study and a 20-participant experiment examined its feasibility and comprehensibility. The formal interpretation of the documentation determines which statements the reasoner can assess. In a complementary approach, \citet{Lozano2015} encoded structural source-code regularities as usage contracts and evaluated them in an industrial application. Their work shows how an explicit vocabulary makes implicit expectations executable.
 
-These findings yielded three contributions:
-\begin{enumerate}[leftmargin=*]
-\item an audit that compares generated KPI descriptions with their source code and traces discrepancies to the code that generated the documentation;
-\item an independent assessment of four proposed criteria on 28 pages, retaining source-role accuracy and condition disclosure, narrowing disagreement to explicit-conflict routing, and rejecting review-authority consistency; and
-\item reproducible comparisons showing which discrepancies remained after source links were verified, which reviewer findings the checker missed, and how its measured precision changed with the definition of disclosure.
-\end{enumerate}
+These studies establish methods for checking precisely stated documentation or structural properties. Our study examines the evaluation of rules applied to explanations already generated across several fields. The relevant distinction is between the property a rule implements and the property a reviewer understands a criterion to request. The recorded rationale for a decision is therefore part of the comparison evidence.
 
-\section{Related Work and Basis of the Assessment Criteria}
-\label{sec:related-foundation}
-The literature leads to the present question through three related capabilities: connecting documentation to its source, checking what that documentation says, and recording evidence or unresolved disagreement. KPI research adds a domain-specific requirement: the implemented calculation should remain connected to the business meaning of the indicator. The following synthesis explains what these contributions establish and which evaluation question we carry into the LEAP case study.
+\subsection{Detecting inaccuracies and explaining behavior}
+Documentation-error research addresses several related targets. \citet{ZhongSu2013} detected inconsistent references to application programming interface (API) elements and code examples. \citet{Zhou2017} compared API documentation and code to identify defects in parameter constraints and exception directives. These methods make particular relationships between text and implementation checkable. Our source-role and condition checks likewise require an explicit comparison: a source excerpt and its assigned role, or an implemented condition and its written safeguard.
 
-\subsection{Literate Programming and Documentation Generators}
-Connecting explanation to implementation has an established basis in literate programming and source-linked documentation. Knuth's WEB approach interleaves procedural code and narrative so that readers can follow a program's rationale and structure alongside its executable components \citep{Knuth1984}. Documentation generators provide further mechanisms for publishing source-connected explanations. Doxygen incorporates structured documentation comments, Javadoc associates documentation with Java declarations, and rustdoc compiles and runs suitable code examples as documentation tests \citep{DoxygenManual,JavadocGuide,RustdocBook}. \baj{This work builds on the strengths of literate programming while also providing the ability to check the meaning of the established connections.} The present study builds on source-connected documentation by evaluating whether generated explanations accurately describe the implementations to which they link.
+Empirical studies explain the variety of relationships that can fail. \citet{Wen2019} studied code--comment changes across Java projects and manually classified repaired inconsistencies. \citet{Aghajani2019} examined documentation-related discussions and reports to characterize a broader range of problems. Their findings motivate inspecting the nature of a disagreement rather than treating every Fail label as the same kind of documentation error. \citet{Xu2024} further addressed imperfect labels in learned code--comment inconsistency detection through confidence-based learning. In the present study, the label issue is directly inspectable: reviewers sometimes discuss ownership, formula meaning, or source roles under the same criterion.
 
-%The remaining question concerns what those explanations communicate once the source is available.
+Generated explanations also raise the question of which behavior must be communicated. \citet{Yang2026OCL2NL} translated Object Constraint Language contracts into natural-language descriptions and assessed their informational content. \citet{Eghbali2026} defined documentation-to-code equivalence and used code reconstruction to generate and evaluate behaviorally informative documentation. These contributions establish semantic content and completeness as research targets. We examine how a narrower condition check compares with reviewer judgments about the corresponding source branch and explanatory field.
 
-Checking meaning requires a further comparison. \citet{Wen2019} documented several types of code--comment inconsistency and identified the need for detectors covering more types. \citet{Zhou2017} checked particular behavioral statements about API parameters and exceptions. \citet{Eghbali2026} went beyond consistency to examine whether documentation contains enough information to reconstruct equivalent function behavior. These contributions motivate testing both the accuracy of a generated explanation and the coverage of the procedure used to assess it. LEAP brings the business formula, source code, explanations, safeguards, and review status together on one KPI page. We examined whether the descriptions on that page accurately communicated the linked implementation.
+\subsection{Interpreting evaluation results}
+A checker evaluation needs evidence about both detected and undetected cases. \citet{HabibPradel2018} applied three static bug detectors to 594 known bugs and inspected candidate warning--bug matches. Their missed-bug analysis distinguished problems related to existing patterns from problems outside those patterns. Matching the particular defect is central to that evaluation. For our document-level labels, two assessments may both report Fail while referring to different source fragments or fields. We therefore inspect rationales after reproducing the categorical comparison.
 
+Evaluation meaning also matters for generated text. \citet{Roy2021} examined whether automatic code-summary metrics reflect human assessments, while \citet{Shi2022} investigated the effects of metric implementations, preprocessing, and datasets on summarization evaluation. These studies show why an apparent score must be interpreted through its measurement procedure. Our comparison concerns binary checker alerts whose reference labels differ. Inspecting the recorded reasons establishes which conditions and explanatory fields each assessment addresses.
 
-\subsection{From Source Connection to Accurate Behavioral Explanations}
-Keeping documentation available is the starting point. \citet{Aghajani2019} examined documentation-related reports and discussions and developed a taxonomy of problems affecting its quality. Looking specifically at source comments, \citet{Wen2019} studied code--comment changes and classified inconsistencies repaired by developers. They observed that available detectors covered particular error types and explicitly identified broader detection coverage as a research need. The resulting question is concrete: which kinds of inaccurate explanation can a checking method recognize, and which does it miss?
-
-Two detection approaches illustrate different parts of that question. \citet{Zhou2017} combined analysis of API code and documentation to identify defects in parameter constraints and exception directives. Their comparisons show how a documented behavioral requirement can be checked against implementation evidence. \citet{Xu2024} addressed another source of difficulty: noisy labels in data used to learn code--comment inconsistency. Their confidence-learning method treats the quality of the comparison labels as part of the detection problem. Together, these studies motivate examining both the decision rule and the evidence used to judge its output.
-
-\citet{Eghbali2026} investigated a stronger property than the absence of contradictory statements: whether documentation describes enough behavior to reconstruct an equivalent function. Their Documentary approach iteratively generated code from documentation and refined the explanation through equivalence checks. The authors explicitly identify test coverage and the focus on Python functions and docstrings as boundaries of their evaluation. For a generated KPI page, the related question concerns several published fields together: whether the source-role description, displayed formula, and safeguard explain the same retained calculation. These studies identify errors in explanations of code and its behavior. LEAP extends prior work by placing the source beside generated formulas, explanations, and safeguards; we compared those fields with the retained source. This comparison applied the two requirements motivated by the cited work: describe source elements correctly and state the conditions that qualify their behavior.
-
-We take behavioral consistency and the need to assess detection coverage from these studies. With source evidence retained, we ask whether the published explanations correctly describe source elements and the conditions that affect their behavior. \baj{This approach lets us ask a separate question: did the published explanation correctly describe the role of the source element and the conditions affecting its behavior?}
-
-\subsection{From Traceable Evidence to Reviewable Disagreement}
-When two recorded formulas disagree, retaining access to both expressions allows the disagreement to be examined. \citet{Nuseibeh2001} developed an approach to managing known inconsistencies rather than requiring their immediate elimination. This motivates a separate question from formula correctness: does publication preserve the disagreement for review? Evidence models then help distinguish what a claim says from the information supporting it. SEPIO (Scientific Evidence and Provenance Information Ontology), an evidence model introduced by Brush et al., links claims to supporting or refuting evidence \citep{Brush2016}. For the related task of classifying evidence, \citet{Giglio2019} described ECO (Evidence and Conclusion Ontology) for recording evidence types and how a claim was made. These complementary contributions motivate examining both visible conflicts and the status communicated by the page. Motivated by these works, LEAP retains the source representations, conflict markers, and review status on the same page. It checks whether marked conflicts remained routed for review and whether certification wording agreed with that status. It also assesses reviewer agreement on both proposed criteria separately from the behavior of the corresponding automated rules.
-
-Maintaining the connection to evidence is itself a research problem. \citet{MaderGotel2012} studied how traceability links can be maintained as software models change. \citet{Missier2013} described PROV, the World Wide Web Consortium's family of provenance specifications, for recording data, the activities that produced it, and the responsible people or systems; the associated constraints specify valid provenance records \citep{W3CProvConstraints2013}. For database execution, \citet{Psallidas2023} reconstructed query dependencies from event logs in OneProvenance. \citet{Sadiq2026} combined provenance, validation, publication, and access controls in ESDPKI (Enterprise Spatial Data Provenance Knowledge Infrastructure). These works establish ways to maintain, recover, and manage evidence connections. Our LEAP contribution distinguishes that capability from assessing the explanation written alongside an already available connection:  a source link identifies the implementation behind a KPI, while the review status states how the page is classified. We examined the descriptions accompanying those records. This separates the existence of source and status records from the accuracy of what the page tells the reader.
-
-\subsection{From Generated Knowledge to Independent Assessment}
-Recent proposals make the quality of source-derived knowledge explicit. In a preprint, \citet{Gao2026} proposed attaching executable behavior, evidence, and validation information to selected code units in ECK (Executable Code Knowledge). This makes the relationship between a generated representation and its supporting code part of the representation itself. In a complementary preprint, \citet{MacedoCosta2026} presented Reversa, which derives descriptions of legacy-software behavior to guide coding agents and retains confidence labels and gaps requiring review.
-
-The Reversa authors explicitly report that their confidence index came from their own pipeline and that independent factual-accuracy evaluation remained future work. That stated boundary separates recording confidence from assessing correctness independently. It motivates the type of comparison used here: generated claims are checked against retained source evidence and separately recorded reviewer judgments. The present evaluation concerns LEAP pages and their audit rules.
-
-Together, these studies motivate checking both the connection to source code and the accuracy of its explanation. Therefore, LEAP provides the page on which code, formula, safeguards, and review information can be inspected together. We evaluated the four proposed assessment criteria using reviewer agreement and measured how the implemented checker compared with the recorded judgments.
-
-\subsection{From KPI Definitions to the Present Audit Question}
-The domain-specific foundation concerns how a business definition reaches its implementation. \citet{Mate2017} linked strategic objectives and KPI definitions expressed in business terminology to the data used to evaluate them. \citet{RoldanGarcia2021} addressed KPI modelling, selection, and reasoning through an ontology-based approach. These contributions make indicator meaning and relationships explicit. \citet{Diamantini2025} surveyed this wider family of semantic indicator models, identifying shared meaning and alignment between definition and implementation as central concerns.
-
-Once an indicator changes, consistency must also be maintained across its definitions and dependencies. \citet{Dominguez2025} addressed this problem in AFFECTK, the KPI-evolution framework introduced by Dominguez et al., organizing KPI evolution around traceability, consistency, and propagation of changes and evaluating a reasoning-based prototype. This contributes a way to manage changes in the indicator model. We examine the complementary publication step: when documentation is produced from an implementation, does the resulting explanation retain the relevant source role, condition, disagreement, and review information? Therefore, the LEAP framework  provides a completed audit of generated KPI explanations: we located discrepancies against linked code, traced their causes, and compared automated checks with independent reviewer judgments. This distinguishes the usefulness of an assessment criterion from the performance of the rule used to implement it.
-
-Taken together, the reviewed work supplies methods for connecting and managing evidence, checking particular behavioral claims, and representing KPI meaning. The contribution introduced by the LEAP framework is how to assess the explanations on a source-linked KPI page and establish the coverage of that assessment. We operationalized four candidate criteria, audited the 28-page output, traced recurring errors to the generator, and compared the rules with three raters. Table~\ref{tab:contract} summarizes the literature-to-check relationship. The following research questions separate finding and explaining the discrepancies from evaluating agreement and detection performance.
+Table~\ref{tab:related} summarizes the closest relationships. The study connects established verification and evaluation questions through a fixed generated-document corpus with preserved source evidence and reviewer rationales. The resulting contribution is the diagnosis of evaluation disagreement in that corpus and the evidence structure used to examine it.
 
 \begin{table*}[t]
 \centering
-\caption{Literature basis and implemented checks for the four proposed assessment criteria.}
-\label{tab:contract}
-\begin{tabularx}{\textwidth}{@{}lYY@{}}
+\caption{Closest published work and the distinct comparison examined here. The studies use different tasks and datasets; their numerical performance measures are not combined.}
+\label{tab:related}
+\begin{tabularx}{\textwidth}{@{}p{.22\textwidth}YY@{}}
 \toprule
-Assessment criterion & Established basis & Implemented LEAP check \\
+Published work & Established research contribution & Relationship to this study \\
 \midrule
-Source-role accuracy & Code--text consistency and documentation equivalence \citep{Wen2019,Xu2024,Eghbali2026} & Flag a published explanation that assigns a source element the wrong syntactic/semantic role. \\
-Condition disclosure & Completeness of behavioral/API directives \citep{Eghbali2026,Zhou2017} & For explicit zero/non-positive denominator guards, preserve the guarded variable and condition semantics. \\
-Representation disagreement & Inconsistency management and conflicting evidence \citep{Nuseibeh2001,Brush2016} & For source evidence carrying an explicit conflict marker, preserve the conflict in review routing. \\
-Review-authority consistency & Evidence/assertion roles, provenance validity, and validation-governance separation \citep{Giglio2019,W3CProvConstraints2013,Sadiq2026} & On unresolved dossiers, flag bounded certification-oriented wording. \\
+Kuhn and Bergel (2014) & Controlled-language documentation verified against a source model & Examine generated explanations and the scope of the rules used to assess them. \\
+Lozano et al. (2015) & Executable contracts for structural regularities & Make the rule's supported distinctions explicit before interpreting reviewer comparisons. \\
+Zhou et al. (2017) & Detection of parameter and exception directive defects & Compare a source condition with the publication field required to disclose it. \\
+Habib and Pradel (2018) & Real-bug coverage with inspected warning--bug matches & Distinguish a matching document label from agreement about a specific defect. \\
+Wen et al. (2019) & Empirical taxonomy of code--comment inconsistencies & Inspect the relationships underlying Fail judgments rather than pooling their meanings. \\
+Eghbali et al. (2026) & Behavioral documentation equivalence and generation & Inspect recorded judgments of a narrower disclosure requirement. \\
+Roy et al. (2021); Shi et al. (2022) & Evaluation-metric and implementation effects in code summarization & Explain criterion-dependent support for unchanged checker alerts. \\
 \bottomrule
 \end{tabularx}
 \end{table*}
 
 \section{Research Questions and Method}
-The completed study addressed the following research questions:
-\begin{description}[leftmargin=1.2cm,style=nextline]
-\item[RQ1] Which discrepancies between source evidence and published KPI explanations are exposed in the full 28-dossier LEAP output, and which generator mechanisms explain the repeated manifestations?
-\item[RQ2] Which discrepancies in published KPI knowledge persist or vary across an earlier project state and alternative input configurations?
-\item[RQ3] Which candidate explanation-fidelity dimensions achieve reproducible independent reviewer agreement?
-\item[RQ4] What checker failure modes and criterion sensitivities appear when the released rules are compared with independently produced reviewer labels?
+The study is an archival case study of a fixed generator output and its checking procedure. It combines source/document inspection, conformance tests, three reviewers' recorded assessments, and a retrospective analysis of the rationales accompanying those assessments.
+
+\begin{description}[leftmargin=1.1cm,style=nextline]
+\item[RQ1] Which source/document discrepancies are produced by the evaluated generator, and which recur across its archived and alternative-input outputs?
+\item[RQ2] How consistently do reviewers apply the four proposed criteria, and how do checker decisions compare with their document-level labels?
+\item[RQ3] Which differences in rule scope and reviewer rationale explain source-role agreements and disagreements?
+\item[RQ4] How does support for unchanged condition alerts vary across the recorded reviewer references, and what do their rationales explain?
 \end{description}
 
-We addressed RQ1 by comparing published KPI explanations with their linked code and tracing recurring errors to generator logic. For RQ2, we inspected an earlier output and outputs from alternative inputs. Three independent reviewers then assessed the four proposed criteria for RQ3; RQ4 compared their recorded judgments with the automated rules. The following sections specify the artifacts, decisions, and comparison procedures used at each stage.
-
-\subsection{Claims and falsification conditions}
-Table~\ref{tab:falsification} links each main claim to its evidence and states what observation would overturn it.
+RQ1 connects source excerpts, generated descriptions, and generator code. RQ2 reproduces the categorical comparisons. RQ3 inspects the reasons behind the source-role labels, including matching labels. RQ4 holds the eligible documents and checker output fixed while comparing the recorded reviewer references. Table~\ref{tab:design} links each question to its evidence and unit.
 
 \begin{table*}[t]
 \centering
-\caption{Major claims, supporting evidence, and falsification conditions.}
-\label{tab:falsification}
-\begin{tabularx}{\textwidth}{@{}p{0.27\textwidth}YY@{}}
+\caption{Research questions, evidence, and analysis units. A rating is one reviewer's category for one document and criterion.}
+\label{tab:design}
+\begin{tabularx}{\textwidth}{@{}lp{.35\textwidth}YY@{}}
 \toprule
-Claim & Supporting evidence & Falsification condition \\
+Question & Evidence & Unit & Analysis \\
 \midrule
-Within the LEAP case study, source linkage can coexist with publication discrepancies. & Source-linked Yield and Gross Margin dossiers retain inspectable source evidence while direct comparison identifies role and condition discrepancies. & The claim fails if the retained evidence link is absent or direct source comparison removes the reported discrepancy. \\
-Three parts of the LEAP generator produced the repeated documentation errors. & Source inspection traced source-role descriptions, safeguards, and certification wording to three shared parts of the generator. & The claim fails if rerunning the released audit changes the manifestations or if repeated manifestations map to different generator mechanisms. \\
-Independent review differentiates the candidate dimensions. & Three reviewers assessed 112 page--criterion combinations; Fleiss' $\kappa$ ranges from 0.553 to $-0.285$, and restricting the disagreement analysis to cases judged applicable by all three reviewers changed the result. & The claim fails if the preserved reviewer forms and deterministic aggregation reproduce uniform agreement across the four candidates. \\
-The released source-role rule fails coverage, while condition-rule performance is criterion-sensitive. & Source-role recall is 12.5\% against reviewer majority. On the 10 checker-eligible condition cases, precision is 40\% under the source-visibility criterion and 100\% under the reader-facing criterion; recall is 100\% under both. & The claim fails if deterministic recomputation removes the source-role confusion matrix or the dual-criterion condition results. \\
+RQ1 & 28 primary, 18 historical, 29 scenario, and 8 challenge documents; retained sources and generator excerpts & Document, source excerpt, eligible guard & Description/source comparison and code inspection \\
+RQ2 & 32 expected control decisions; 336 ratings across 112 document--criterion combinations & Control decision; rating; document label & Conformance, agreement, majority comparison \\
+RQ3 & All 16 source-role majority-Fail documents and all 4 checker alerts, with rationales & Source/description/rationale relationship & Rule-scope and same-defect inspection \\
+RQ4 & Ten checker-eligible documents and the three reviewers' condition labels & Document under a named reviewer reference & Two confusion matrices for the same five alerts \\
 \bottomrule
 \end{tabularx}
 \end{table*}
 
-\subsection{Case-study system and publication pipeline}
-To make comparisons reproducible, we evaluated one fixed version of LEAP, its input files, and the KPI pages produced from them. We call this a \emph{frozen evaluation snapshot}: a copy held unchanged so that the same inputs and outputs can be inspected again. It does not mean that LEAP normally stops changing or generating new documentation.
+\subsection{Artifacts and selection}
+The primary dataset contains all 28 HTML KPI documents from the preserved evaluation build. It includes 9 documents labeled \emph{Validated} and 19 labeled \emph{Needs Review} by LEAP. These are generator-recorded statuses. Every checker and reviewer assessed the same saved documents. The preserved hash record identifies an artifact copy at commit \texttt{5e697b5b} whose 28 files match the primary documents byte-for-byte; full identifiers and SHA-256 hashes are retained in the technical supplement.
 
-There were four distinct roles in the evaluation. LEAP generated the source-linked KPI pages. The checker applied predetermined rules to the source and published fields. The reviewers inspected the cases and recorded judgments. We compared those judgments with checker outputs and inspected the generator code to trace repeated discrepancies. Figure~\ref{fig:leap-pipeline} separates page generation from the checker, reviewer, and comparison steps.
-LEAP generates documentation from KPI source evidence. In this evaluated version, its implementation scans source files for KPI candidates, prepares formula and business-context fields, attaches source links and review information, and generates an HTML page for each selected KPI. The page contains source context, a displayed formula, descriptions of source elements, safeguards, ownership information, conflict markers, and a review status. Its Developer Lineage field describes what each linked source excerpt represents, such as a comment or a named output column. We compared each published explanation with its linked source, then examined the generator code responsible for the incorrect descriptions.
+The earlier archived output contains 18 documents, including 6 \emph{Validated} and 12 \emph{Needs Review}. Two further input configurations used the same generator: 38 scenario-fixture files produced 29 documents, and 8 challenge files produced 8 documents. These artifacts support comparisons across states and input configurations of the evaluated implementation. The generation log records deterministic detail preparation for all 28 primary documents.
 
-\begin{figure*}[t]
-\centering
-\begin{tikzpicture}[
-  box/.style={draw=black!65,rounded corners=2pt,fill=black!3,align=center,text width=3.55cm,minimum height=1.15cm,inner sep=5pt,font=\small},
-  study/.style={box,fill=black!9},
-  flow/.style={-{Stealth[length=2mm]},thick},
-  tag/.style={font=\footnotesize,fill=white,inner sep=2pt,align=center}]
-\node[box] (source) at (0,0) {Source repository\\Code, KPI tags,\\formula annotations};
-\node[box] (extract) at (4.4,0) {Extraction\\KPI candidates, formulas,\\source locations};
-\node[box] (enrich) at (8.8,0) {Deterministic preparation\\Business context and\\explanatory fields};
-\node[box] (book) at (13.2,0) {Interactive Bluebook\\Formula, source roles,\\safeguards, review state};
-\draw[flow] (source) -- (extract);
-\draw[flow] (extract) -- (enrich);
-\draw[flow] (enrich) -- (book);
-\node[study] (audit) at (4.4,-2.55) {Deterministic audit\\Compare source evidence\\with published fields};
-\node[study] (compare) at (8.8,-2.55) {Researcher comparison\\Reviewer agreement,\\detected and missed errors};
-\node[study] (review) at (13.2,-2.55) {Independent case review\\Initial and checklist-based\\reviewer judgments};
-\draw[flow] (source.south) |- node[tag,pos=.25]{Retained\\evidence} (audit.west);
-\draw[flow] (book.south) -- (review.north);
-\draw[flow] (book.south west) -- ++(-.22,-.35) -| node[tag,pos=.25]{Published fields} (audit.north);
-\draw[flow] (audit) -- (compare);
-\draw[flow] (review) -- (compare);
-\end{tikzpicture}
-% Workflow adapted from the approved proposal, chapter4.tex and Figuers/image11.svg.
-\caption{The evaluated LEAP workflow (upper row) and the audit and reviewer comparison (lower row). LEAP generated the pages; the checker and reviewers assessed them separately; the researchers compared their decisions. The archived generation log records deterministic detail preparation for all 28 pages.}
-\label{fig:leap-pipeline}
-\end{figure*}
+A separate adapter exercise used four official FastAPI tutorial sources and their generated OpenAPI 3.1 descriptions at pinned upstream identities \citep{FastAPI2026,OpenAPI31}. FastAPI is a Python framework for application programming interfaces; OpenAPI describes an interface's inputs and constraints. An adapter maps the source and published fields of that format into the checker's expected inputs. This exercise records whether the checks execute on a second documentation format.
 
-\subsection{Case-study artifacts and within-system design}
-\label{sec:artifacts}
-We examined the 28 pages produced by the fixed evaluation version and used older and alternative-input outputs to see whether the same errors recurred. The main pages were held unchanged so every checker and reviewer evaluated the same material.
-The main dataset consists of 28 KPI dossier pages saved as HTML files (webpage documents) by the fixed LEAP evaluation version. The number 28 counts generated pages, not screenshots or separate experiments. A public artifact copy at commit \texttt{5e697b5b} (full identity in the supplement) matches all 28 submitted pages byte-for-byte, as verified using SHA-256 file hashes (content-based file identifiers). The build contains 9 dossiers labeled \emph{Validated} and 19 labeled \emph{Needs Review}. These are statuses recorded by LEAP, distinct from the reviewers' later assessments. These recorded states support the concrete LEAP certification-string analysis and also provide evidence for evaluating the broader review-authority candidate independently.
+\subsection{Criteria and implemented rules}
+The study considered four assessment criteria. Each was expressed as a reviewer question and implemented by a rule that recognized specified evidence patterns. We distinguish the \emph{criterion}, the property being judged, from the \emph{rule}, its implemented decision procedure.
 
-We compared the earlier archived output of 18 pages, including 6 \emph{Validated} and 12 \emph{Needs Review} pages, to determine whether the same errors recurred. Two further input configurations used the same generator: 38 scenario-fixture files produced 29 pages, and 8 challenge files produced 8. These comparisons tested whether the findings changed with the input configuration. We treated each generated page as a case and assessed its source descriptions, calculation conditions, conflict markers, and review-status wording.
+\paragraph{Source-role accuracy.} A source element's role describes what it does: a comment explains code, a conversion changes data representation, and an alias names an output. The checker compares a source excerpt with its Developer Lineage description. It flags comments or docstrings described using selected executable-role labels, and Structured Query Language (SQL) conversion types described as output aliases. For example, in \texttt{CAST(... AS FLOAT) AS on\_spec\_percentage}, \texttt{FLOAT} is a conversion type and \texttt{on\_spec\_percentage} is the output alias. Figure~\ref{fig:sql-source-role} shows the generated misdescription.
 
-\paragraph{External adapter check.} We tested whether the source-role and condition checks could read another documentation format using four official FastAPI tutorial sources and their generated OpenAPI 3.1 descriptions at fixed upstream identities \citep{FastAPI2026,OpenAPI31}. FastAPI is a Python framework for building application programming interfaces (APIs); OpenAPI is a machine-readable description of the API's inputs and constraints. Here, an \emph{adapter} maps the other system's source and published fields into the comparisons used by the checker. These executions demonstrated adapter operation on another format; the independent reviewers assessed the LEAP pages.
+\paragraph{Condition disclosure.} A \emph{guard} is an explicit condition that changes a calculation for particular inputs. The rule recognizes denominator guards expressed through \texttt{NULLIF(variable,0)} or an \texttt{if}-family comparison with zero. It requires the safeguard field to state the zero or non-positive behavior and connect the guarded variable to the denominator of the displayed formula. A non-positive comparison requires wording that covers zero and negative inputs. The primary scanner found ten eligible documents.
 
-\subsection{\texorpdfstring{Automated Checking Rules}{Automated Checking Rules}}
-A generated KPI page contains explanations of code, conditions that change a calculation, and information about unresolved differences and review status. We designed four questions to check these fields for particular mistakes. A \emph{checking rule} is an instruction that compares specified information and returns a decision. The rules are \emph{automated} because a program performs these comparisons using saved code and documentation fields, rather than asking a person to make each decision. We also asked human reviewers to inspect the pages, allowing us to measure which problems the program missed.
+\paragraph{Representation disagreement.} This criterion concerns differences between recorded descriptions of a calculation. The implemented rule recognizes explicit conflict, mismatch, or inversion markers. It checks that the document remains marked \emph{Needs Review} and appears in the Review Queue, the list of items requiring a decision. We analyze this explicit-marker routing outcome separately from the reviewers' broader disagreement judgments.
 
-The checker applied four bounded candidate checks, each comparing specified source evidence with a published description. They targeted particular error patterns rather than every possible documentation failure. A \emph{guard} here means an explicit source-code condition that changes how an exceptional input is handled. The reviewer comparison measured which discrepancies these specified checks detected or missed.
-The rules implemented specific checks motivated by the literature in Table~\ref{tab:contract}. Prepared controls tested whether each rule returned its specified decision. Comparison with independent reviewers tested how many of their findings it detected. For source roles, it detected only 2 of 16 reviewer-majority failures.
-\begin{enumerate}[leftmargin=*]
-\item \textbf{Source-role accuracy.} The \emph{role} of a source element is what it does: a comment explains code, a data-type conversion changes representation, and an output alias names a result. A generated explanation is inaccurate when it assigns the wrong role to an element. Figure~\ref{fig:sql-source-role} gives a concrete example. The checker flags a failure when a comment or docstring (a function's embedded description) is described as executable code, or when a SQL \texttt{CAST} conversion type is labeled as an output alias (the name assigned to a result) instead of the actual alias. The rule reads pairs consisting of a source excerpt and its generated Developer Lineage description.
-\item \textbf{Executable-guard disclosure.} A \emph{guard} is a condition in source code that changes how the program handles an exceptional input. In the Yield example, the function returns zero if the input is zero or negative. This check asks whether the published explanation tells the reader about that behavior. It covers explicit zero or non-positive denominator guards expressed as \texttt{NULLIF(variable,0)} (which returns a null value when the denominator variable equals zero) or an \texttt{if}-family comparison to zero. Preservation requires reader-facing safeguard text to communicate zero/non-positive handling and match the guarded variable to the denominator of the displayed formal formula (the equation printed in the dossier). A \texttt{<= 0} guard requires non-positive semantics; zero-only wording fails the rule.
-\item \textbf{Representation-disagreement candidate.} A \emph{representation disagreement} exists when two recorded descriptions of the same calculation conflict, for example the stated business formula and the implemented formula. The rule checks whether a known disagreement remains visible for review. The released rule covers pages with an explicit source conflict, mismatch, or inversion marker. It verifies that the disagreement remains visible through \emph{Needs Review} status and an entry in the Review Queue (the list of items requiring a decision). We separately measured reviewer agreement on the broader disagreement criterion.
-\item \textbf{Review-authority candidate.} \emph{Review authority} concerns the approval status readers understand from a page's wording. On a page marked \emph{Needs Review}, certification wording could imply that an unresolved calculation has already been approved. The released rule checks such pages for bounded certification-oriented wording such as ``certified metric dossier,'' ``certified calculation expression,'' or ``print certified dossier.'' Reviewer agreement determined whether this criterion was retained.
-\end{enumerate}
-The condition rule covered the specified zero and non-positive branches. It did not check near-zero numerical tolerances or the input domains of square-root, logarithmic, or inverse-trigonometric functions; those require separate tests (Section~\ref{sec:study-limitations}).
-The scripts produced the full guard inventory and line-level source-role findings. Table~\ref{tab:contract} records the literature basis of the four criteria.
+\paragraph{Review-authority consistency.} This criterion concerns the relationship between unresolved status and certification-oriented wording. The implemented rule looks for specified phrases, including ``certified metric dossier,'' ``certified calculation expression,'' and ``print certified dossier,'' on documents marked \emph{Needs Review}. These are original interface strings. The reviewer exercise measures how consistently the broader criterion was applied.
 
-\begin{figure}[pos=tbp]
+\begin{figure}[!htbp]
 \centering
 \input{figures/sql_source_role.tex}
-\caption{On-Spec Rate source-role error. The ellipsis omits arithmetic from the archived SQL statement. The two boxed \texttt{AS} clauses identify the conversion type and the output name; the generated Developer Lineage text confuses them.}
+\caption{On-Spec Rate source-role error (C27). The generated description names the SQL conversion type as the output alias. The checker and Code reviewer C flag this error; Code reviewers A and B assign source-role Pass.}
 \label{fig:sql-source-role}
 \end{figure}
+\FloatBarrier
 
-\subsection{Evaluated checker and conformance tests}
-First, we tested whether the automated checker followed its own rules on examples with known expected decisions. Such a \emph{conformance test} asks whether a deliberately incorrect example is flagged and a correct one is accepted. Passing these tests demonstrates the specified behavior on those examples; it does not establish that the checker detects every mistake on the generated KPI pages.
+\subsection{Checker controls and source inspection}
+Conformance tests compare the checker's decisions with expected outcomes specified for prepared inputs. Eighteen rule tests cover source roles, denominator and safeguard information, routing, certification wording, and applicability. Fourteen artifact-derived controls comprise five unchanged baselines, eight substitutions of extracted inputs, and one deliberately modified HTML document read again through the adapter. Expected labels were stored separately from the checker outputs. The 32 expected outcomes comprise 19 Fail, 11 Pass, and two N/A decisions, where N/A means not applicable.
 
-The checker compares published roles and names with their source counterparts, requires a nonempty displayed denominator, and rejects missing, heading-only, or contradictory safeguard descriptions. The conformance tests below exercise these requirements through prespecified control outcomes.
+The same released rule library supports the primary, historical, alternative-input, and external-format checks. The technical scripts record document counts and identities, source-role findings, guard inventories, status and conflict outcomes, and control results. After locating discrepancies, we inspect the archived generator code and record the transformation associated with each generated description. Repeated descriptions are linked to a shared mechanism when the preserved code explains their occurrence across the corresponding documents.
 
-We tested the checker against two sets of author-specified controls with expected labels stored separately from its output. Eighteen rule fixtures covered correct and incorrect source roles, missing or mismatched denominator information, omitted or contradictory safeguard text, conflict routing, certification wording, and applicability. Fourteen controls derived from the archived artifacts included five unchanged baselines, eight substitutions of extracted inputs, and one HTML mutation read again through the same page adapter. We compared each returned decision with its expected label. Matching the predefined expected labels (the control oracle) includes returning Fail when a control is deliberately defective. Across the 32 controls, the expected outcomes comprise 19 Fail, 11 Pass, and two N/A (not applicable) labels. These results establish conformance to the specified control cases. Independent comparison on the original dossiers reveals the coverage limitation: the source-role checker misses 14 of the 16 reviewer-majority failures.
+\subsection{Reviewer procedure and categorical analysis}
+Three code reviewers, identified as A, B, and C, assessed cases C01--C28. Phase A asked each reviewer to identify issues using their own judgment. Phase B asked for Pass, Fail, or N/A judgments with evidence for each of the four criteria. The packet contained both phases and directed reviewers to complete Phase A first. It excluded checker outputs, manuscript result tables, the organizer's case-to-filename mapping, and the other reviewers' responses.
 
+All 28 Phase-A case rows were returned by each reviewer. Phase B contains 112 document--criterion combinations and three ratings per combination, giving 336 ratings. The preserved normalized analysis dataset contains 242 Pass/Fail ratings and 94 N/A ratings: 40 of the 84 condition ratings and 54 of the 84 disagreement ratings. The associated intermediate export represents those 94 positions as blanks. Cell-by-cell reconciliation with the three preserved original responses reproduced all 336 labels, including the 94 explicit N/A values. Reviewer-specific N/A counts were 32, 32, and 30 for A, B, and C, respectively.
 
-\subsection{\texorpdfstring{Independent Review: Initial and Checklist-Based Phases}{Independent Review: Initial and Checklist-Based Phases}}
-We separately asked three independent raters \baj{better: experts? Business analysts?} to evaluate the same KPI pages because automated rules can miss errors outside their predefined patterns. In Phase A, they recorded issues they noticed; in Phase B, they applied the four proposed assessment criteria. Their judgments provided a comparison for the checker's recorded decisions. The two phases were conducted in that order.
+Average pair agreement is the fraction of matching categories over reviewer pairs. Fleiss' kappa adjusts that observed agreement for the agreement expected from pooled category frequencies across three raters \citep{Fleiss1971}. We calculate it for each criterion using Pass, Fail, and N/A as nominal categories. We also report the subset on which all three reviewers supplied Pass or Fail, indicating common applicability. The pooled statistic across all 112 combinations is a descriptive summary.
 
-Three independent reviewers, designated \emph{Rater A}, \emph{Rater B}, and \emph{Rater C} throughout this paper, evaluated the same 28 pages (C01--C28). The packets excluded checker outputs, manuscript result tables, the organizer mapping key, and other reviewers' responses. In Phase A, reviewers were instructed to record issues using their own judgment before applying the four-criterion checklist in Phase B. The packet contained the instructions for both phases. Phase B recorded Pass, Fail, or N/A with supporting evidence; N/A meant that the criterion was judged inapplicable.
+The comparison reference for each document and criterion is the category selected by at least two reviewers. One condition case has three different categories and no majority. Exact categorical agreement counts identical Pass, Fail, or N/A decisions. For the binary confusion matrices, Fail is positive and Pass/N/A form the non-fail category. Thus a true positive is a document with both checker Fail and majority Fail; a false positive is checker Fail against a non-fail majority label. Precision divides shared Fail documents by all checker-Fail documents; recall divides shared Fail documents by all majority-Fail documents. These terms name the calculation against the specified document reference. Section~\ref{sec:rationales} examines the underlying defects and rationales.
 
-Each of the 28 pages was assessed against four criteria, producing 112 page--criterion combinations. Three ratings per combination produced 336 individual ratings. All 28 Phase-A case rows were returned by each reviewer. The original Phase-B responses contained 242 Pass/Fail ratings and 94 explicit N/A ratings (28.0\%). The 94 N/A entries appeared as blanks in an intermediate analysis export: 40 of 84 condition ratings and 54 of 84 disagreement ratings. Restoring those entries to N/A reproduced all 336 original labels. We also calculated agreement on the cases for which all three reviewers supplied Pass or Fail, indicating common applicability.
+We compare the Phase-A and Phase-B majority issue sets descriptively and inspect cases appearing only in Phase B. For condition disclosure, a separate analysis uses the same ten checker-eligible documents and the labels from each reviewer. The reference labels are kept separate so that each reported score identifies the reviewers whose judgments it uses.
 
-A majority decision required at least two matching ratings for a page--criterion combination. One condition case had a three-way split, leaving 27 resolved cases for that comparison. The other three criteria had 28 resolved cases each. We calculated average pair agreement, the fraction of matching labels across reviewer pairs, and Fleiss' $\kappa$, an agreement measure adjusted for agreement expected from the label frequencies \citep{Fleiss1971}. We compared checker decisions with the reviewer-majority labels. Exact agreement required the same Pass, Fail, or N/A decision. For the binary comparison, Fail was positive and Pass / N/A was non-fail.
+\subsection{Rationale and rule-scope analysis}
+\label{sec:rationale-method}
+After reproducing the document-level results, we inspect every majority-Fail source-role document and all four source-role alerts. Their union contains 18 distinct documents. For each case, the ledger retains the case identifier, source excerpt, generated description, three labels and accompanying rationales, checker finding, and applicable rule pattern. We then ask whether a matching Fail label identifies the same source/description discrepancy and which distinctions a checker-Pass case requires. The topic groupings summarize the recorded rationales; the original labels remain unchanged.
 
-A true positive (TP) was a checker flag supported by the majority reference; a false positive (FP) was an unsupported flag. A false negative (FN) was a majority-reference failure missed by the checker; a true negative (TN) was a non-fail case under both. Precision was the fraction of checker flags supported by the reference, and recall was the fraction of reference failures flagged by the checker. The \emph{Exact / $n$} column \baj{What does this mean?} reports the number of cases in which the checker's label exactly matched the majority label (Pass, Fail, or N/A), divided by the number of cases with a resolved majority decision. For example, 12/28 means exact agreement in 12 of 28 cases. The separate condition-criterion comparison used the same 10 checker-eligible cases under each disclosure definition.
+For the condition comparison, we inspect all five flagged documents, including the three where the checker and majority disagree. The analysis links each source branch to the displayed formula and safeguard text, then examines the specific condition and documentary evidence cited in each rationale. This preserves both the categorical results and the evidence needed to interpret them.
 
-Both the organizer guidance and the distributed reviewer packet planned three independent reviewers. The organizer guidance specified Fleiss' $\kappa$ and a subsequent adjudication step, whereas the packet README mentioned Cohen's $\kappa$, a measure for two raters, and also anticipated adjudication. \baj{I don't understand -- why are there two conflicting approaches here?} These were inconsistent analysis instructions accompanying the same three-rater design. The reported analysis used all three returned forms and Fleiss' $\kappa$; unresolved labels were compared by majority rule because a separate adjudicated reference set was not completed. The original documents and ratings are retained in the supplement.
-
-Phase B followed Phase A on the same cases. We compared the majority issue sets and inspected the five cases flagged only in Phase B to identify which criterion accounted for the difference.
-
-\subsection{Verification and root-cause procedure}
-The primary audit script checked the page count, SHA-256 file identities, review-status counts, source-role descriptions, guard conditions, conflict routing, and certification wording. Primary, historical, alternative-input, and external scripts used the same released rule library for applicable checks. The primary scanner identified ten eligible guard cases. The release verifier checked the expected control labels and both conformance-test sets before accepting the corpus summaries.
-
-After identifying documentation errors, we inspected the archived generator code to trace their causes. We linked repeated errors to a common cause when the same code explained their occurrence across pages. The supplement retains the generator excerpts and file hashes used in this inspection.
 \section{Results}
-\subsection{\texorpdfstring{Documentation Errors and Preserved Conflict Routing}{Documentation Errors and Preserved Conflict Routing}}
-The audit identified three causes of repeated documentation errors in the 28-page output: incorrect source-role descriptions, safeguards that lost the condition or variable checked by the code, and certification wording that appeared regardless of review status. In Table~\ref{tab:results}, \emph{lineage typing} means assigning a role to a source excerpt, while \emph{guard binding} means connecting an implemented condition to the correct variable and displayed formula. All six pages with explicit conflict markers retained their review routing. Table~\ref{tab:results} separates these generator causes from their occurrences on pages.
+\subsection{Generated descriptions and control outcomes}
+The checker returned every expected decision across the 18 prepared rule tests and 14 artifact-derived controls: 19 Fail, 11 Pass, and two N/A. The 30 binary controls produced no discrepancy from their expected labels. Controls that removed a denominator, repeated a safeguard heading without its explanation, changed an external parameter's name or role, removed a review-queue entry, or introduced certification wording triggered their specified rules.
+
+Source inspection connected repeated primary-output findings to three generator operations. A role classifier misidentified comments or conversion types. Safeguard preparation failed to retain a condition or its variable consistently. A template emitted certification wording irrespective of recorded review status. Table~\ref{tab:corpora} reports these occurrences and the separately verified routing behavior. The certification row describes a reproducible wording/status combination whose interpretation is examined through reviewer agreement below.
 
 \begin{table*}[t]
 \centering
-\caption{Repeated documentation errors and conflict routing in the current and earlier archived LEAP outputs.}
-\label{tab:results}
-\begin{tabularx}{\textwidth}{@{}lYY Y@{}}
+\caption{Technical audit of current and earlier LEAP outputs. Documents, manifestations, and eligible guards are distinct counting units. Certification counts record specified wording beside unresolved status.}
+\label{tab:corpora}
+\begin{tabularx}{\textwidth}{@{}p{.27\textwidth}YY@{}}
 \toprule
-Class / mechanism & Current 28-dossier build & Earlier 18-dossier build & Interpretation \\
+Recorded property & Primary output: 28 documents & Earlier output: 18 documents \\
 \midrule
-Lineage typing defect & 4 dossiers; 12 manifestations & Same 4 dossiers; same 12 manifestations & Same classifier defect persists across the two archived project states. \\
-Guard-to-safeguard binding defect & 5 failures / 10 eligible guards & 4 failures / 9 eligible guards & Same generator weakness with one changed eligible outcome. \\
-Certification-wording template defect & 19 / 19 unresolved dossiers & 12 / 12 unresolved dossiers & Same unconditional template behavior appears on every unresolved page in each build. \\
-Conflict routing mechanism & Same 6 explicit-conflict dossiers, 6 / 6 preserved & Same 6 dossiers, 6 / 6 preserved & Intended routing behavior persists across all shared conflict cases. \\
+Source-role rule findings & 4 documents; 12 manifestations & Same 4 documents; same 12 manifestations \\
+Condition-rule failures & 5 of 10 eligible guards & 4 of 9 eligible guards \\
+Certification wording on unresolved documents & 19 of 19 & 12 of 12 \\
+Explicit conflict routing preserved & Same 6 conflict documents; 6 of 6 & Same 6 conflict documents; 6 of 6 \\
 \bottomrule
 \end{tabularx}
 \end{table*}
 
-The alternative-input runs reproduced source-role and certification-wording findings. The 29-page scenario output had one source-role finding and certification wording on all 11 unresolved pages; its one eligible zero guard passed. The 8-page challenge output had one source-role finding and certification wording on all six unresolved pages; its one eligible zero guard also passed. Marked conflicts retained their review routing in both outputs. Guard results varied with the input configuration, while the other two findings recurred.
+The 29-document scenario output contained one source-role finding and certification wording on all 11 unresolved documents. Its one eligible zero guard passed. The eight-document challenge output also contained one source-role finding, with certification wording on all six unresolved documents and a passing result for its one eligible zero guard. Marked conflicts retained their routing in both outputs. These comparisons show recurrence of the role and wording patterns, together with variation in the condition outcomes across the evaluated inputs.
 
-The generator-code inspection identified three causes corresponding to the recurring findings: a source-role classifier that misidentified comments and SQL conversion types, safeguard text generated without consistently retaining the guarded variable or non-positive condition, and certification language emitted without checking the recorded review state. This explains why multiple affected pages share the same underlying mechanisms.
+The four FastAPI examples produced the recorded OpenAPI descriptions and adapter outcomes. Their checks and prepared substitutions exercised the mapping of parameter roles, names, constraints, and status information into the rule inputs. They contribute evidence of adapter execution and control behavior alongside the LEAP comparisons.
 
-%\baj{I think we can omit this section, given the paper length.}
-%\subsection{Root-cause localization}
-%A wrong sentence in a generated page shows the reader-facing error, but it does not explain why the software wrote it. We therefore inspected the code that produces those explanations and identified which generation logic was responsible for repeated mistakes. This distinguishes one shared cause from the several pages on which it appears.
-%
-%Source inspection traced the repeated documentation errors to three parts of the generator. First, the developer-lineage classifier tests calculation/formula keywords before comment typing, fails to recognize the leading \texttt{*} used for full-line comments in ABAP (an SAP programming language), and applies a generic SQL \texttt{AS} pattern that can select a \texttt{CAST} type instead of the final alias. This classifier explains the source-role manifestations. Figure~\ref{fig:-role} illustrates this error on the On-Spec Rate page. The first \texttt{AS} specifies the conversion type, \texttt{FLOAT}; the second names the output, \texttt{on\_spec\_percentage}. The generator selected the type as the alias. The page retained the source, yet described the wrong element as the output name.
-%
-%Second, safeguard generation recognizes \texttt{NULLIF} and selected equality-to-zero patterns and emits generic ``zero denominator'' language. In the affected pages, the text failed to identify which variable was guarded or to describe the non-positive-input branch. This mechanism explains the five current guard failures while correctly aligned \texttt{NULLIF} cases pass.
-%
-%Third, certification-oriented strings are emitted independently of review state in generator prose and the page template. That mechanism explains the 19/19 certification-wording findings on unresolved pages. Explicit conflict signals follow a separate routing path to \emph{Needs Review} and the Review Queue, producing the 6/6 preserved-conflict result.
+\subsection{Reviewer agreement and document-label comparisons}
+Across 112 document--criterion combinations, average pair agreement was 0.634 and pooled Fleiss' kappa was 0.446. Table~\ref{tab:agreement} reports the per-criterion values and label counts. The condition criterion had 12 commonly applicable documents, with kappa 0.446. For disagreement, restricting the analysis to seven commonly applicable documents changed kappa from 0.452 to $-0.167$. Authority judgments contained no N/A values and gave kappa $-0.285$.
 
-\subsection{Checker conformance-test results}
-These controlled tests checked whether the program followed its specified rules on examples designed to pass or fail. The independent reviewer comparison in the next subsection addresses a different question: how many observed documentation errors the rules detected.
+\begin{table*}[t]
+\centering
+\caption{Observed agreement and label distributions for three reviewers. Each full-criterion row contains 84 ratings on 28 documents. Common applicability retains only documents with three Pass/Fail ratings.}
+\label{tab:agreement}
+\begin{tabularx}{\textwidth}{@{}lrrrrrrY@{}}
+\toprule
+Criterion & Pass & Fail & N/A & Pair agreement & Kappa & \shortstack{Common\\documents} & Common-case kappa \\
+\midrule
+Source-role accuracy & 34 & 50 & 0 & 0.714 & 0.407 & 28 & 0.407 \\
+Condition disclosure & 31 & 13 & 40 & 0.726 & 0.553 & 12 & 0.446 \\
+Representation disagreement & 13 & 17 & 54 & 0.714 & 0.452 & 7 & $-0.167$ \\
+Review-authority consistency & 34 & 50 & 0 & 0.381 & $-0.285$ & 28 & $-0.285$ \\
+\bottomrule
+\end{tabularx}
+\end{table*}
 
-The checker returned the expected result for all 18 rule fixtures and 14 artifact-derived controls: 19 Fail, 11 Pass, and two N/A decisions. A correct control result included flagging a deliberately introduced defect. For example, changing the external query parameter from \texttt{query/item-query} to a header or a wrong name triggered the source-role rule. Removing the displayed denominator, disabling the stated zero guard, or replacing the safeguard sentence with a repeated heading triggered the condition rule. Removing a conflict's Review Queue entry or adding certification wording beside unresolved status also triggered the relevant rule. Across the 30 binary controls, the checker missed zero introduced defects and raised zero false alarms; the other two controls returned N/A.
+The source-role and condition criteria remain the focus of the discrepancy analysis. The authority operationalization was set aside because its judgments showed less agreement than the frequency-based baseline. The broad disagreement criterion is reported with its applicability-sensitive agreement, while explicit-marker routing is retained as a separate technical result. These are analysis decisions informed by the observed labels and examples.
 
+Table~\ref{tab:matrix} preserves the complete document-level comparisons. Source roles yield two shared Fail documents, two checker-Fail/majority-Pass documents, fourteen checker-Pass/majority-Fail documents, and ten shared Pass documents. The corresponding reference-relative precision is 50\% and recall is 12.5\%. For conditions, case C17 has A=N/A, B=Pass, and C=Fail and is excluded from the majority comparison. The remaining 27 cases yield precision 40\% and recall 100\% against that reference.
 
-\subsection{\texorpdfstring{Reviewer Agreement and Checker Results}{Reviewer Agreement and Checker Results}}
-Across the 112 page--criterion combinations, average pair agreement was 0.634 and Fleiss' $\kappa$ was 0.446, with one unresolved majority decision. Agreement was 0.553 for condition disclosure, 0.407 for source-role accuracy, 0.452 for disagreement preservation, and $-0.285$ for review-authority consistency. All 84 authority ratings were explicit Pass or Fail decisions. The negative authority agreement led us to reject that operational definition as a reliable assessment criterion \citep{Fleiss1971}.
+\begin{table*}[t]
+\centering
+\caption{Checker decisions against majority document labels. TP=true positive, FP=false positive, FN=false negative, and TN=true negative. They count document--criterion pairs, with Fail positive and Pass/N/A grouped as non-fail. Exact matches retain all three categories. The source-role rationales underlying the shared and discordant Fail labels are examined in Section~\ref{sec:rationales}.}
+\label{tab:matrix}
+\begin{tabularx}{\textwidth}{@{}lrrrrrrrY@{}}
+\toprule
+Criterion & TP & FP & FN & TN & Precision & Recall & \shortstack{Exact\\matches} & Compared documents \\
+\midrule
+Source-role accuracy & 2 & 2 & 14 & 10 & 0.50 & 0.125 & 12 & 28 \\
+Condition disclosure & 2 & 3 & 0 & 22 & 0.40 & 1.00 & 22 & 27; C17 has no majority \\
+Representation disagreement & 0 & 0 & 4 & 24 & Undefined & 0.00 & 24 & 28 \\
+Review-authority consistency & 19 & 0 & 3 & 6 & 1.00 & 0.864 & 19 & 28 \\
+\bottomrule
+\end{tabularx}
+\end{table*}
 
-For disagreement preservation, agreement across all 28 cases, including N/A judgments, was $\kappa=0.452$. Restricting the analysis to the seven cases judged applicable by all three reviewers gave $\kappa=-0.167$. This comparison changed which cases were included, rather than treating N/A as a missing response. We therefore removed the broad disagreement criterion from the retained assessment dimensions and reported preservation of explicitly marked conflicts as a separate LEAP-specific routing check.
+The Phase-A majority identified an issue in 18 of 28 documents. Phase B identified an issue in 23 of 28. The five additional documents, C03, C08, C11, C20, and C21, all arose from the authority criterion, with A and C assigning Fail and B assigning Pass. The additional labels therefore concern the criterion set aside after its agreement analysis.
 
-Table~\ref{tab:independent} reports the full checker comparisons. Figure~\ref{fig:checker_results}a shows the source-role coverage directly: the checker detected two of the 16 pages identified by reviewer majority and missed the remaining 14, giving 12.5\% recall. It also flagged two pages rated Pass by the majority. Two of its four flags were therefore supported, giving 50\% precision. For condition disclosure, the comparison across resolved cases gave 40\% precision and 100\% recall; the three disputed flags are examined below.
+\subsection{What the source-role labels mean}
+\label{sec:rationales}
+The rationale inspection changes the interpretation of the two overlapping Fail documents. For C09, Flare Emission Recovery Rate, reviewers A and B discuss a mismatch between health, safety and environment (HSE) and Finance ownership, while reviewer C identifies comments described as executable statements or aliases. The checker flags the latter source-role patterns. For C18, Polymer Melt Flow Index Variance, A and B discuss a mismatch between the formula and gas-recovery variables, while C describes the comment/executable-role problem recognized by the checker. In each document, all three reviewers assign Fail, yet the checker finding corresponds to reviewer C's reason. The agreement at document level combines different judgments about that document.
 
-\begin{figure*}[t]
+The two alerts against majority-Pass labels show the converse relationship. In C12, Ethylene Production Yield, the retained Python docstring contains the phrase ``as a percentage.'' The generator interprets the word following ``as'' as an output alias and publishes ``Output alias: maps this expression to a in the result set.'' The checker and reviewer C flag the assignment of a programming role to an ordinary word in prose. In C27, On-Spec Rate, both identify the SQL conversion type \texttt{FLOAT} being called an output alias instead of \texttt{on\_spec\_percentage} (Figure~\ref{fig:sql-source-role}). Source inspection establishes these concrete discrepancies. Their FP designation in Table~\ref{tab:matrix} records disagreement with the majority category.
+
+The fourteen majority-Fail documents without a checker alert cover several rationale topics. Table~\ref{tab:ledger} includes all sixteen majority-Fail documents so the two overlapping cases remain visible in the same account. Comments described as KPI markers recur in the reviewer explanations. A KPI marker is a label used to identify a candidate calculation; the released rule's executable-role patterns do not include that documentary role. Other judgments concern ownership, formula meaning, source-system identity, and metric interpretation, which require different comparisons from the implemented role patterns.
+
+\begin{table*}[t]
+\centering
+\small
+\caption{All 16 majority-Fail source-role documents. Votes are Code reviewers A/B/C; F=Fail and P=Pass. Rationale topics summarize the preserved explanations and may differ within a row. The last column identifies the relevant rule-scope relationship. Full source excerpts and rationales are in the case ledger.}
+\label{tab:ledger}
+\begin{tabularx}{\textwidth}{@{}lp{.22\textwidth}llYY@{}}
+\toprule
+Case & KPI document & Votes & Checker & Rationale topics & Rule-scope relationship \\
+\midrule
+C01 & Gross Margin Percentage & F/F/F & Pass & Formula meaning; conflict-comment role & Formula correspondence and documentary role \\
+C05 & Runtime Execution Latency & F/F/P & Pass & Metric meaning; executable-statement role & Meaning of execution versus reported latency \\
+C06 & Inventory Modification Gap & P/F/F & Pass & Comment role; metric meaning & KPI-marker and business-meaning distinctions \\
+C09 & Flare Emission Recovery Rate & F/F/F & Fail & Ownership; comment/executable role & Checker matches C's role reason; A/B assess ownership \\
+C10 & Compressor Vibration Index & F/F/F & Pass & Comment role & KPI-marker distinction outside executable-role patterns \\
+C13 & EU Data Export Volume & F/F/F & Pass & Comment role; metric meaning & KPI-marker and procedure/metric distinctions \\
+C14 & Safe Execution Latency & F/F/F & Pass & Comment role; metric meaning & KPI-marker and length/latency distinctions \\
+C15 & Signed Lineage Audit Trail & F/P/F & Pass & Comment role & KPI-marker distinction \\
+C16 & Catalyst Replacement Frequency & F/F/F & Pass & Source-system correspondence; comment role & Source-system and documentary-role comparisons \\
+C17 & Procurement Contract Compliance & F/F/F & Pass & Formula provenance; comment role & Declared/inferred formula and governance commentary \\
+C18 & Polymer Melt Flow Index Variance & F/F/F & Fail & Formula/source correspondence; comment/executable role & Checker matches C's role reason; A/B assess formula variables \\
+C19 & HSE Safety Incident Rate & F/F/F & Pass & Data-domain/owner correspondence; comment role & Domain, ownership, and documentary-role comparisons \\
+C23 & Maintenance/Operating Cost Ratio & F/F/P & Pass & Metric/formula correspondence & Variable meaning versus metric title \\
+C24 & Customer Activity Index & F/F/F & Pass & Comment role; output/calculation role & Marker and print/calculation distinctions \\
+C25 & Governed Inventory Modification & F/P/F & Pass & Comment role & Audit-control comment classified as KPI marker \\
+C28 & Audit Trail Completeness & F/F/F & Pass & Comment role; metric meaning & Unsigned-trace annotation classified as KPI marker \\
+\bottomrule
+\end{tabularx}
+\end{table*}
+
+C13 and C28 illustrate a concrete omitted documentary-role distinction. Their source comments describe a cross-border data transfer and unsigned trace records, respectively, while the published descriptions call those comments KPI markers. The checker returns Pass. Reviewers A and C identify the same marker-role problem in these cases. They provide source-grounded examples of rule-scope omissions alongside the broader interpretation differences visible elsewhere in the ledger.
+
+Taken together, the four alerts and the full majority-Fail set explain why the aggregate counts require a rationale-level reading. The rule suite covers specified syntactic-role patterns. The review category also collects judgments about documentary roles and relationships across fields. Matching or opposing document labels can therefore arise from different underlying comparisons. Figure~\ref{fig:comparison} displays the label counts together with that interpretation.
+
+\begin{figure*}[!htbp]
 \centering
 \input{figures/checker_results.tex}
-\caption{What the automated checks detected and where reviewer judgments differed. (a) The bar partitions the 16 pages with a reviewer-majority source-role failure into two detected and 14 missed pages. The two additional checker flags occurred on majority-Pass pages. (b) The same five condition flags are shown under the two disclosure criteria observed among reviewers on ten eligible pages. Raters A and B supported two flags; Rater C supported all five. The Rater C row measured agreement with the reader-facing criterion implemented by the checker. Tables~\ref{tab:independent}--\ref{tab:condition_criteria} retain the complete counts and case details.}
-\label{fig:checker_results}
+\caption{Two reference-dependent comparisons. Panel(a) counts source-role document labels; the two overlapping Fail documents have different majority and checker rationales. Panel(b) holds the ten eligible condition documents and five checker alerts fixed while comparing the recorded reviewer labels.}
+\label{fig:comparison}
 \end{figure*}
 
-\begin{table*}[t]
-\centering
-\caption{Independent reviewer agreement and unconditional checker comparison. FAIL is the positive class. Precision and recall are computed against reviewer-majority labels on the fixed dossier set.}
-\label{tab:independent}
-\begin{tabularx}{\textwidth}{@{}lrrrrrrrrY@{}}
-\toprule
-Candidate & Fleiss' $\kappa$ & TP & FP & FN & TN & Precision & Recall & Exact / $n$ & Empirical disposition \\
-\midrule
-Source-role accuracy & 0.407 & 2 & 2 & 14 & 10 & 0.50 & 0.125 & 12/28 & Dimension retained; released rule fails coverage at 12.5\% recall. \\
-Condition disclosure & 0.553 & 2 & 3 & 0 & 22 & 0.40 & 1.00 & 22/27 & Dimension retained; majority comparison reflects the source-visibility criterion in three disputed cells. \\
-Disagreement candidate & 0.452 & 0 & 0 & 4 & 24 & -- & 0.00 & 24/28 & Broad criterion removed; agreement on commonly applicable cases was $\kappa=-0.167$; routing reported separately. \\
-Review-authority candidate & $-0.285$ & 19 & 0 & 3 & 6 & 1.00 & 0.864 & 19/28 & Criterion rejected; all 84 ratings were Pass or Fail, giving $\kappa=-0.285$. \\
-\bottomrule
-\end{tabularx}
-\end{table*}
-
-Cases C13 and C28 illustrate the source-role coverage limitation. Their source comments describe, respectively, a cross-border transfer of personal data and unsigned trace records, but the published explanations classify those documentary comments as KPI markers, labels intended to identify KPI calculation candidates. The checker returns Pass for both dossiers, whereas all three reviewers assign source-role Fail. Its implemented patterns detect comments assigned executable roles and SQL cast types mistaken for output aliases; they do not detect these incorrect assignments between documentary roles.
-
-The three condition checker-majority disagreements are C01 (Gross Margin Percentage), C12 (Ethylene Production Yield), and C26 (Yield Percentage). Each has the same vote split: Rater A = Pass, Rater B = Pass, and Rater C = Fail, while the checker records Fail. Evidence inspection shows a consistent definition boundary. Raters A and B use a \emph{source-visibility} criterion: a visible source condition counts as disclosed. Rater C and the checker use a \emph{reader-facing} criterion: the published safeguard layer must communicate the condition and bind it to the displayed representation. In C01, the source guard protects \texttt{cost == 0} while the displayed business formula denominator is Revenue and the safeguard says only ``zero denominator.'' In C12 and C26, the source visibly contains the zero/non-positive branch while the Logic Safeguards block omits that branch.
-
-Figure~\ref{fig:checker_results}b shows why condition precision differed: the checker flagged the same five pages, while reviewers differed on whether a condition visible in the source also had to appear in the written explanation. Raters A and B supplied identical labels on the ten eligible pages and supported two flags; Rater C supported all five. The disputed flags were C01, C12, and C26. Precision was therefore 2/5 (40\%) against Raters A and B and 5/5 (100\%) against Rater C. The other five eligible pages were Pass for the checker and all reviewers, and recall was 100\% under both criteria. The Rater C comparison measured agreement with the reader-facing criterion implemented by the checker. Table~\ref{tab:condition_criteria} gives the complete counts.
+\subsection{Condition judgments and their underlying evidence}
+The condition comparison uses ten eligible documents. The checker flags C02, C10, C01, C12, and C26. Reviewers A and B have identical labels on all ten, supporting C02 and C10 and accepting the other three flagged documents. Reviewer C supports all five alerts. The remaining five documents are Pass for every reviewer and the checker. Table~\ref{tab:conditions} reports both matrices with the same denominator.
 
 \begin{table*}[t]
 \centering
-\caption{Condition cells where checker FAIL conflicts with reviewer-majority PASS. Every cell is a 2--1 split over what counts as disclosure.}
-\label{tab:condition_disagreement}
-\begin{tabularx}{\textwidth}{@{}llYYY@{}}
-\toprule
-Case & Dossier & Majority basis & Checker and Rater C basis & Interpretation \\
-\midrule
-C01 & Gross Margin Percentage & Visible \texttt{cost==0} branch counted as disclosed & Guarded Cost conflicts with displayed Revenue denominator; generic safeguard loses binding & Representation-binding criterion disagreement \\
-C12 & Ethylene Production Yield & Visible \texttt{feedstock\_\allowbreak{}input\_\allowbreak{}tons <= 0} branch counted as disclosed & Reader-facing safeguards omit the non-positive branch & Source-visibility versus reader-facing-disclosure disagreement \\
-C26 & Yield Percentage & Visible \texttt{total\_input = 0} branch counted as disclosed & Reader-facing safeguards omit the zero-input branch & Source-visibility versus reader-facing-disclosure disagreement \\
-\bottomrule
-\end{tabularx}
-\end{table*}
-
-\begin{table*}[t]
-\centering
-\caption{Condition-rule sensitivity on the same 10 checker-eligible cases under the two disclosure criteria observed in independent review. FAIL is the positive class. The Rater C row measures self-consistency with the reader-facing criterion implemented by the checker; the multi-reviewer analysis provides the independent comparison.}
-\label{tab:condition_criteria}
+\caption{Condition alerts against recorded reviewer references on the same ten eligible documents. TP=true positive, FP=false positive, FN=false negative, and TN=true negative, with Fail positive. The checker output is unchanged between rows; each row names the labels used as the reference.}
+\label{tab:conditions}
 \begin{tabularx}{\textwidth}{@{}Xrrrrrr@{}}
 \toprule
-Criterion & TP & FP & FN & TN & Precision & Recall \\
+Reviewer reference & TP & FP & FN & TN & Precision & Recall \\
 \midrule
-Source visibility (Raters A and B) & 2 & 3 & 0 & 5 & 0.40 & 1.00 \\
-Reader-facing publication (Rater C) & 5 & 0 & 0 & 5 & 1.00 & 1.00 \\
+Reviewers A and B (identical labels) & 2 & 3 & 0 & 5 & 0.40 & 1.00 \\
+Reviewer C & 5 & 0 & 0 & 5 & 1.00 & 1.00 \\
 \bottomrule
 \end{tabularx}
 \end{table*}
 
-In Phase A, reviewer majority identified issues in 18/28 pages. In Phase B, it identified issues in 23/28. The five additional cases---C03, C08, C11, C20, and C21---all arose from the authority criterion and had the same split: Raters A and C marked Fail, whereas Rater B marked Pass. These counts describe the two sequential phases; the same reviewers assessed the same cases in that fixed order.
+The three disputed documents are Gross Margin Percentage (C01), Ethylene Production Yield (C12), and Yield Percentage (C26). Each has A=Pass, B=Pass, C=Fail, and checker=Fail. A and B describe the condition as disclosed or faithfully represented; C identifies an omitted branch or an unidentified guarded variable in the written safeguard. These Pass judgments motivated a retrospective source-visibility interpretation of the three disputed cases. The full notes show additional differences in what the reviewers observed and assessed.
 
-The evaluation retained source-role accuracy and condition disclosure as assessment criteria, reported marked-conflict routing separately, and rejected the review-authority criterion. The source-role rule missed most majority-reference failures. Condition-rule decisions matched the reader-facing labels on all 10 eligible cases and differed from the source-visibility labels on three.
+In C02, Mean Time Between Failures, both A and B assign Fail despite explicitly noting the visible zero-failure guard. A questions whether the returned operating-hours value is faithfully explained; B identifies the absence of a corresponding condition in the displayed formula or safeguards. In C12, B's Pass note calls the guard ``visible and explicitly safeguarded,'' whereas the preserved safeguard omits that branch. In C10, A's Fail rationale concerns the performance classification produced when \texttt{index >= 1.0}; the checker flags omission of the separate non-positive-baseline guard. Thus matching condition labels can also refer to different conditions, and a Pass rationale can contain an observation inconsistent with the saved document.
 
-\subsection{Comparison with source-linkage verification}
-We used the same Yield and Gross Margin pages for two checks. First, we checked whether each page identified and exposed the source needed to inspect the calculation. Second, we compared its source-role descriptions and safeguards with that code. We recorded a source-role failure for a wrong description of a source element and a condition failure for an omitted branch or a safeguard that referred to the wrong variable or formula. Table~\ref{tab:baseline} reports the two sets of findings separately.
+For C12, Listing~\ref{lst:yield} shows the retained function. Positive feedstock uses the displayed ratio, while zero or negative feedstock returns zero. The written safeguard omits that branch. For C26, the source contains a zero-total-input branch that is also omitted from the safeguard. In both cases, the source remains available and the dedicated explanatory field lacks the behavior under discussion.
 
-Both dossiers pass the source-linkage baseline. Yield's fidelity inspection identifies a source-role failure because a function docstring is described as an output alias, and a condition-disclosure failure because its reader-facing safeguards omit the return-zero branch for non-positive feedstock. Gross Margin's condition inspection identifies a representation-binding discrepancy: the safeguard loses the identity of the guarded denominator relative to the displayed formula. Its explicit formula conflict remains preserved in review routing. The condition findings in this comparison use the reader-facing criterion; the source-visibility judgments and their disagreement with that criterion are reported in Table~\ref{tab:condition_disagreement}. These paired observations show precisely what semantic inspection adds after source availability has been established.
-
-\begin{table}[t]
-\centering
-\caption{Source-linkage baseline and additional explanation-fidelity findings in the two detailed cases.}
-\label{tab:baseline}
-\begin{tabularx}{\columnwidth}{@{}lYY@{}}
-\toprule
-Case & Source linkage / provenance & Explanation-fidelity result \\
-\midrule
-Ethylene Production Yield & Pass: source statement and executable guard retained & Source-role Fail; condition-disclosure Fail under the reader-facing criterion \\
-Gross Margin Percentage & Pass: declared and executable representations retained with review state & Condition-disclosure Fail under the reader-facing binding criterion; explicit-conflict routing preserved \\
-\bottomrule
-\end{tabularx}
-\end{table}
-\FloatBarrier
-\section{Detailed Case Analysis}
-The following two cases show how the audit works on specific calculations. For each, we examine the business meaning, the software calculation, what the generated page tells its reader, and where those descriptions disagree.
-
-The Yield and Gross Margin cases show how an inaccurate explanation can coexist with accessible source evidence. The first case concerns a missing condition that changes the returned value; the second concerns conflicting formulas and an incomplete safeguard description. Both are traced to their source statements below.
-
-\subsection{Ethylene Production Yield}
-Ethylene Production Yield measures ethylene output relative to the feedstock supplied to a production process. A reader expects a percentage calculated by dividing output by input and multiplying by 100. The software must also decide what to do when the input is zero or negative. In this archived example, it returns zero instead of performing the division. The audit examined whether the generated explanation told readers about that branch.
-
-Listing~\ref{lst:yield-source} shows the Python function used to calculate Yield, including the return-zero condition.
-\begin{lstlisting}[float=tbp,label={lst:yield-source},language=Python,breaklines=true,breakatwhitespace=true,caption={Verbatim Yield source excerpt from the frozen dossier source; SHA-256 identity is retained in the supplement.}]
+\begin{lstlisting}[float=tbp,label={lst:yield},language=Python,breaklines=true,breakatwhitespace=true,caption={Retained source for Ethylene Production Yield (C12). The non-positive-input branch is absent from the document's safeguard field.}]
 def calculate_ethylene_yield_pct(ethylene_produced_tons: float, feedstock_input_tons: float) -> float:
     """Calculates ethylene production yield as a percentage of feedstock input."""
     if feedstock_input_tons <= 0:
         return 0.0
     return (ethylene_produced_tons / feedstock_input_tons) * 100.0
 \end{lstlisting}
-The dossier displays the positive-input ratio as its Formal Formula. The frozen source uses \texttt{feedstock\_\allowbreak{}input\_\allowbreak{}tons <= 0} and returns 0.0 on that branch. The reader-facing Logic Safeguards block omits this non-positive-input behavior. For the docstring shown in Listing~\ref{lst:yield-source}, the generated lineage text states ``Output alias: maps this expression to a in the result set.'' \baj{I don't understand -- what is "a"?} The word ``a'' appears literally in the generated page; it is not the name of a variable or output in this Python function. The generator incorrectly treats a descriptive docstring as an output alias and produces a nonsensical alias description. Direct source comparison establishes the source-role error. The condition finding illustrates the criterion boundary exposed by independent review: two reviewers counted the visible source branch as disclosure, whereas one reviewer and the checker required the reader-facing safeguard layer to state the branch.
 
-\subsection{Gross Margin Percentage}
-\label{sec:gross-margin}
-Gross Margin Percentage normally expresses the share of revenue remaining after costs. Unlike Yield, this case concerns two conflicting calculations: the business formula printed in the dossier and the expression executed by the software. Showing both formulas makes the disagreement visible before examining the resulting numbers.
+C01 adds a relationship between formulas and guarded variables. Its declared Gross Margin formula divides revenue minus cost by revenue. The implemented expression divides revenue by cost. The source guard protects \texttt{cost == 0}, while the written safeguard says only ``zero denominator.'' This loses which denominator is being guarded relative to the displayed formula. Table~\ref{tab:worked} gives concrete outputs for the detailed cases.
 
-Let $R$ be revenue and $C$ be cost. The declared Gross Margin formula $D$ and the implemented expression $I$ differ:
+\begin{table}[t]
+\centering
+\caption{Concrete calculations illustrating the disclosure issue. Values are evaluations of the retained expressions; undefined means division by zero in the declared expression.}
+\label{tab:worked}
+\begin{tabularx}{\columnwidth}{@{}Xrr@{}}
+\toprule
+Calculation and inputs & \shortstack{Declared\\(\%)} & \shortstack{Implemented\\(\%)} \\
+\midrule
+Yield: output 20, input 100 & 20 & 20 \\
+Yield: output 20, input 0 & Undefined & 0 \\
+Yield: output 20, input $-10$ & $-200$ & 0 \\
+Gross margin: revenue 100, cost 50 & 50 & 200 \\
+Gross margin: revenue 100, cost 0 & 100 & 0 \\
+Gross margin: revenue 0, cost 50 & Undefined & 0 \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+Writing revenue as $R$ and cost as $C$, the declared expression is $100(R-C)/R$ and the implemented expression is $100R/C$. For positive revenue and cost, their difference is
 \[
-D=100\frac{R-C}{R}, \qquad I=100\frac{R}{C}.
+100\left(\frac{R}{C}+\frac{C}{R}-1\right)
+=100\left(1+\frac{(R-C)^2}{RC}\right)\ge100.
 \]
-For $R>0$ and $C>0$,
-\[
-\begin{aligned}
-I-D &=100\left(\frac{R}{C}+\frac{C}{R}-1\right) \\
-&=100\left(1+\frac{(R-C)^2}{RC}\right)\ge 100.
-\end{aligned}
-\]
-Thus the implemented expression exceeds the declaration by at least 100 percentage points throughout the strictly positive domain, with equality in this lower bound when $R=C$. At positive revenue and zero cost, the declaration evaluates to 100 while the implementation guard returns zero; at zero revenue and positive cost, the declaration is undefined while the implementation returns zero.
+The expressions therefore differ by at least 100 percentage points on that domain. The document retains both expressions and routes their explicit disagreement for review. Its preserved conflict routing and its ambiguous safeguard concern separate fields and checks.
 
-The dossier correctly routes the explicit disagreement through \emph{Needs Review} and a Review Queue. Its safeguard text nevertheless describes a generic zero denominator even though the declared and executable representations use different denominators, and certification-oriented language appears alongside unresolved status. The page preserves explicit-conflict routing while also exhibiting a guard-binding discrepancy and certification wording beside an unresolved review state.
+The condition precision values follow directly from the recorded labels: two of five alerts are Fail under A/B's reference and five of five are Fail under C's reference. The 100\% row records agreement with C on this ten-document set. The three changed reference labels account for the numerical difference; the notes establish differences in assessment targets and observations about the explanation.
 
 \section{Discussion}
-\subsection{Interpretation of the Core Findings}
-The Introduction asked whether a generated KPI page correctly explained the calculation it linked to. The Yield and Gross Margin cases showed why source access and explanation accuracy required separate checks: the code remained available while the page omitted a behavior-changing branch or lost the identity of the guarded denominator. Tracing those errors to the generator answered RQ1 by locating where the explanation went wrong. Recurring errors across archived outputs and alternative inputs were traced to shared generation rules; the changing guard outcomes showed that the same generator could describe some inputs correctly and others incompletely (RQ2).
+\subsection{What the study establishes}
+The findings identify three distinct evidence levels in evaluating generated-documentation checks. Prepared controls establish the rule's specified behavior on those inputs. Document-level comparisons establish how often its category matches a named reference category. Source and rationale inspection establishes what each assessment is actually identifying. The LEAP evidence shows how these levels can diverge within the same evaluation.
 
-The reviewer comparison separated agreement on an assessment criterion from the coverage of its automated rule (RQ3--RQ4). Source-role accuracy and condition disclosure received positive reviewer agreement, yet the source-role rule detected only two of 16 majority-reference failures. Agreement on what should be checked and success in detecting it were therefore distinct results. The other candidates required different treatment. Negative agreement led us to reject review-authority consistency. Negative agreement on commonly applicable disagreement cases led us to retain only the narrower marked-conflict routing check. Preserving a marked conflict and accurately explaining a calculation remained separately assessable properties.
+The source-role results are especially informative because the apparent agreements and disagreements both require inspection. C09 and C18 count as shared Fail documents even though the majority rationales concern different fields from the checker finding. C12 and C27 count as reference-relative false positives even though their source excerpts establish the particular role errors flagged. C13 and C28 identify omitted documentary-role distinctions that the implemented patterns leave unchecked. These observations answer RQ3 through separate mechanisms rather than one pooled explanation for all fourteen checker-Pass/majority-Fail documents.
 
-\subsection{Relation to Prior Research}
-The observed errors align with code--documentation consistency research. \citet{Xu2024} developed a method for detecting inconsistent code comments that addressed noise and labeling errors in training data. \citet{Zhou2017} compared API documentation with code to detect defects in parameter constraints and exception directives. The LEAP findings connect these concerns to generated KPI pages: the SQL example misdescribed a source element, while Yield omitted an implemented condition. Our study extended the comparison to business-facing formula, explanation, and safeguard fields, then traced errors to the generator. Separately assessing reviewer agreement and checker coverage exposed both ambiguity in the criterion and gaps in the implemented patterns.
+The condition result answers RQ4 through the recorded reviewer references. The three changed labels explain the difference in precision, while the notes reveal several reasons for disagreement. The C02 Fail judgments require explanatory information beyond a visible branch; the C12 Pass rationale includes an incorrect observation about the safeguard; and C10 contains matching Fail labels for different conditions. The source-role and condition analyses therefore support the same evaluation practice: inspect the cited discrepancy and document evidence alongside the category.
 
-Traceability and inconsistency-management research help explain what the retained evidence contributed. \citet{MaderGotel2012} studied maintenance of traceability links as software models changed; our audit examined explanations after the relevant source links were already present. The links made the disputed calculation inspectable. \citet{Nuseibeh2001} described retaining and managing known inconsistencies as part of software development. Gross Margin provided a concrete instance: both formulas and their review routing remained visible, making their disagreement available for inspection. The inaccurate safeguard on that same page showed why preserving a conflict and explaining the associated calculation are complementary responsibilities.
+RQ1 supplies the mechanism context: the generator's role classifier, safeguard preparation, and status-independent wording recur in the archived outputs. RQ2 supplies the categorical record: per-criterion agreement differs, applicability affects the disagreement subset, and the authority criterion has negative chance-adjusted agreement. Together, the four questions explain both the generated descriptions and the assessment procedure used to judge them.
 
-\subsection{Why the Checks Disagreed with Reviewers}
-The checker and a reviewer can disagree because the rule misses a type of error or because they use different definitions of what counts as adequate documentation. The source-role and condition findings show these two reasons separately.
+\subsection{Relationship to established verification and evaluation}
+The case evidence complements controlled-language and contract-based checking \citep{KuhnBergel2014,Lozano2015}. Those approaches make a property explicit enough to execute. In the present evaluation, the source-role label was applied to a wider set of relationships than the implemented patterns. The observed mismatch makes the distinction between a criterion and its rule operational: an evaluator can identify the source relationship required by a judgment and check whether that relationship belongs to the rule's supported vocabulary.
 
-Figure~\ref{fig:sql-source-role} shows how a generator pattern produced a source-role error: a generic \texttt{AS} match selected the SQL conversion type instead of the final output alias. The checker targeted specified patterns of this kind and returned all expected control decisions. Cases C13 and C28 exposed a different gap: documentary comments were called KPI markers, whereas the checker targeted comments described as executable code and cast types described as aliases. Those cases explain how correct execution of prepared controls coexisted with low recall on reviewer-identified errors (Figure~\ref{fig:checker_results}a). They identify a missing class of role distinctions for subsequent rule development.
+The rationale analysis also connects with defect-matching evaluations such as \citet{HabibPradel2018}. A document can contain several concerns, so categorical co-occurrence is a coarser unit than a matched source-level discrepancy. Our preserved matrix is useful for comparing document decisions; the case ledger explains the mechanisms behind it. This relationship gives a concrete reason to retain the affected source span, document field, and written rationale when collecting labels.
 
-The condition result arose through a different mechanism (Figure~\ref{fig:checker_results}b). The checker flagged the same five pages under both comparisons. Raters A and B accepted source visibility as disclosure, whereas Rater C required the written safeguard to state the condition and its variable. Consequently, the same three flags changed from unsupported to supported when the reference criterion changed, producing precision of 40\% and 100\%. The difference came from how disclosure was judged. For Yield, the disputed information was present in code but absent from safeguards; for Gross Margin, the safeguard lost the relationship between the guarded variable and the displayed denominator. These cases explain why an explicit disclosure definition is needed to interpret checker performance.
+Behavioral documentation research clarifies the condition result \citep{Zhou2017,Yang2026OCL2NL,Eghbali2026}. A condition may be available in source while absent from the explanation intended to communicate it. The evaluation must specify which representation carries the obligation. This study supplies inspectable instances of that difference, including the wrong-variable safeguard in Gross Margin and omitted branches in the two Yield documents. Its contribution to evaluation research is the documented relationship between those instances and the reference-relative scores.
 
-\subsection{Practical and Scientific Implications}
-The worked cases provide concrete review questions. For Yield, a documentation maintainer should check that the explanation states the return-zero behavior for non-positive feedstock. For Gross Margin, the maintainer should identify the denominator being guarded and preserve both conflicting expressions and the review state. The source excerpt, generated description, and located discrepancy form a reviewable record connecting the business explanation to implementation evidence. Generator tracing then identifies the rule or template to inspect when the same error appears on several pages. This is a practical use of the evidence produced by the audit.
+\subsection{An evidence structure for subsequent checking studies}
+The case analysis supports recording six linked items for each decision: the documentation property, source excerpt, generated field, rule reason, reviewer category, and reviewer rationale. These items let an evaluator distinguish an omitted rule pattern, a different assessment target, and a genuinely matching discrepancy. Their purpose follows from the observed cases: the same Fail label at C09/C18 concealed different problems, while source inspection explained the discordant alerts at C12/C27.
 
-For subsequent checker development, the findings support two separate priorities: extend source-role patterns to the documentary distinctions illustrated by C13/C28, and specify the condition-disclosure criterion before collecting comparison judgments. A subsequent evaluation should test revised rules on additional codebases and retain separate measurements of reviewer agreement, rule conformance, and detection coverage. These measures address different questions about an audit. Comparative documentation studies and cross-role interpretation studies would then address correction effort, business readers' understanding, and joint review with developers as distinct outcomes.
+Subsequent studies can specify the required publication layer before collecting labels and define whether evaluation counts documents or individual discrepancies. Control tests can continue to verify implemented behavior, with a separate source-grounded reference for empirical comparisons. The source-role ledger identifies concrete extensions to investigate, including documentary-marker classification and relationships between titles, formulas, variables, and ownership. The condition cases identify variable binding and branch disclosure as explicit comparison requirements.
 
-\subsection{Study Limitations}
-\label{sec:study-limitations}
-The 28 pages came from one author-developed system; shared generation rules produced repeated errors, so page counts describe this output rather than independent generators. The earlier and alternative-input outputs extended the within-system comparison, and the four FastAPI tutorial examples established adapter execution. Broader recurrence requires evidence from other generators. The three-reviewer majority was a comparison reference, with overall $\kappa=0.446$, rather than a separately adjudicated final set. Reviewer disagreement therefore affects estimates measured against that reference. Original N/A labels indicated inapplicability; restricting analysis to common applicability changed the case set and the disagreement estimate. The source-visibility and reader-facing criteria were identified in the returned judgments, so the Rater C comparison measures agreement with the criterion implemented by the checker.
+\section{Limitations}
+\label{sec:limitations}
+The 28 primary documents came from one author-developed generator and a fixed sample-project output. Shared rules produced repeated descriptions, so document counts are not independent generator observations. The historical, scenario, and challenge outputs extend within-system evidence. The FastAPI cases establish execution on another format and are not an independently labelled external accuracy sample. The case selection supports a detailed diagnosis of these artifacts rather than a population estimate of documentation quality.
 
-The fixed phase order and inclusion of both phase instructions in one packet prevented separation of checklist effects from familiarity or prior rubric access. The increase from 18/28 to 23/28 flagged pages was descriptive; all five additions arose from the rejected authority criterion. Root-cause inspection traced existing output to generator code; a prospective correction-and-retest evaluation remains future work. The routing check covered explicitly marked conflicts, and the condition rule covered comparisons with zero. Near-zero tolerances and function-domain cases require separate rules: real square roots require nonnegative inputs, logarithms positive inputs, and inverse sine/cosine inputs in $[-1,1]$; inverse tangent accepts all real inputs, and positive-base exponentiation allows negative exponents. The recorded outcomes concern documentation and checking. Human comprehension, correction time, and collaborative benefit require dedicated outcome studies.
+The three reviewers' backgrounds and relevant experience were not recorded in the returned forms. Their majority categories are a comparison reference, not adjudicated defect labels. The source-role criterion admitted heterogeneous rationale topics; the retrospective ledger organizes those topics without replacing the original judgments. Positive kappa measures observed category agreement and does not validate the correctness of every rationale. Overall kappa pools different criteria, while common-applicability analyses change the evaluated subset. No inference to a new reviewer population is made.
+
+Archived guidance contains both two-reviewer and three-reviewer versions and differing agreement-statistic instructions. The completed study used three forms, Fleiss' kappa, and majority labels, without the planned adjudication. Both phase instructions were in one packet and the phase order was fixed, so the change from 18 to 23 flagged documents cannot identify a checklist effect separately from familiarity or prior access to the criteria. All five additional cases arose from the authority criterion.
+
+The condition comparison uses recorded reviewer references rather than prospectively assigned disclosure rubrics. The notes do not establish two definitions consistently applied across the eligible set: A/B also require explanatory information beyond source visibility, and some recorded observations conflict with the saved text. Reviewer identity, assessment target, and observation are inseparable in this retrospective comparison. The 100\% row uses one reviewer's labels on ten eligible documents. Establishing defect-level accuracy or a causal effect of a revised rubric requires a separately defined and adjudicated reference exercise.
+
+Generator mechanisms were traced by source inspection; a prospective repair-and-retest experiment was not performed. The source-role rules cover selected patterns, the routing check covers explicit conflict markers, and the condition rule covers specified zero/non-positive guards. Near-zero tolerances and other function-domain restrictions require additional rules. Human comprehension, correction time, and collaborative benefit were not measured. The source-level reanalysis establishes particular discrepancies and evaluation relationships without estimating these downstream outcomes.
 
 \section{Conclusion}
-We audited 28 source-linked KPI documentation pages and found descriptions that assigned source elements the wrong role or omitted conditions that changed the calculation. Comparing checker decisions with three reviewers' judgments showed which errors the implemented rules detected and missed. Inspection of the generator code traced repeated discrepancies to their causes. Reviewer agreement supported source-role accuracy and condition disclosure as the two retained assessment criteria.
+This study explains how rule scope, evaluation unit, and reference criteria shape checking results for generated KPI documentation. The checker reproduced all 32 prepared control outcomes. Against majority source-role document labels it flagged two of 16 Fail documents, giving 12.5\% reference-relative recall. Inspection showed that those two shared labels concerned different majority and checker rationales, while two majority-discordant alerts identified concrete source-role errors. The full ledger separates omitted documentary-role patterns from broader differences in what reviewers assessed.
 
-The source-role checker achieved 12.5\% recall. On the same 10 eligible condition cases, precision was 40\% under source visibility and 100\% under reader-facing disclosure, with 100\% recall under both. The 100\% comparison measured agreement with the criterion the checker implemented. The broad disagreement criterion was narrowed to a separate check of explicit-conflict routing, which was preserved in 6/6 cases; negative reviewer agreement led us to reject the review-authority criterion. The initial majority issue set contained 18 of 28 pages.
-
-The study contributed a source-grounded procedure for checking generated KPI explanations and an evaluation that distinguished reviewer support for assessment criteria from the coverage of automated rules. The worked cases located incorrect descriptions in their source evidence and traced repeated errors to generator logic. Subsequent evaluations can test revised checking rules on additional codebases using a disclosure criterion specified before reviewer assessment.
+On ten eligible condition documents, the same five alerts had precision 40\% against the identical labels of reviewers A and B and 100\% against reviewer C's labels. Three changed reference labels account for that difference. Their rationales show differences in the condition assessed and observations about its explanation. Together with the preserved sources, generator excerpts, and reviewer rationales, these findings provide a reproducible empirical account of why correct control decisions, matching document categories, and agreement on the same discrepancy must be examined separately when assessing documentation checkers.
 
 \section*{Data and artifact availability}
-The frozen technical supplement contains the 28 published pages, historical and alternative-input outputs, source and page hashes, audit rules, control labels, scripts, generator excerpts, and the Yield and Gross Margin sources. The unchanged independent-evaluation archive contains the returned-form derivatives, normalized analysis forms, case mapping, reviewer agreement and checker comparisons, and analysis scripts. Files in that archive's raw directory are intermediate exports: 94 original N/A labels appear there as blanks. The accompanying reporting-correction supplement preserves the original obligation responses, a cell-by-cell reconciliation, and both protocol documents. The reconciliation restores the original N/A values and matches all 336 labels used in the analysis.
+The technical supplement preserves the 28 primary documents, historical and alternative-input outputs, source/document hashes, checking rules, control labels, generator excerpts, and execution scripts. The independent-evaluation materials preserve the normalized labels, intermediate exports, case mapping, reviewer rationales, agreement calculations, and checker comparisons. The accompanying case ledger links source excerpts, published fields, reviewer reasons, and rule outcomes. The reporting-correction supplement preserves the original responses and the cell-by-cell reconciliation of all 336 labels, including explicit N/A values. These materials are prepared as accompanying supplementary files; the evidence repository is currently private.
 
 \section*{Declaration of competing interest}
 The authors declare that there are no known competing financial interests or personal relationships that could have appeared to influence the work reported in this paper.
 
 \section*{Declaration of generative AI and AI-assisted technologies in the manuscript preparation process}
-During preparation of this work, the author used Elsevier LeapSpace to support literature discovery, manuscript organization, language refinement, and consistency checking. The authors take responsibility for the content of the article.
+During the preparation of this manuscript, the authors used Elsevier LeapSpace and ChatGPT Work to support literature discovery, source checking, manuscript organization, language refinement, and consistency checks. ChatGPT Work also assisted with verification scripts and reanalysis of preserved study records. The authors reviewed and edited the resulting material and take full responsibility for the content of this article.
 
 \bibliographystyle{cas-model2-names}
 \bibliography{references}

@@ -1,0 +1,169 @@
+\begin{thebibliography}{17}
+\expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
+\providecommand{\url}[1]{\texttt{#1}}
+\providecommand{\href}[2]{#2}
+\providecommand{\path}[1]{#1}
+\providecommand{\DOIprefix}{doi:}
+\providecommand{\ArXivprefix}{arXiv:}
+\providecommand{\URLprefix}{URL: }
+\providecommand{\Pubmedprefix}{pmid:}
+\providecommand{\doi}[1]{\href{http://dx.doi.org/#1}{\path{#1}}}
+\providecommand{\Pubmed}[1]{\href{pmid:#1}{\path{#1}}}
+\providecommand{\bibinfo}[2]{#2}
+\ifx\xfnm\relax \def\xfnm[#1]{\unskip,\space#1}\fi
+%Type = Inproceedings
+\bibitem[{Aghajani et~al.(2019)Aghajani, Nagy, Vega-M{\'a}rquez,
+  Linares-V{\'a}squez, Moreno, Bavota and Lanza}]{Aghajani2019}
+\bibinfo{author}{Aghajani, E.}, \bibinfo{author}{Nagy, C.},
+  \bibinfo{author}{Vega-M{\'a}rquez, O.L.},
+  \bibinfo{author}{Linares-V{\'a}squez, M.}, \bibinfo{author}{Moreno, L.},
+  \bibinfo{author}{Bavota, G.}, \bibinfo{author}{Lanza, M.},
+  \bibinfo{year}{2019}.
+\newblock \bibinfo{title}{Software documentation issues unveiled}, in:
+  \bibinfo{booktitle}{Proceedings of the IEEE/ACM 41st International Conference
+  on Software Engineering}, \bibinfo{publisher}{IEEE}. pp.
+  \bibinfo{pages}{1199--1210}.
+\newblock \DOIprefix\doi{10.1109/ICSE.2019.00122}.
+%Type = Article
+\bibitem[{van Deursen and Moonen(2006)}]{VanDeursenMoonen2006}
+\bibinfo{author}{van Deursen, A.}, \bibinfo{author}{Moonen, L.},
+  \bibinfo{year}{2006}.
+\newblock \bibinfo{title}{Documenting software systems using types}.
+\newblock \bibinfo{journal}{Science of Computer Programming}
+  \bibinfo{volume}{60}, \bibinfo{pages}{205--220}.
+\newblock \DOIprefix\doi{10.1016/j.scico.2005.10.006}.
+%Type = Article
+\bibitem[{Eghbali et~al.(2026)Eghbali, Liu and Pradel}]{Eghbali2026}
+\bibinfo{author}{Eghbali, A.}, \bibinfo{author}{Liu, Z.},
+  \bibinfo{author}{Pradel, M.}, \bibinfo{year}{2026}.
+\newblock \bibinfo{title}{Natural language-focused software engineering via
+  code-documentation equivalence}.
+\newblock \bibinfo{journal}{Proceedings of the ACM on Software Engineering}
+  \bibinfo{volume}{3}.
+\newblock \DOIprefix\doi{10.1145/3808211}.
+%Type = Misc
+\bibitem[{{FastAPI Project}(2026)}]{FastAPI2026}
+\bibinfo{author}{{FastAPI Project}}, \bibinfo{year}{2026}.
+\newblock \bibinfo{title}{{FastAPI} tutorial source examples}.
+\newblock \bibinfo{howpublished}{GitHub repository, commit
+  33d411dbc3236275dd64d200bfe18d5d60a49b2e}.
+\newblock \URLprefix
+  \url{https://github.com/fastapi/fastapi/tree/33d411dbc3236275dd64d200bfe18d5d60a49b2e/docs_src}.
+%Type = Article
+\bibitem[{Fleiss(1971)}]{Fleiss1971}
+\bibinfo{author}{Fleiss, J.L.}, \bibinfo{year}{1971}.
+\newblock \bibinfo{title}{Measuring nominal scale agreement among many raters}.
+\newblock \bibinfo{journal}{Psychological Bulletin} \bibinfo{volume}{76},
+  \bibinfo{pages}{378--382}.
+\newblock \DOIprefix\doi{10.1037/h0031619}.
+%Type = Inproceedings
+\bibitem[{Habib and Pradel(2018)}]{HabibPradel2018}
+\bibinfo{author}{Habib, A.}, \bibinfo{author}{Pradel, M.},
+  \bibinfo{year}{2018}.
+\newblock \bibinfo{title}{How many of all bugs do we find? a study of static
+  bug detectors}, in: \bibinfo{booktitle}{Proceedings of the 33rd ACM/IEEE
+  International Conference on Automated Software Engineering},
+  \bibinfo{publisher}{ACM}. pp. \bibinfo{pages}{317--328}.
+\newblock \DOIprefix\doi{10.1145/3238147.3238213}.
+%Type = Article
+\bibitem[{Knuth(1984)}]{Knuth1984}
+\bibinfo{author}{Knuth, D.E.}, \bibinfo{year}{1984}.
+\newblock \bibinfo{title}{Literate programming}.
+\newblock \bibinfo{journal}{The Computer Journal} \bibinfo{volume}{27},
+  \bibinfo{pages}{97--111}.
+\newblock \DOIprefix\doi{10.1093/comjnl/27.2.97}.
+%Type = Article
+\bibitem[{Kuhn and Bergel(2014)}]{KuhnBergel2014}
+\bibinfo{author}{Kuhn, T.}, \bibinfo{author}{Bergel, A.}, \bibinfo{year}{2014}.
+\newblock \bibinfo{title}{Verifiable source code documentation in controlled
+  natural language}.
+\newblock \bibinfo{journal}{Science of Computer Programming}
+  \bibinfo{volume}{96}, \bibinfo{pages}{121--140}.
+\newblock \DOIprefix\doi{10.1016/j.scico.2014.01.002}.
+%Type = Article
+\bibitem[{Lozano et~al.(2015)Lozano, Mens and Kellens}]{Lozano2015}
+\bibinfo{author}{Lozano, A.}, \bibinfo{author}{Mens, K.},
+  \bibinfo{author}{Kellens, A.}, \bibinfo{year}{2015}.
+\newblock \bibinfo{title}{Usage contracts: Offering immediate feedback on
+  violations of structural source-code regularities}.
+\newblock \bibinfo{journal}{Science of Computer Programming}
+  \bibinfo{volume}{105}, \bibinfo{pages}{73--91}.
+\newblock \DOIprefix\doi{10.1016/j.scico.2015.01.004}.
+%Type = Misc
+\bibitem[{{OpenAPI Initiative}(2025)}]{OpenAPI31}
+\bibinfo{author}{{OpenAPI Initiative}}, \bibinfo{year}{2025}.
+\newblock \bibinfo{title}{{OpenAPI} specification, version 3.1.2}.
+\newblock \bibinfo{howpublished}{OpenAPI Initiative specification}.
+\newblock \URLprefix \url{https://spec.openapis.org/oas/v3.1.2.html}.
+  \bibinfo{note}{accessed 31 October 2026}.
+%Type = Inproceedings
+\bibitem[{Roy et~al.(2021)Roy, Fakhoury and Arnaoudova}]{Roy2021}
+\bibinfo{author}{Roy, D.}, \bibinfo{author}{Fakhoury, S.},
+  \bibinfo{author}{Arnaoudova, V.}, \bibinfo{year}{2021}.
+\newblock \bibinfo{title}{Reassessing automatic evaluation metrics for code
+  summarization tasks}, in: \bibinfo{booktitle}{Proceedings of the 29th ACM
+  Joint European Software Engineering Conference and Symposium on the
+  Foundations of Software Engineering}, \bibinfo{publisher}{ACM}.
+\newblock \DOIprefix\doi{10.1145/3468264.3468588}.
+%Type = Inproceedings
+\bibitem[{Shi et~al.(2022)Shi, Wang, Du, Chen, Han, Zhang, Zhang and
+  Sun}]{Shi2022}
+\bibinfo{author}{Shi, E.}, \bibinfo{author}{Wang, Y.}, \bibinfo{author}{Du,
+  L.}, \bibinfo{author}{Chen, J.}, \bibinfo{author}{Han, S.},
+  \bibinfo{author}{Zhang, H.}, \bibinfo{author}{Zhang, D.},
+  \bibinfo{author}{Sun, H.}, \bibinfo{year}{2022}.
+\newblock \bibinfo{title}{On the evaluation of neural code summarization}, in:
+  \bibinfo{booktitle}{Proceedings of the 44th International Conference on
+  Software Engineering}, \bibinfo{publisher}{ACM}. pp.
+  \bibinfo{pages}{1597--1608}.
+\newblock \DOIprefix\doi{10.1145/3510003.3510060}.
+%Type = Inproceedings
+\bibitem[{Wen et~al.(2019)Wen, Nagy, Bavota and Lanza}]{Wen2019}
+\bibinfo{author}{Wen, F.}, \bibinfo{author}{Nagy, C.}, \bibinfo{author}{Bavota,
+  G.}, \bibinfo{author}{Lanza, M.}, \bibinfo{year}{2019}.
+\newblock \bibinfo{title}{A large-scale empirical study on code-comment
+  inconsistencies}, in: \bibinfo{booktitle}{Proceedings of the IEEE/ACM 27th
+  International Conference on Program Comprehension},
+  \bibinfo{publisher}{IEEE}. pp. \bibinfo{pages}{53--64}.
+\newblock \DOIprefix\doi{10.1109/ICPC.2019.00019}.
+%Type = Article
+\bibitem[{Xu et~al.(2024)Xu, Guo, Wang, Chen, Li, Li and Jiang}]{Xu2024}
+\bibinfo{author}{Xu, Z.}, \bibinfo{author}{Guo, S.}, \bibinfo{author}{Wang,
+  Y.}, \bibinfo{author}{Chen, R.}, \bibinfo{author}{Li, H.},
+  \bibinfo{author}{Li, X.}, \bibinfo{author}{Jiang, H.}, \bibinfo{year}{2024}.
+\newblock \bibinfo{title}{Code comment inconsistency detection based on
+  confidence learning}.
+\newblock \bibinfo{journal}{IEEE Transactions on Software Engineering}
+  \bibinfo{volume}{50}, \bibinfo{pages}{598--617}.
+\newblock \DOIprefix\doi{10.1109/TSE.2024.3358489}.
+%Type = Article
+\bibitem[{Yang et~al.(2026)Yang, Li, Bao, Li and Wang}]{Yang2026OCL2NL}
+\bibinfo{author}{Yang, Y.}, \bibinfo{author}{Li, Q.}, \bibinfo{author}{Bao,
+  T.}, \bibinfo{author}{Li, Q.}, \bibinfo{author}{Wang, W.},
+  \bibinfo{year}{2026}.
+\newblock \bibinfo{title}{{OCL2NL}: Automatic generation of natural language
+  descriptions from {OCL} contracts}.
+\newblock \bibinfo{journal}{Science of Computer Programming}
+  \bibinfo{volume}{254}, \bibinfo{pages}{103513}.
+\newblock \DOIprefix\doi{10.1016/j.scico.2026.103513}.
+%Type = Inproceedings
+\bibitem[{Zhong and Su(2013)}]{ZhongSu2013}
+\bibinfo{author}{Zhong, H.}, \bibinfo{author}{Su, Z.}, \bibinfo{year}{2013}.
+\newblock \bibinfo{title}{Detecting {API} documentation errors}, in:
+  \bibinfo{booktitle}{Proceedings of the ACM SIGPLAN International Conference
+  on Object Oriented Programming Systems Languages and Applications},
+  \bibinfo{publisher}{ACM}. pp. \bibinfo{pages}{803--816}.
+\newblock \DOIprefix\doi{10.1145/2509136.2509523}.
+%Type = Inproceedings
+\bibitem[{Zhou et~al.(2017)Zhou, Gu, Chen, Huang, Panichella and
+  Gall}]{Zhou2017}
+\bibinfo{author}{Zhou, Y.}, \bibinfo{author}{Gu, R.}, \bibinfo{author}{Chen,
+  T.}, \bibinfo{author}{Huang, Z.}, \bibinfo{author}{Panichella, S.},
+  \bibinfo{author}{Gall, H.C.}, \bibinfo{year}{2017}.
+\newblock \bibinfo{title}{Analyzing {APIs} documentation and code to detect
+  directive defects}, in: \bibinfo{booktitle}{Proceedings of the IEEE/ACM 39th
+  International Conference on Software Engineering}, \bibinfo{publisher}{IEEE}.
+  pp. \bibinfo{pages}{27--37}.
+\newblock \DOIprefix\doi{10.1109/ICSE.2017.11}.
+
+\end{thebibliography}
