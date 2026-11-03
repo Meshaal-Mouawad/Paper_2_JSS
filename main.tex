@@ -26,6 +26,7 @@
 \usepackage{url}
 \usepackage{microtype}
 \usepackage{placeins}
+\usepackage{capt-of}
 \usepackage{enumitem}
 \setlength{\emergencystretch}{1em}
 
@@ -177,19 +178,22 @@ The study considered four assessment criteria. Each was expressed as a reviewer 
 
 \paragraph{Source-role accuracy.} A source element's role describes what it does: a comment explains code, a conversion changes data representation, and an alias names an output. The checker compares a source excerpt with its Developer Lineage description. It flags comments or docstrings described using selected executable-role labels, and Structured Query Language (SQL) conversion types described as output aliases. For example, in \texttt{CAST(... AS FLOAT) AS on\_spec\_percentage}, \texttt{FLOAT} is a conversion type and \texttt{on\_spec\_percentage} is the output alias. Figure~\ref{fig:sql-source-role} shows the generated misdescription.
 
+\begin{center}
+\begin{minipage}{\columnwidth}
+\centering
+\input{figures/sql_source_role.tex}
+\captionof{figure}{On-Spec Rate source-role error (C27). The generated description names the SQL conversion type as the output alias. The checker and Code reviewer C flag this error; Code reviewers A and B assign source-role Pass.}
+\label{fig:sql-source-role}
+\end{minipage}
+\end{center}
+
 \paragraph{Condition disclosure.} A \emph{guard} is an explicit condition that changes a calculation for particular inputs. The rule recognizes denominator guards expressed through \texttt{NULLIF(variable,0)} or an \texttt{if}-family comparison with zero. It requires the safeguard field to state the zero or non-positive behavior and connect the guarded variable to the denominator of the displayed formula. A non-positive comparison requires wording that covers zero and negative inputs. The primary scanner found ten eligible documents.
 
 \paragraph{Representation disagreement.} This criterion concerns differences between recorded descriptions of a calculation. The implemented rule recognizes explicit conflict, mismatch, or inversion markers. It checks that the document remains marked \emph{Needs Review} and appears in the Review Queue, the list of items requiring a decision. We analyze this explicit-marker routing outcome separately from the reviewers' broader disagreement judgments.
 
 \paragraph{Review-authority consistency.} This criterion concerns the relationship between unresolved status and certification-oriented wording. The implemented rule looks for specified phrases, including ``certified metric dossier,'' ``certified calculation expression,'' and ``print certified dossier,'' on documents marked \emph{Needs Review}. These are original interface strings. The reviewer exercise measures how consistently the broader criterion was applied.
 
-\begin{figure}[!htbp]
-\centering
-\input{figures/sql_source_role.tex}
-\caption{On-Spec Rate source-role error (C27). The generated description names the SQL conversion type as the output alias. The checker and Code reviewer C flag this error; Code reviewers A and B assign source-role Pass.}
-\label{fig:sql-source-role}
-\end{figure}
-\FloatBarrier
+
 
 \subsection{Checker controls and source inspection}
 Conformance tests compare the checker's decisions with expected outcomes specified for prepared inputs. Eighteen rule tests cover source roles, denominator and safeguard information, routing, certification wording, and applicability. Fourteen artifact-derived controls comprise five unchanged baselines, eight substitutions of extracted inputs, and one deliberately modified HTML document read again through the adapter. Expected labels were stored separately from the checker outputs. The 32 expected outcomes comprise 19 Fail, 11 Pass, and two N/A decisions, where N/A means not applicable.
@@ -321,7 +325,7 @@ C13 and C28 illustrate a concrete omitted documentary-role distinction. Their so
 
 Taken together, the four alerts and the full majority-Fail set explain why the aggregate counts require a rationale-level reading. The rule suite covers specified syntactic-role patterns. The review category also collects judgments about documentary roles and relationships across fields. Matching or opposing document labels can therefore arise from different underlying comparisons. Figure~\ref{fig:comparison} displays the label counts together with that interpretation.
 
-\begin{figure*}[!htbp]
+\begin{figure*}[t]
 \centering
 \input{figures/checker_results.tex}
 \caption{Two reference-dependent comparisons. Panel(a) counts source-role document labels; the two overlapping Fail documents have different majority and checker rationales. Panel(b) holds the ten eligible condition documents and five checker alerts fixed while comparing the recorded reviewer labels.}
@@ -428,7 +432,7 @@ This study explains how rule scope, evaluation unit, and reference criteria shap
 On ten eligible condition documents, the same five alerts had precision 40\% against the identical labels of reviewers A and B and 100\% against reviewer C's labels. Three changed reference labels account for that difference. Their rationales show differences in the condition assessed and observations about its explanation. Together with the preserved sources, generator excerpts, and reviewer rationales, these findings provide a reproducible empirical account of why correct control decisions, matching document categories, and agreement on the same discrepancy must be examined separately when assessing documentation checkers.
 
 \section*{Data and artifact availability}
-The technical supplement preserves the 28 primary documents, historical and alternative-input outputs, source/document hashes, checking rules, control labels, generator excerpts, and execution scripts. The independent-evaluation materials preserve the normalized labels, intermediate exports, case mapping, reviewer rationales, agreement calculations, and checker comparisons. The accompanying case ledger links source excerpts, published fields, reviewer reasons, and rule outcomes. The reporting-correction supplement preserves the original responses and the cell-by-cell reconciliation of all 336 labels, including explicit N/A values. These materials are prepared as accompanying supplementary files; the evidence repository is currently private.
+The complete replication package is linked at \url{https://github.com/Meshaal-Mouawad/Paper_2_JSS}. It contains the 28 primary documents, earlier and alternative-input outputs, source and generator excerpts, checking rules, 32 prepared controls and expected outcomes, original reviewer prompts and instructions, all 336 original ratings, reviewer rationales, case-level comparisons, analysis scripts, and verification records. The repository explains how each reported result can be reproduced and distinguishes archived output checks from complete generator execution.
 
 \section*{Declaration of competing interest}
 The authors declare that there are no known competing financial interests or personal relationships that could have appeared to influence the work reported in this paper.

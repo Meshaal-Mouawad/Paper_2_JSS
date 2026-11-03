@@ -1,0 +1,25 @@
+{
+  "eligible_cases": 10,
+  "r1_r2_identical_on_eligible_cases": true,
+  "source_visibility": {
+    "tp": 2,
+    "fp": 3,
+    "fn": 0,
+    "tn": 5,
+    "precision": 0.4,
+    "recall": 1.0,
+    "exact": 7,
+    "n": 10
+  },
+  "reader_facing_publication": {
+    "tp": 5,
+    "fp": 0,
+    "fn": 0,
+    "tn": 5,
+    "precision": 1.0,
+    "recall": 1.0,
+    "exact": 10,
+    "n": 10
+  },
+  "interpretation": "Condition-rule precision is criterion-sensitive on the same fixed eligible set: 0.40 under source visibility and 1.00 under reader-facing disclosure; recall is 1.00 under both."
+}

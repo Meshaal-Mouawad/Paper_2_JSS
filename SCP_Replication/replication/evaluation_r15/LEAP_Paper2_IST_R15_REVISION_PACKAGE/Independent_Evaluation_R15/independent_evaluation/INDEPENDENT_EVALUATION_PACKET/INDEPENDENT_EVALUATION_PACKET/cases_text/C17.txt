@@ -1,0 +1,263 @@
+Enterprise KPI Dossier - Procurement Contract Compliance Rate
+Skip to dossier content
+Workspace
+Main
+Dashboard
+KPI Portfolio
+Discovery Workspace
+Enterprise KPIs
+Governance
+RACI Directory
+Governance State
+Evidence
+Evidence & Lineage
+Utilities
+Search
+Index
+Workspace Mode
+Offline Governance
+Certified metric dossier
+KPI Intelligence Workspace
+--
+Light Teal
+Dark
+Classic
+Confidence
+95%
+Source
+SQL
+Owner
+Enterprise Data Owner
+Offline
+Enterprise KPI Dossier
+Procurement Contract Compliance Rate
+Enterprise intelligence record connecting business definition, certified formula, ownership, and operational evidence.
+Needs Review
+Owner confirmation required before executive use.
+Enterprise Data Owner remains accountable while governance review is resolved.
+Business Domain
+Enterprise
+Confidence
+95%
+Governance Status
+Needs Review
+Owner
+Enterprise Data Owner
+Source
+SQL
+Last Validation
+2026-09-21
+LEAP
+/
+KPI Catalog
+/
+Procurement Contract Compliance Rate
+Executive Briefing
+Executive Summary
+If this KPI trends up: Indicates a material change in the measured business condition and should be interpreted with the owner. If it trends down: Indicates a material change in the measured business condition and should be checked against source-data timing. Owner check: What changed in source data, business process, or KPI logic that explains movement in Procurement Contract Compliance Rate?
+Business Meaning
+Fraction of procurement transactions executed under approved framework contracts.
+Decision
+Enforce procurement governance and maximize contract utilization.
+Trust
+Decision use requires owner confirmation.
+Risk
+Incorrect interpretation may affect Enterprise planning, accountability, or exception response.
+Action
+Enterprise Data Owner should monitor movement and confirm context when the metric changes materially.
+Mathematical Formulation
+Formal Formula
+\[ \mathrm{Procurement\,Contract\,Compliance\,Rate} = \frac{\mathrm{Contract\,Spend} \times 100.0}{\mathrm{Total\,Spend}} \]
+Where:
+Numerator:
+Contract Spend * 100.0
+Denominator:
+Total Spend
+Annotated Formula
+Business Interpretation
+Developer Lineage
+Contract Spend
+contract_spend
+Scaled by 100.0
+× 100.0
+Divided By
+÷
+Total Spend
+total_spend
+Developer Lineage Breakdown
+1 | -- KPI: Procurement Contract Compliance Rate
+KPI marker: tells LEAP this nearby code defines or documents a KPI.
+2 | -- Description: Fraction of procurement transactions executed under approved framework contracts.
+KPI marker: tells LEAP this nearby code defines or documents a KPI.
+3 | -- Objective: Enforce procurement governance and maximize contract utilization.
+KPI marker: tells LEAP this nearby code defines or documents a KPI.
+4 | -- Input measure: On-contract spend, total procurement spend
+KPI marker: tells LEAP this nearby code defines or documents a KPI.
+5 | -- Unit: %
+KPI marker: tells LEAP this nearby code defines or documents a KPI.
+6 | -- Reporting Source: SAP MM (Materials Management)
+KPI marker: tells LEAP this nearby code defines or documents a KPI.
+7 | -- Used In: Procurement Governance Dashboard
+KPI marker: tells LEAP this nearby code defines or documents a KPI.
+8 | -- Validation conflict: Governance status is marked Validated below but no formal
+KPI marker: tells LEAP this nearby code defines or documents a KPI.
+9 | -- mathematical formula is declared anywhere in this file. The formula field is missing.
+Calculation hint: documents the business expression expected inside the KPI implementation.
+10 | -- LEAP should flag: KPI marked Validated but formula is absent — validation conflict.
+Calculation hint: documents the business expression expected inside the KPI implementation.
+Evidence & Lineage
+Operational Logic
+Formula Lineage
+Provenance
+Inputs
+-- KPI: Procurement Contract Compliance Rate
+-- Description: Fraction of procurement transactions executed under approved framework contracts.
+-- Objective: Enforce procurement governance and maximize contract utilization.
+-- Input measure: On-contract spend, total procurement spend
+-- Unit: %
+-- Reporting Source: SAP MM (Materials Management)
+-- Used In: Procurement Governance Dashboard
+-- Validation conflict: Governance status is marked Validated below but no formal
+-- mathematical formula is declared anywhere in this file. The formula field is missing.
+-- LEAP should flag: KPI marked Validated but formula is absent — validation conflict.
+SELECT
+vendor_code,
+SUM(contract_spend) AS on_contract_spend_sar,
+SUM(total_spend) AS total_spend_sar,
+-- No explicit formula comment: formula is inferred from code only, not declared
+SUM(contract_spend) * 100.0 / NULLIF(SUM(total_spend), 0) AS procurement_contract_compliance_rate
+FROM sap_mm.purchase_order_fact
+WHERE fiscal_year = YEAR(GETDATE())
+GROUP BY vendor_code;
+-- Governance status: Validated (intentionally mismatched — no formula declared above)
+Inline evidence snippet
+1 | -- KPI: Procurement Contract Compliance Rate
+2 | -- Description: Fraction of procurement transactions executed under approved framework contracts.
+3 | -- Objective: Enforce procurement governance and maximize contract utilization.
+4 | -- Input measure: On-contract spend, total procurement spend
+5 | -- Unit: %
+Developer Lineage Breakdown
+1 | -- KPI: Procurement Contract Compliance Rate
+KPI marker: tells LEAP this nearby code defines or documents a KPI.
+2 | -- Description: Fraction of procurement transactions executed under approved framework contracts.
+KPI marker: tells LEAP this nearby code defines or documents a KPI.
+3 | -- Objective: Enforce procurement governance and maximize contract utilization.
+KPI marker: tells LEAP this nearby code defines or documents a KPI.
+4 | -- Input measure: On-contract spend, total procurement spend
+KPI marker: tells LEAP this nearby code defines or documents a KPI.
+5 | -- Unit: %
+KPI marker: tells LEAP this nearby code defines or documents a KPI.
+6 | -- Reporting Source: SAP MM (Materials Management)
+KPI marker: tells LEAP this nearby code defines or documents a KPI.
+7 | -- Used In: Procurement Governance Dashboard
+KPI marker: tells LEAP this nearby code defines or documents a KPI.
+8 | -- Validation conflict: Governance status is marked Validated below but no formal
+KPI marker: tells LEAP this nearby code defines or documents a KPI.
+9 | -- mathematical formula is declared anywhere in this file. The formula field is missing.
+Calculation hint: documents the business expression expected inside the KPI implementation.
+10 | -- LEAP should flag: KPI marked Validated but formula is absent — validation conflict.
+Calculation hint: documents the business expression expected inside the KPI implementation.
+Operational Intent
+Fraction of procurement transactions executed under approved framework contracts. LEAP frames this as an operational evidence signal for enterprise decision-making.
+Verified Logic Mapping
+First, LEAP certifies the KPI definition against conflict_validation_compliance.sql and classifies the implementation as SQL evidence.
+Second, because no certified formula statement is declared in implementation comments, LEAP presents the executable calculation evidence in the formal MathJax formula shown above.
+Finally, it preserves the executable context and code fingerprint so future changes to the KPI logic can be identified.
+Logic Safeguards
+OK
+Zero-Division Guard:
+Implementation logic uses NULLIF so denominator values of zero do not create invalid ratio calculations.
+OK
+Formula Consistency Check:
+The business formula and implementation evidence share compatible calculation structure based on LEAP's structured comparison.
+OK
+Change Detection:
+Code Fingerprint 80292b8f4d records the current implementation so drift can be identified after the next workspace refresh.
+OK
+RACI Accountability:
+Enterprise Data Owner is assigned as accountable owner for rule confirmation and escalation.
+Executive Alignment
+Business rules are aligned to default rule; no path/name governance match (SQL). RACI Owner: Enterprise Data Owner. Consulted reviewer: Domain Subject Matter Expert. Current status: Needs Review.
+Business Data System
+EXPLICIT SOURCE TABLE(S): sap_mm.purchase_order_fact
+Source File
+conflict_validation_compliance.sql
+Source Line
+1
+Definition Pattern
+Sql Comment
+Governance Domain
+Enterprise
+KPI ID
+KPI-80292B8F4D
+Business Usage
+Procurement Governance Dashboard
+Input Evidence
+On-contract spend, total procurement spend
+Definition
+Fraction of procurement transactions executed under approved framework contracts.
+Business Context
+Enforce procurement governance and maximize contract utilization.
+Edge Cases / Comments
+Compliance mode preserved only implementation-grounded evidence; unresolved business context is routed to owner confirmation.
+Governance
+Needs Review
+Confidence:
+95%
+Accountable:
+Enterprise Data Owner
+RACI
+Responsible:
+Data Engineering Team
+Accountable:
+Enterprise Data Owner
+Consulted:
+Domain Subject Matter Expert
+Informed:
+Business Stakeholders
+Metadata
+KPI_ID:
+KPI-80292B8F4D
+Fingerprint:
+80292b8f
+Validated:
+2026-09-21
+Type:
+SQL operational definition
+Runtime:
+Offline
+Frequency:
+On Demand
+Operational Actions
+Print Certified Dossier
+Edit Dossier
+Open Discovery Workspace
+Open RACI Directory
+Review Queue
+Needs Review
+Owner Confirmation Required
+Business Evidence Confirmation
+Evidence incomplete: business formula comment not declared.
+Please review this governed KPI evidence package.
+KPI: Procurement Contract Compliance Rate
+KPI ID: KPI-80292B8F4D
+Accountable owner: Enterprise Data Owner
+Consulted SME: Domain Subject Matter Expert
+Source: conflict_validation_compliance.sql
+Line: 1
+Review questions:
+- Does the business meaning match how the KPI is used?
+- Does the formula reflect the approved business rule?
+- Are the source fields, filters, and reporting period correct?
+- Should this KPI be marked Validated or Needs Review?
+Send or copy this review request to the accountable owner or domain subject matter expert (SME).
+Open Email Draft
+Copy Review Text
+LEAP AXIS KPI Intelligence Workspace
+AI: Offline Mode · Deterministic AST Engine
+Workspace
+Discovery
+RACI
+SDAIA PDPL
+NCA ECC
+ISO 22400

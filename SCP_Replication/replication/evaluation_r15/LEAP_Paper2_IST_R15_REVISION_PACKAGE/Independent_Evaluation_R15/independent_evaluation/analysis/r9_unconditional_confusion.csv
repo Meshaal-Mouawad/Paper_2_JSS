@@ -1,0 +1,5 @@
+obligation,resolvable_items,three_state_exact,three_state_exact_rate,reviewer_fleiss_kappa,triply_explicit_items,triply_explicit_fleiss_kappa,TP,FP,FN,TN,precision,recall,specificity,majority_failures,checker_failures
+source_role_accuracy,28,12,0.42857142857142855,0.4070588235294116,28,0.4070588235294116,2,2,14,10,0.5,0.125,0.8333333333333334,16,4
+condition_disclosure,27,22,0.8148148148148148,0.5533980582524272,12,0.4461538461538459,2,3,0,22,0.4,1.0,0.88,2,5
+disagreement_preservation,28,24,0.8571428571428571,0.4524714828897337,7,-0.1666666666666665,0,0,4,24,,0.0,1.0,4,0
+review_authority_consistency,28,19,0.6785714285714286,-0.2847058823529411,28,-0.2847058823529411,19,0,3,6,1.0,0.8636363636363636,1.0,22,19

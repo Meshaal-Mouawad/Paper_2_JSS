@@ -1,0 +1,282 @@
+{
+  "provenance": "R15 normalized labels, with separate original-return reconciliation below",
+  "overall": {
+    "items": 112,
+    "ratings": 336,
+    "average_pair_agreement": 0.6339285714285714,
+    "expected_chance_agreement": 0.3390731292517007,
+    "fleiss_kappa": 0.4461241556770665,
+    "label_counts": {
+      "FAIL": 130,
+      "PASS": 112,
+      "NA": 94
+    }
+  },
+  "criteria": {
+    "source_role_accuracy": {
+      "agreement": {
+        "items": 28,
+        "ratings": 84,
+        "average_pair_agreement": 0.7142857142857143,
+        "expected_chance_agreement": 0.518140589569161,
+        "fleiss_kappa": 0.4070588235294118,
+        "label_counts": {
+          "FAIL": 50,
+          "PASS": 34
+        }
+      },
+      "common_applicability_agreement": {
+        "items": 28,
+        "ratings": 84,
+        "average_pair_agreement": 0.7142857142857143,
+        "expected_chance_agreement": 0.518140589569161,
+        "fleiss_kappa": 0.4070588235294118,
+        "label_counts": {
+          "FAIL": 50,
+          "PASS": 34
+        }
+      },
+      "matrix_fail_vs_nonfail": {
+        "n": 28,
+        "TP": 2,
+        "FP": 2,
+        "FN": 14,
+        "TN": 10,
+        "precision": 0.5,
+        "recall": 0.125,
+        "three_state_exact": 12,
+        "checker_na": 0,
+        "reference_na": 0
+      }
+    },
+    "condition_disclosure": {
+      "agreement": {
+        "items": 28,
+        "ratings": 84,
+        "average_pair_agreement": 0.7261904761904762,
+        "expected_chance_agreement": 0.3869047619047619,
+        "fleiss_kappa": 0.553398058252427,
+        "label_counts": {
+          "PASS": 31,
+          "FAIL": 13,
+          "NA": 40
+        }
+      },
+      "common_applicability_agreement": {
+        "items": 12,
+        "ratings": 36,
+        "average_pair_agreement": 0.7777777777777778,
+        "expected_chance_agreement": 0.5987654320987654,
+        "fleiss_kappa": 0.4461538461538462,
+        "label_counts": {
+          "PASS": 26,
+          "FAIL": 10
+        }
+      },
+      "matrix_fail_vs_nonfail": {
+        "n": 27,
+        "TP": 2,
+        "FP": 3,
+        "FN": 0,
+        "TN": 22,
+        "precision": 0.4,
+        "recall": 1.0,
+        "three_state_exact": 22,
+        "checker_na": 17,
+        "reference_na": 15
+      }
+    },
+    "disagreement_preservation": {
+      "agreement": {
+        "items": 28,
+        "ratings": 84,
+        "average_pair_agreement": 0.7142857142857143,
+        "expected_chance_agreement": 0.47817460317460325,
+        "fleiss_kappa": 0.45247148288973377,
+        "label_counts": {
+          "FAIL": 17,
+          "PASS": 13,
+          "NA": 54
+        }
+      },
+      "common_applicability_agreement": {
+        "items": 7,
+        "ratings": 21,
+        "average_pair_agreement": 0.42857142857142855,
+        "expected_chance_agreement": 0.510204081632653,
+        "fleiss_kappa": -0.1666666666666665,
+        "label_counts": {
+          "FAIL": 9,
+          "PASS": 12
+        }
+      },
+      "matrix_fail_vs_nonfail": {
+        "n": 28,
+        "TP": 0,
+        "FP": 0,
+        "FN": 4,
+        "TN": 24,
+        "precision": null,
+        "recall": 0.0,
+        "three_state_exact": 24,
+        "checker_na": 22,
+        "reference_na": 18
+      }
+    },
+    "review_authority_consistency": {
+      "agreement": {
+        "items": 28,
+        "ratings": 84,
+        "average_pair_agreement": 0.38095238095238093,
+        "expected_chance_agreement": 0.518140589569161,
+        "fleiss_kappa": -0.2847058823529412,
+        "label_counts": {
+          "FAIL": 50,
+          "PASS": 34
+        }
+      },
+      "common_applicability_agreement": {
+        "items": 28,
+        "ratings": 84,
+        "average_pair_agreement": 0.38095238095238093,
+        "expected_chance_agreement": 0.518140589569161,
+        "fleiss_kappa": -0.2847058823529412,
+        "label_counts": {
+          "FAIL": 50,
+          "PASS": 34
+        }
+      },
+      "matrix_fail_vs_nonfail": {
+        "n": 28,
+        "TP": 19,
+        "FP": 0,
+        "FN": 3,
+        "TN": 6,
+        "precision": 1.0,
+        "recall": 0.8636363636363636,
+        "three_state_exact": 19,
+        "checker_na": 9,
+        "reference_na": 0
+      }
+    }
+  },
+  "unresolved": [
+    {
+      "case": "C17",
+      "document": "procurement_contract_compliance_rate.html",
+      "criterion": "condition_disclosure",
+      "R1": "NA",
+      "R2": "PASS",
+      "R3": "FAIL",
+      "majority": "UNRESOLVED",
+      "checker": "NA"
+    }
+  ],
+  "condition_eligible": {
+    "R1": {
+      "n": 10,
+      "TP": 2,
+      "FP": 3,
+      "FN": 0,
+      "TN": 5,
+      "precision": 0.4,
+      "recall": 1.0,
+      "three_state_exact": 7,
+      "checker_na": 0,
+      "reference_na": 0
+    },
+    "R2": {
+      "n": 10,
+      "TP": 2,
+      "FP": 3,
+      "FN": 0,
+      "TN": 5,
+      "precision": 0.4,
+      "recall": 1.0,
+      "three_state_exact": 7,
+      "checker_na": 0,
+      "reference_na": 0
+    },
+    "R3": {
+      "n": 10,
+      "TP": 5,
+      "FP": 0,
+      "FN": 0,
+      "TN": 5,
+      "precision": 1.0,
+      "recall": 1.0,
+      "three_state_exact": 10,
+      "checker_na": 0,
+      "reference_na": 0
+    },
+    "R1_R2_identical": true
+  },
+  "original_reconciliation": {
+    "checked_labels": 336,
+    "equal": 336,
+    "explicit_na": 94,
+    "original_identity_hashes": {
+      "R1": true,
+      "R2": true,
+      "R3": true
+    }
+  },
+  "raw_derivatives": {
+    "R1": 32,
+    "R2": 32,
+    "R3": 30
+  },
+  "normalized_na": {
+    "R1": 32,
+    "R2": 32,
+    "R3": 30
+  },
+  "phases": {
+    "A_majority": 18,
+    "B_majority": 23,
+    "added": [
+      "C03",
+      "C08",
+      "C11",
+      "C20",
+      "C21"
+    ]
+  },
+  "manifest_integrity": {
+    "technical": {
+      "entries": 155,
+      "bad": []
+    },
+    "evaluation": {
+      "entries": 46,
+      "bad": []
+    }
+  },
+  "technical_primary_documents": 28,
+  "source_role_majority_fail_cases": [
+    "C01",
+    "C05",
+    "C06",
+    "C09",
+    "C10",
+    "C13",
+    "C14",
+    "C15",
+    "C16",
+    "C17",
+    "C18",
+    "C19",
+    "C23",
+    "C24",
+    "C25",
+    "C28"
+  ],
+  "source_role_matching_fail_documents": [
+    "C09",
+    "C18"
+  ],
+  "source_role_reference_discordant_alerts": [
+    "C12",
+    "C27"
+  ]
+}

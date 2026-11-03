@@ -1,0 +1,269 @@
+Enterprise KPI Dossier - HSE Safety Incident Rate
+Skip to dossier content
+Workspace
+Main
+Dashboard
+KPI Portfolio
+Discovery Workspace
+Enterprise KPIs
+Governance
+RACI Directory
+Governance State
+Evidence
+Evidence & Lineage
+Utilities
+Search
+Index
+Workspace Mode
+Offline Governance
+Certified metric dossier
+KPI Intelligence Workspace
+--
+Light Teal
+Dark
+Classic
+Confidence
+95%
+Source
+SQL
+Owner
+HSE Data Owner
+Offline
+Enterprise KPI Dossier
+HSE Safety Incident Rate
+HSE intelligence record connecting business definition, certified formula, ownership, and operational evidence.
+Needs Review
+Owner confirmation required before executive use.
+HSE Data Owner remains accountable while governance review is resolved.
+Business Domain
+HSE
+Confidence
+95%
+Governance Status
+Needs Review
+Owner
+HSE Data Owner
+Source
+SQL
+Last Validation
+2026-09-21
+LEAP
+/
+KPI Catalog
+/
+HSE Safety Incident Rate
+Executive Briefing
+Executive Summary
+If this KPI trends up: Indicates a material change in the measured business condition and should be interpreted with the owner. If it trends down: Indicates a material change in the measured business condition and should be checked against source-data timing. Owner check: What changed in source data, business process, or KPI logic that explains movement in HSE Safety Incident Rate?
+Business Meaning
+OSHA-standard recordable incident rate for HSE performance tracking.
+Decision
+Monitor workforce safety performance and compliance with HSE regulations.
+Trust
+Decision use requires owner confirmation.
+Risk
+Incorrect interpretation may affect HSE planning, accountability, or exception response.
+Action
+HSE Data Owner should monitor movement and confirm context when the metric changes materially.
+Mathematical Formulation
+Formal Formula
+\[ \mathrm{HSE\,Safety\,Incident\,Rate} = \left(\frac{\mathrm{Total\,Incidents}}{\mathrm{Total\,Hours\,Worked}}\right) \times 200000 \]
+Where:
+Numerator:
+Total Incidents
+Denominator:
+Total Hours Worked
+Scale:
+×200000
+Annotated Formula
+Business Interpretation
+Developer Lineage
+Total Incidents
+Total Incidents
+Divided By
+÷
+Total Hours Worked
+Total Hours Worked
+Scaled by 200000
+× 200000
+Developer Lineage Breakdown
+1 | -- KPI: HSE Safety Incident Rate
+KPI marker: tells LEAP this nearby code defines or documents a KPI.
+2 | -- Formula: Safety Incident Rate = (Total Incidents / Total Hours Worked) * 200000
+Calculation hint: documents the business expression expected inside the KPI implementation.
+3 | -- Description: OSHA-standard recordable incident rate for HSE performance tracking.
+KPI marker: tells LEAP this nearby code defines or documents a KPI.
+4 | -- Objective: Monitor workforce safety performance and compliance with HSE regulations.
+KPI marker: tells LEAP this nearby code defines or documents a KPI.
+5 | -- Input: Total recordable incidents, total hours worked
+KPI marker: tells LEAP this nearby code defines or documents a KPI.
+6 | -- Unit: incidents per 200,000 hours
+KPI marker: tells LEAP this nearby code defines or documents a KPI.
+7 | -- Reporting Source: SAP PM Safety Module, HSE incident register
+KPI marker: tells LEAP this nearby code defines or documents a KPI.
+8 | -- Used In: HSE Executive Dashboard, Safety Compliance Board
+KPI marker: tells LEAP this nearby code defines or documents a KPI.
+9 | -- Domain conflict: KPI intent is HSE / safety but this file is in a finance reporting path
+KPI marker: tells LEAP this nearby code defines or documents a KPI.
+10 | -- and uses financial table joins suggesting Finance domain ownership conflict.
+KPI marker: tells LEAP this nearby code defines or documents a KPI.
+Evidence & Lineage
+Operational Logic
+Formula Lineage
+Provenance
+Inputs
+-- KPI: HSE Safety Incident Rate
+-- Formula: Safety Incident Rate = (Total Incidents / Total Hours Worked) * 200000
+-- Description: OSHA-standard recordable incident rate for HSE performance tracking.
+-- Objective: Monitor workforce safety performance and compliance with HSE regulations.
+-- Input: Total recordable incidents, total hours worked
+-- Unit: incidents per 200,000 hours
+-- Reporting Source: SAP PM Safety Module, HSE incident register
+-- Used In: HSE Executive Dashboard, Safety Compliance Board
+-- Domain conflict: KPI intent is HSE / safety but this file is in a finance reporting path
+-- and uses financial table joins suggesting Finance domain ownership conflict.
+SELECT
+t.fiscal_period,
+t.cost_center,
+SUM(f.total_incidents) AS incidents_count,
+SUM(f.hours_worked) AS hours_worked,
+(SUM(f.total_incidents) * 200000.0 / NULLIF(SUM(f.hours_worked), 0)) AS hse_safety_incident_rate
+FROM finance.cost_reporting_fact f
+JOIN finance.time_dim t ON f.period_id = t.period_id
+WHERE t.fiscal_year = YEAR(GETDATE())
+GROUP BY t.fiscal_period, t.cost_center
+ORDER BY t.fiscal_period;
+Inline evidence snippet
+1 | -- KPI: HSE Safety Incident Rate
+2 | -- Formula: Safety Incident Rate = (Total Incidents / Total Hours Worked) * 200000
+3 | -- Description: OSHA-standard recordable incident rate for HSE performance tracking.
+4 | -- Objective: Monitor workforce safety performance and compliance with HSE regulations.
+5 | -- Input: Total recordable incidents, total hours worked
+Developer Lineage Breakdown
+1 | -- KPI: HSE Safety Incident Rate
+KPI marker: tells LEAP this nearby code defines or documents a KPI.
+2 | -- Formula: Safety Incident Rate = (Total Incidents / Total Hours Worked) * 200000
+Calculation hint: documents the business expression expected inside the KPI implementation.
+3 | -- Description: OSHA-standard recordable incident rate for HSE performance tracking.
+KPI marker: tells LEAP this nearby code defines or documents a KPI.
+4 | -- Objective: Monitor workforce safety performance and compliance with HSE regulations.
+KPI marker: tells LEAP this nearby code defines or documents a KPI.
+5 | -- Input: Total recordable incidents, total hours worked
+KPI marker: tells LEAP this nearby code defines or documents a KPI.
+6 | -- Unit: incidents per 200,000 hours
+KPI marker: tells LEAP this nearby code defines or documents a KPI.
+7 | -- Reporting Source: SAP PM Safety Module, HSE incident register
+KPI marker: tells LEAP this nearby code defines or documents a KPI.
+8 | -- Used In: HSE Executive Dashboard, Safety Compliance Board
+KPI marker: tells LEAP this nearby code defines or documents a KPI.
+9 | -- Domain conflict: KPI intent is HSE / safety but this file is in a finance reporting path
+KPI marker: tells LEAP this nearby code defines or documents a KPI.
+10 | -- and uses financial table joins suggesting Finance domain ownership conflict.
+KPI marker: tells LEAP this nearby code defines or documents a KPI.
+Operational Intent
+OSHA-standard recordable incident rate for HSE performance tracking. LEAP frames this as an operational evidence signal for hse decision-making.
+Verified Logic Mapping
+First, LEAP certifies the KPI definition against conflict_domain_hse.sql and classifies the implementation as SQL evidence.
+Second, it presents the certified calculation expression (Safety Incident Rate = (Total Incidents / Total Hours Worked) * 200000) in the formal MathJax formula shown above.
+Finally, it preserves the executable context and code fingerprint so future changes to the KPI logic can be identified.
+Logic Safeguards
+OK
+Zero-Division Guard:
+Implementation logic uses NULLIF so denominator values of zero do not create invalid ratio calculations.
+OK
+Governance Conflict Flag:
+Domain conflict: KPI is classified under HSE/Safety domain, but the SQL implementation queries tables in the 'finance' schema. HSE safety metrics should not depend directly on financial ledgers.
+OK
+Change Detection:
+Code Fingerprint ecd8189927 records the current implementation so drift can be identified after the next workspace refresh.
+OK
+RACI Accountability:
+HSE Data Owner is assigned as accountable owner for rule confirmation and escalation.
+Executive Alignment
+Business rules are aligned to inferred from KPI name: HSE KPI name. RACI Owner: HSE Data Owner. Consulted reviewer: Environmental Compliance Team. Current status: Needs Review.
+Business Data System
+EXPLICIT SOURCE TABLE(S): finance.cost_reporting_fact, finance.time_dim
+Source File
+conflict_domain_hse.sql
+Source Line
+1
+Definition Pattern
+Sql Comment
+Governance Domain
+HSE
+KPI ID
+KPI-ECD8189927
+Business Usage
+HSE Executive Dashboard, Safety Compliance Board
+Input Evidence
+Total recordable incidents, total hours worked
+Definition
+OSHA-standard recordable incident rate for HSE performance tracking.
+Business Context
+Monitor workforce safety performance and compliance with HSE regulations.
+Edge Cases / Comments
+Compliance mode preserved only implementation-grounded evidence; unresolved business context is routed to owner confirmation.
+Governance
+Needs Review
+Confidence:
+95%
+Accountable:
+HSE Data Owner
+GOVERNANCE CONFLICT
+Conflict detected. See Review Queue for details.
+RACI
+Responsible:
+Environmental Data Engineering Team
+Accountable:
+HSE Data Owner
+Consulted:
+Environmental Compliance Team
+Informed:
+HSE Leadership
+Metadata
+KPI_ID:
+KPI-ECD8189927
+Fingerprint:
+ecd81899
+Validated:
+2026-09-21
+Type:
+SQL operational definition
+Runtime:
+Offline
+Frequency:
+On Demand
+Operational Actions
+Print Certified Dossier
+Edit Dossier
+Open Discovery Workspace
+Open RACI Directory
+Review Queue
+Needs Review
+Governance Review Required
+Governance conflict detected
+Business rule and implementation require review
+Domain conflict: KPI is classified under HSE/Safety domain, but the SQL implementation queries tables in the 'finance' schema. HSE safety metrics should not depend directly on financial ledgers.
+Please review this governed KPI evidence package.
+KPI: HSE Safety Incident Rate
+KPI ID: KPI-ECD8189927
+Accountable owner: HSE Data Owner
+Consulted SME: Environmental Compliance Team
+Source: conflict_domain_hse.sql
+Line: 1
+Review questions:
+- Does the business meaning match how the KPI is used?
+- Does the formula reflect the approved business rule?
+- Are the source fields, filters, and reporting period correct?
+- Should this KPI be marked Validated or Needs Review?
+Send or copy this review request to the accountable owner or domain subject matter expert (SME).
+Open Email Draft
+Copy Review Text
+LEAP AXIS KPI Intelligence Workspace
+AI: Offline Mode · Deterministic AST Engine
+Workspace
+Discovery
+RACI
+SDAIA PDPL
+NCA ECC
+ISO 22400

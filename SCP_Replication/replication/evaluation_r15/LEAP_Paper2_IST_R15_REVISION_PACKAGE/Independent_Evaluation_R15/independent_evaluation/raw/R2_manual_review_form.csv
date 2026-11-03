@@ -1,0 +1,29 @@
+case_id,issue_found_yes_no,issue_description_free_text,evidence_location,confidence_1_5,review_time_seconds
+C01,YES,Business formula and displayed implementation disagree; the page also reports formula consistency as OK while calling the definition certified.,Formal Formula; Developer Lineage 2-6; Logic Safeguards: Formula Consistency Check,5,82
+C02,YES,The zero-failure branch returns operating hours although the displayed ratio uses number of failures as denominator; this materially changes the metric and is not explained in the reader-facing formula.,Formal Formula; Developer Lineage 5-8; Logic Safeguards,4,73
+C03,NO,,,5,48
+C04,NO,,,5,44
+C05,YES,"The dossier presents execution latency, but the visible routine runs os.system and returns eval(expression); the displayed formula does not explain a latency measurement.",Business Meaning; Formal Formula; Developer Lineage 1-4; Review Queue security alert,5,81
+C06,YES,"The page presents a KPI dossier for a database-write routine while the formal formula is absent, so the reader-facing record does not identify what Inventory Modification Gap measures.",Formal Formula; Developer Lineage 1-3; Review Queue,5,76
+C07,NO,,,5,47
+C08,NO,,,5,46
+C09,YES,Reader-facing governance assigns Finance ownership and domain while the visible source identifies HSE ownership and HSE compliance use; the conflicting authority is reproduced across the dossier.,Developer Lineage 8-10; Executive Alignment; Governance/RACI; Review Queue,5,84
+C10,YES,"The source states that an index above threshold is bad, but the implementation labels the high-value condition GOOD_PERFORMANCE and the lower condition as safe; the publication exposes contradictory interpretation.",Developer Lineage 5-10; Governance Conflict; Review Queue,5,88
+C11,NO,,,5,45
+C12,NO,,,5,47
+C13,YES,"The page labels a raw export routine as a KPI, but the formal formula is absent and the visible source performs a cross-border transfer rather than defining a measurable volume calculation.",Business Meaning; Formal Formula; Developer Lineage 1-3; Review Queue alert,5,79
+C14,YES,"Runtime Execution Latency is represented by len(expression), which measures string length rather than execution time; the displayed formula and business meaning are semantically mismatched.",Business Meaning; Formal Formula; Developer Lineage 1-3,4,62
+C15,NO,,,5,42
+C16,YES,The source comment declares SAP PM as the reporting source while the SQL reads the manual staging table csv_stage.catalyst_replacement_log; the dossier does not resolve this source-lineage mismatch.,Developer Lineage 7-10; Evidence & Lineage; Logic Safeguards,5,86
+C17,YES,"Source comments state that governance status is Validated, while the dossier status and review queue are Needs Review; the source also says the formal formula is missing.",Developer Lineage 8-10; Governance Status; Review Queue,5,83
+C18,YES,The MFI variance dossier displays code using gas_recovered_m3 and total_gas_m3 to calculate a flare-recovery rate and sets variance to a placeholder; the evidence does not implement the named KPI.,Formal Formula; Developer Lineage 3-10; Evidence & Lineage,5,91
+C19,YES,The HSE safety KPI reads finance-schema tables while the page presents HSE intent; visible source and metadata disagree about the domain and source path.,Developer Lineage 7-10; Business Data System; Governance Conflict,5,85
+C20,NO,,,5,43
+C21,NO,,,4,55
+C22,NO,,,5,46
+C23,YES,The Maintenance to Operating Cost Ratio title and definition are paired with an on_spec/total calculation; the visible source does not show maintenance-cost variables.,Formal Formula; Developer Lineage 1-3; Business Meaning,4,67
+C24,YES,"The customer-activity dossier exposes raw national_id and phone_num in the displayed source, and its formula is only a division symbol; the publication does not provide a coherent activity calculation.",Formal Formula; Developer Lineage 1-4; Review Queue privacy alert,5,80
+C25,NO,,,4,51
+C26,NO,,,5,45
+C27,NO,,,5,45
+C28,YES,Audit Trail Completeness is computed as len(trace_records) even though the visible source says the trace records are unsigned; the count alone does not establish completeness and the page does not reconcile the conflict.,Business Meaning; Developer Lineage 1-3; Review Queue/alert,5,72

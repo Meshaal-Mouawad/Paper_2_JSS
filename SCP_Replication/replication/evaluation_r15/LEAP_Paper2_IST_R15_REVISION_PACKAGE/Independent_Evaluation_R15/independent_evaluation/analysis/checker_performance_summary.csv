@@ -1,0 +1,6 @@
+obligation,resolvable_items,exact_matches,exact_rate,checker_applicable_items,checker_scope_exact_matches,checker_scope_exact_rate,TP,FP,FN,TN,precision,recall,specificity,checker_NA_reviewer_applicable
+OVERALL,111,77,0.6936936936936937,,,,,,,,,,,
+condition_disclosure,27,22,0.8148148148148148,10.0,7.0,0.7,2.0,3.0,0.0,22.0,0.4,1.0,0.88,2.0
+disagreement_preservation,28,24,0.8571428571428571,6.0,6.0,1.0,0.0,0.0,4.0,24.0,,0.0,1.0,4.0
+review_authority_consistency,28,19,0.6785714285714286,19.0,19.0,1.0,19.0,0.0,3.0,6.0,1.0,0.8636363636363636,1.0,9.0
+source_role_accuracy,28,12,0.42857142857142855,28.0,12.0,0.42857142857142855,2.0,2.0,14.0,10.0,0.5,0.125,0.8333333333333334,0.0

@@ -1,0 +1,174 @@
+{
+  "status": "PASS",
+  "commands_and_integrity": [
+    {
+      "command": [
+        "python",
+        "audit/independent_recompute.py"
+      ],
+      "cwd": ".",
+      "exit_code": 0,
+      "log": "packaged_independent_recompute.py.log"
+    },
+    {
+      "command": [
+        "python",
+        "audit/build_source_role_ledger.py"
+      ],
+      "cwd": ".",
+      "exit_code": 0,
+      "log": "packaged_build_source_role_ledger.py.log"
+    },
+    {
+      "command": [
+        "python",
+        "audit/reexecute_root_cause.py"
+      ],
+      "cwd": ".",
+      "exit_code": 0,
+      "log": "packaged_reexecute_root_cause.py.log"
+    },
+    {
+      "command": [
+        "python",
+        "method/validate_audit_rules.py"
+      ],
+      "cwd": "temporary copy",
+      "exit_code": 0,
+      "log": "packaged_technical_01.log"
+    },
+    {
+      "command": [
+        "python",
+        "method/validate_mutated_artifacts.py"
+      ],
+      "cwd": "temporary copy",
+      "exit_code": 0,
+      "log": "packaged_technical_02.log"
+    },
+    {
+      "command": [
+        "python",
+        "method/verify_control_oracles.py"
+      ],
+      "cwd": "temporary copy",
+      "exit_code": 0,
+      "log": "packaged_technical_03.log"
+    },
+    {
+      "command": [
+        "python",
+        "primary/audit/audit_primary_r3.py"
+      ],
+      "cwd": "temporary copy",
+      "exit_code": 0,
+      "log": "packaged_technical_04.log"
+    },
+    {
+      "command": [
+        "python",
+        "historical/audit/audit_historical_r3.py",
+        "historical/dossiers",
+        "historical/audit"
+      ],
+      "cwd": "temporary copy",
+      "exit_code": 0,
+      "log": "packaged_technical_05.log"
+    },
+    {
+      "command": [
+        "python",
+        "robustness/audit/audit_replication_r3.py",
+        "robustness/scenarios",
+        "robustness/audit",
+        "scenarios"
+      ],
+      "cwd": "temporary copy",
+      "exit_code": 0,
+      "log": "packaged_technical_06.log"
+    },
+    {
+      "command": [
+        "python",
+        "robustness/audit/audit_replication_r3.py",
+        "robustness/challenge",
+        "robustness/audit",
+        "challenge"
+      ],
+      "cwd": "temporary copy",
+      "exit_code": 0,
+      "log": "packaged_technical_07.log"
+    },
+    {
+      "command": [
+        "python",
+        "external_fastapi/generate_and_audit.py"
+      ],
+      "cwd": "temporary copy",
+      "exit_code": 0,
+      "log": "packaged_technical_08.log"
+    },
+    {
+      "command": [
+        "python",
+        "verification/verify_r5_evidence.py"
+      ],
+      "cwd": "temporary copy",
+      "exit_code": 0,
+      "log": "packaged_technical_09.log"
+    },
+    {
+      "command": [
+        "python",
+        "verification/verify_release_evidence.py"
+      ],
+      "cwd": "temporary copy",
+      "exit_code": 0,
+      "log": "packaged_technical_10.log"
+    },
+    {
+      "corpus": "technical",
+      "changed_existing_files": []
+    },
+    {
+      "command": [
+        "python",
+        "analysis/analyze_independent_evaluation.py"
+      ],
+      "cwd": "temporary copy",
+      "exit_code": 0,
+      "log": "packaged_statistical_01.log"
+    },
+    {
+      "command": [
+        "python",
+        "analysis/analyze_r9_interpretation.py"
+      ],
+      "cwd": "temporary copy",
+      "exit_code": 0,
+      "log": "packaged_statistical_02.log"
+    },
+    {
+      "command": [
+        "python",
+        "analysis/analyze_r10_condition_disagreements.py"
+      ],
+      "cwd": "temporary copy",
+      "exit_code": 0,
+      "log": "packaged_statistical_03.log"
+    },
+    {
+      "command": [
+        "python",
+        "analysis/analyze_r11_condition_criteria.py"
+      ],
+      "cwd": "temporary copy",
+      "exit_code": 0,
+      "log": "packaged_statistical_04.log"
+    },
+    {
+      "corpus": "statistical",
+      "changed_existing_files": []
+    }
+  ]
+}

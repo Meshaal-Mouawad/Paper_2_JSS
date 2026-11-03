@@ -1,0 +1,4 @@
+reviewer,unaided_issue_cases,guided_issue_cases,unaided_median_seconds,unaided_iqr_low,unaided_iqr_high,guided_median_seconds,guided_iqr_low,guided_iqr_high,unaided_total_seconds,guided_total_seconds
+R1,19,23,70.0,60.0,80.0,70.0,60.0,80.0,1945,2020
+R2,15,15,64.5,46.0,81.25,72.0,56.75,88.25,1793,2036
+R3,24,28,64.5,57.75,75.0,55.5,49.0,63.5,1919,1633

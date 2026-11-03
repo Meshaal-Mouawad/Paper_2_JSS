@@ -1,0 +1,325 @@
+# LEAP Paper 2 — Autonomous Scientific Recovery, Published-Research Benchmarking, and SCP Submission Preparation
+
+## 1. Mission
+
+Act as a Senior Scientific Research Director, an experienced Editor-in-Chief, and a specialist in empirical software engineering.
+
+Your assignment is to independently examine, strengthen, and prepare LEAP Paper 2 for **Science of Computer Programming (SCP)**, following its editorial rejection from the Journal of Systems and Software (JSS).
+
+This is a scientific improvement assignment, not simply a manuscript rewriting task.
+
+The objective is to establish a defensible contribution to published software engineering knowledge, supported by the completed experiments and verified research evidence.
+
+**JSS manuscript:** JSSOFTWARE-D-26-02929
+
+**Submitted title:** When Generated KPI Explanations Misrepresent Source Code: An Empirical Evaluation of Automated Checks
+
+**JSS decision:** Rejected during editorial pre-screening. The editor stated that the paper was not yet ready for a leading journal and recommended obtaining additional research feedback. No detailed technical criticisms were supplied.
+
+Treat that decision as serious evidence that the manuscript requires scientific reassessment. Do not attribute unreported criticisms to the editor.
+
+## 2. Model and execution
+
+Primary model: GPT-6.
+
+Thinking level: High.
+
+Use ChatGPT Work to research, analyze repositories, inspect files, execute reproducibility checks, coordinate specialist reviews where supported, and produce complete revised artifacts.
+
+Delegate substantive, separable assignments to genuinely independent subagents when available. Otherwise, perform separately recorded review passes and identify them accurately.
+
+Do not pretend that sequential reviews conducted by one model are independently verified.
+
+Use less expensive models for bounded routine tasks if delegation is supported without reducing scientific accuracy.
+
+Work autonomously without stopping for optional clarification.
+
+Do not submit or transfer the paper to a journal, modify public evidence releases, or overwrite the authoritative GitHub manuscript until final scientific and technical acceptance gates pass.
+
+## 3. Authoritative research sources
+
+Use the most recent approved Paper 2 submission package as the working baseline.
+
+Locate and examine:
+
+- Latest clean manuscript PDF and matching LaTeX source.
+- Authoritative Paper 2 GitHub repository: https://github.com/Meshaal-Mouawad/Paper_2_JSS
+- Research evidence repository: https://github.com/Meshaal-Mouawad/LEAP-Paper2-Evidence
+- Original 28 KPI documents and linked source code.
+- Three independent code-reviewer assessments.
+- Automated checker source and validation scripts.
+- Original control datasets and expected results.
+- Historical and alternative-input experiments.
+- Supporting research protocols and statistical analysis.
+- JSS rejection correspondence.
+- The SCP research-comparison report.
+- The Universal Published-Paper Benchmark and Revision Prompt.
+
+Determine which manuscript version is authoritative before editing. The GitHub version may differ from the latest packaged submission.
+
+Preserve the original submitted version and its identifiable source history.
+
+Do not silently replace the study's evidence or research design with content from another LEAP study.
+
+## 4. Review assignment A — Scientific contribution and novelty
+
+Identify the exact scientific problem, existing knowledge, unresolved research question, proposed contribution, and supporting evidence.
+
+Distinguish:
+
+- An existing software capability.
+- A method developed by the research.
+- An empirical finding.
+- A scientific contribution that other researchers can use.
+
+Evaluate whether the paper's primary contribution should concern:
+
+A. Accuracy of generated software explanations.
+
+B. Limitations of automated checking rules.
+
+C. The difference between checker conformance and empirical detection coverage.
+
+D. How definitions of correct documentation affect checker evaluation.
+
+E. A better contribution demonstrated by the available evidence.
+
+Do not choose a contribution merely because it sounds novel.
+
+Select the strongest scientific claim that the research actually establishes.
+
+Reconstruct the complete research argument in one paragraph.
+
+## 5. Review assignment B — Study published papers before rewriting
+
+Research closely related accepted papers, prioritizing **Science of Computer Programming**.
+
+Target 12–20 relevant published papers, including 5–8 from SCP where suitable research exists.
+
+Search for work on:
+
+- Source-code documentation verification.
+- Code–comment inconsistency.
+- Behavioral completeness of software explanations.
+- Automated software checking and validation.
+- Software documentation generation.
+- Empirical studies of checking-rule coverage.
+- Source traceability and software knowledge representations.
+- Reviewer agreement and evaluation criteria.
+
+For each central paper, record:
+
+1. Full citation, DOI, publication year, and journal.
+2. Whether the full text or only part of it was examined.
+3. The research problem.
+4. The proposed solution or method.
+5. Data, experiments, baselines, and evaluation measures.
+6. Main reported findings.
+7. Limitations explicitly stated by its authors.
+8. The specific relationship to Paper 2.
+9. The scientific question that remains relevant to our research.
+
+Explain how the papers connect. Identify genuine extensions, complementary methods, differences in evidence, and unresolved questions.
+
+Never invent weaknesses in previous research or claim that one paper solved another's problem without supporting evidence.
+
+Produce a comparison table showing the strongest published work alongside Paper 2.
+
+Identify what previously published papers already establish and what Paper 2 can genuinely add.
+
+Study successful research papers for their scientific reasoning, experimental design, validation, and presentation—not for superficial writing patterns or presumed acceptance formulas.
+
+## 6. Review assignment C — Independent experimental evidence audit
+
+Reproduce the existing numerical findings from original source materials.
+
+Verify:
+
+- The 28 evaluated KPI documents.
+- All four proposed assessment criteria.
+- Three code-reviewer judgments and their recorded backgrounds, if available.
+- The 336 individual ratings.
+- Explicit N/A responses and their handling.
+- Reviewer-majority comparisons.
+- Fleiss' kappa and its interpretation.
+- The 32 checker control tests.
+- The source-role checker confusion matrix.
+- The 2 detected and 14 missed majority-reference source-role errors.
+- Condition-checker precision under the two disclosure definitions.
+- The six explicit-conflict routing outcomes.
+- Historical and alternative-input evaluations.
+- Generator root-cause explanations.
+- External-format checks.
+
+Identify the scripts and files that produce each result.
+
+Separate reproduced results from values reported only in existing documents.
+
+If an expected result cannot be reproduced, identify the exact discrepancy.
+
+Evaluate experimental design, sample selection, reviewer instructions, choice of measures, validity of comparisons, and strength of conclusions.
+
+Do not invent experiments, participants, qualifications, measurements, or results.
+
+## 7. Review assignment D — Determine whether additional experiments are needed
+
+Assess whether the existing research supports a publishable SCP contribution.
+
+Evaluate two scientific pathways.
+
+**Route A: Strengthen the existing empirical study.**
+
+Determine whether the current evidence supports an important finding about checker reliability, incomplete detection rules, or differences between evaluation criteria.
+
+**Route B: Add a focused experiment.**
+
+Propose an additional experiment only where the research argument requires new evidence.
+
+Specify its hypothesis or question, dataset, comparison method, expected measurements, and acceptance criteria.
+
+Do not manufacture improved results or rewrite unsuccessful outcomes as successful software performance.
+
+Recommend one route based on scientific evidence.
+
+## 8. Scientific decision gate
+
+Before making substantive manuscript changes, combine the independent review findings into a scientific decision report.
+
+The report must answer:
+
+- What is the central scientific contribution?
+- How does it differ from the closest published work?
+- Which existing results support it?
+- Which conclusions need correction or narrowing?
+- Are new experiments scientifically necessary?
+- Is the manuscript ready for substantive revision toward SCP?
+
+Include a priority-ranked correction plan.
+
+Do not proceed on the assumption that the current scientific framing is already correct.
+
+## 9. Review assignment E — Reconstruct and revise the manuscript
+
+After establishing the scientific contribution, revise the manuscript as one connected explanation.
+
+Follow this progression:
+
+**Research problem → existing research → unresolved question → our proposed response → methodology → evidence → findings → scientific implications.**
+
+The reader is technically educated but has never encountered LEAP.
+
+Never introduce an unfamiliar concept, symbol, acronym, component, or comparison without first explaining its meaning and relevance.
+
+Use direct subjects and familiar technical language.
+
+Introduce researchers by describing what they investigated and established before discussing their frameworks.
+
+In the literature review, connect research contributions logically. Explain what each significant study adds and how it relates to the present problem.
+
+Make every paragraph develop one clear idea and prepare the next.
+
+Replace unclear wording rather than adding explanatory paragraphs that repeat the same information.
+
+Use consistent terminology throughout the text, figures, tables, and captions.
+
+Avoid unexplained symbols, expressions such as "Exact / n", vague claims, abrupt mathematical notation, and technical descriptions that assume the reader already knows the study.
+
+A table must explain itself through its title, headings, and caption.
+
+Do not place editorial responses, reviewer negotiations, or revision-history explanations inside the clean manuscript.
+
+Concentrate the manuscript on its strongest scientific contribution.
+
+## 10. Journal suitability and editorial review
+
+Review current author instructions and relevant accepted articles from Science of Computer Programming.
+
+Evaluate whether the revised paper:
+
+- Fits the journal's research scope.
+- Makes a clear technical or empirical contribution.
+- Provides adequate evidence.
+- Compares its findings with existing research.
+- Explains limitations appropriately.
+- Offers results relevant beyond the evaluated LEAP implementation.
+- Meets the journal's submission and formatting requirements.
+
+Apply the ACM SIGSOFT Empirical Standards where appropriate.
+
+Perform a simulated editorial pre-screening.
+
+For every possible rejection concern, identify the specific manuscript evidence and the action required to address it.
+
+Do not generate invented editorial comments or predict acceptance percentages.
+
+## 11. Research integrity and source protection
+
+Preserve verified experimental evidence, original datasets, reviewer responses, numerical results, citation identity, and repository history.
+
+Do not change reported results merely to make the paper more attractive.
+
+Do not invent references, author qualifications, funding, sample sizes, effect sizes, experiments, or statistical significance.
+
+Distinguish confirmed source information from interpretation.
+
+Place research limitations in a dedicated Limitations section.
+
+Keep BAJ's original review records available outside the clean submission manuscript.
+
+Do not reference ChatGPT, agents, internal drafting workflows, or editorial prompting inside the manuscript.
+
+Prepare any required disclosure separately for author review, in accordance with the selected journal's requirements.
+
+## 12. Required deliverables
+
+Produce:
+
+1. Published-paper comparison with verified citations and evidence-access status.
+2. Independent scientific contribution assessment.
+3. Reproducibility and statistical evidence audit.
+4. Decision report on whether new experiments are required.
+5. Scientific revision plan with priorities.
+6. Complete revised LaTeX manuscript.
+7. Clean, compiled PDF.
+8. Updated figures and tables where scientifically justified.
+9. SCP-specific cover letter and submission materials, using PDF rather than Word files.
+10. Final editorial pre-screening report.
+11. Exact manuscript changes and GitHub repository status.
+
+Keep evidence verification reports separate from the submitted paper.
+
+## 13. Final acceptance gates
+
+Do not declare the project COMPLETE unless:
+
+- The contribution is clearly distinguished from existing published work.
+- All central scientific claims are supported by verified evidence.
+- Research questions, methodology, results, discussion, and conclusions are aligned.
+- Required calculations and experiments reproduce successfully.
+- Every citation and reference resolves.
+- The manuscript can be read without unexplained terminology.
+- Tables and figures are correct and legible.
+- LaTeX compiles successfully.
+- The final PDF has been inspected.
+- SCP submission requirements have been verified.
+- All important review findings have been resolved or explicitly identified.
+- The final source and PDF versions match.
+- Git changes and pending approvals are clearly reported.
+
+If any required gate is unresolved, report NOT COMPLETE with the exact remaining problem.
+
+## 14. Execution instruction
+
+Start by reading the original manuscript and research evidence.
+
+Then study the relevant published papers.
+
+Perform the scientific reviews before modifying the manuscript.
+
+Use the existing research as the foundation for improvement.
+
+Prioritize intellectual validity, clear scientific contribution, reproducibility, and reader understanding.
+
+Proceed autonomously through all supported stages.
+
+Do not submit or transfer the manuscript to SCP without explicit author authorization.

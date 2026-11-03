@@ -1,0 +1,210 @@
+Enterprise KPI Dossier - Ethylene Production Yield
+Skip to dossier content
+Workspace
+Main
+Dashboard
+KPI Portfolio
+Discovery Workspace
+Enterprise KPIs
+Governance
+RACI Directory
+Governance State
+Evidence
+Evidence & Lineage
+Utilities
+Search
+Index
+Workspace Mode
+Offline Governance
+Certified metric dossier
+KPI Intelligence Workspace
+--
+Light Teal
+Dark
+Classic
+Confidence
+90%
+Source
+PYTHON
+Owner
+Operations Data Owner
+Offline
+Enterprise KPI Dossier
+Ethylene Production Yield
+Operations intelligence record connecting business definition, certified formula, ownership, and operational evidence.
+Validated
+Ready for governed operational use.
+Owner accountability confirmed through Operations Data Owner with 90% formula confidence.
+Business Domain
+Operations
+Confidence
+90%
+Governance Status
+Validated
+Owner
+Operations Data Owner
+Source
+PYTHON
+Last Validation
+2026-09-21
+LEAP
+/
+KPI Catalog
+/
+Ethylene Production Yield
+Executive Briefing
+Executive Summary
+If this KPI trends up: Usually signals better operating performance, assuming the denominator and period filters are unchanged. If it trends down: Usually signals weaker performance or a possible data-quality issue that should be investigated. Owner check: What changed in source data, business process, or KPI logic that explains movement in Ethylene Production Yield?
+Business Meaning
+Percentage of feedstock mass successfully converted to ethylene product.
+Decision
+Maximize conversion efficiency in the steam cracking unit within safe operating limits.
+Trust
+Governed metric ready for operational decision support.
+Risk
+Incorrect interpretation may affect Operations planning, accountability, or exception response.
+Action
+Operations Data Owner should monitor movement and confirm context when the metric changes materially.
+Mathematical Formulation
+Formal Formula
+\[ \mathrm{Ethylene\,Production\,Yield} = \left(\frac{\mathrm{Ethylene\,Produced}}{\mathrm{Feedstock\,Input}}\right) \times 100 \]
+Where:
+Numerator:
+Ethylene Produced (Tons)
+Denominator:
+Feedstock Input (Tons)
+Scale:
+×100
+Annotated Formula
+Business Interpretation
+Developer Lineage
+Ethylene Produced
+Ethylene Produced
+Divided By
+÷
+Feedstock Input
+Feedstock Input
+Scaled by 100
+× 100
+Developer Lineage Breakdown
+1 | def calculate_ethylene_yield_pct(ethylene_produced_tons: float, feedstock_input_tons: float) -> float:
+Calculation expression: combines source variables used by the formal formula.
+2 | """Calculates ethylene production yield as a percentage of feedstock input."""
+Output alias: maps this expression to a in the result set.
+3 | if feedstock_input_tons <= 0:
+Source context: supports the KPI definition or execution boundary.
+4 | return 0.0
+Source context: supports the KPI definition or execution boundary.
+5 | return (ethylene_produced_tons / feedstock_input_tons) * 100.0
+Calculation expression: combines source variables used by the formal formula.
+Evidence & Lineage
+Operational Logic
+Formula Lineage
+Provenance
+Inputs
+def calculate_ethylene_yield_pct(ethylene_produced_tons: float, feedstock_input_tons: float) -> float:
+"""Calculates ethylene production yield as a percentage of feedstock input."""
+if feedstock_input_tons <= 0:
+return 0.0
+return (ethylene_produced_tons / feedstock_input_tons) * 100.0
+Inline evidence snippet
+1 | def calculate_ethylene_yield_pct(ethylene_produced_tons: float, feedstock_input_tons: float) -&gt; float:
+2 |     &quot;&quot;&quot;Calculates ethylene production yield as a percentage of feedstock input.&quot;&quot;&quot;
+3 |     if feedstock_input_tons &lt;= 0:
+4 |         return 0.0
+5 |     return (ethylene_produced_tons / feedstock_input_tons) * 100.0
+Developer Lineage Breakdown
+1 | def calculate_ethylene_yield_pct(ethylene_produced_tons: float, feedstock_input_tons: float) -> float:
+Calculation expression: combines source variables used by the formal formula.
+2 | """Calculates ethylene production yield as a percentage of feedstock input."""
+Output alias: maps this expression to a in the result set.
+3 | if feedstock_input_tons <= 0:
+Source context: supports the KPI definition or execution boundary.
+4 | return 0.0
+Source context: supports the KPI definition or execution boundary.
+5 | return (ethylene_produced_tons / feedstock_input_tons) * 100.0
+Calculation expression: combines source variables used by the formal formula.
+Operational Intent
+Percentage of feedstock mass successfully converted to ethylene product. LEAP frames this as an operational evidence signal for operations decision-making.
+Verified Logic Mapping
+First, LEAP certifies the KPI definition against control_no_conflict_yield.py and classifies the implementation as PYTHON evidence.
+Second, it presents the certified calculation expression (Ethylene Yield % = (Ethylene Produced (tons) / Feedstock Input (tons)) * 100) in the formal MathJax formula shown above.
+Finally, it preserves the executable context and code fingerprint so future changes to the KPI logic can be identified.
+Logic Safeguards
+OK
+Implementation Traceability:
+Executable evidence is locked to control_no_conflict_yield.py at line 1.
+OK
+Formula Consistency Check:
+The business formula and implementation evidence share compatible calculation structure based on LEAP's structured comparison.
+OK
+Change Detection:
+Code Fingerprint 48f65d9980 records the current implementation so drift can be identified after the next workspace refresh.
+OK
+RACI Accountability:
+Operations Data Owner is assigned as accountable owner for rule confirmation and escalation.
+Executive Alignment
+Business rules are aligned to inferred from source path: Production, refinery, and process operations. RACI Owner: Operations Data Owner. Consulted reviewer: Process Engineering Team. Current status: Validated.
+Business Data System
+EXPLICIT SOURCE: DCS Historian (OSIsoft PI) and shift production logs
+Source File
+control_no_conflict_yield.py
+Source Line
+1
+Definition Pattern
+Comment
+Governance Domain
+Operations
+KPI ID
+KPI-48F65D9980
+Business Usage
+Operations Performance Dashboard, Cracker Unit KPI Review
+Input Evidence
+Ethylene produced (tons), Feedstock input (tons)
+Definition
+Percentage of feedstock mass successfully converted to ethylene product.
+Business Context
+Maximize conversion efficiency in the steam cracking unit within safe operating limits.
+Edge Cases / Comments
+Compliance mode preserved only implementation-grounded evidence; unresolved business context is routed to owner confirmation.
+Governance
+Validated
+Confidence:
+90%
+Accountable:
+Operations Data Owner
+RACI
+Responsible:
+Operations Data Engineering Team
+Accountable:
+Operations Data Owner
+Consulted:
+Process Engineering Team
+Informed:
+Plant Management
+Metadata
+KPI_ID:
+KPI-48F65D9980
+Fingerprint:
+48f65d99
+Validated:
+2026-09-21
+Type:
+PYTHON operational definition
+Runtime:
+Offline
+Frequency:
+On Demand
+Operational Actions
+Print Certified Dossier
+Edit Dossier
+Open Discovery Workspace
+Open RACI Directory
+LEAP AXIS KPI Intelligence Workspace
+AI: Offline Mode · Deterministic AST Engine
+Workspace
+Discovery
+RACI
+SDAIA PDPL
+NCA ECC
+ISO 22400

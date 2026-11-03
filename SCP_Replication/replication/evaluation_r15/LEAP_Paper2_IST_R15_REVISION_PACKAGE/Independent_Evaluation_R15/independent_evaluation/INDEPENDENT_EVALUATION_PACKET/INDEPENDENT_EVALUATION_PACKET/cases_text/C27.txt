@@ -1,0 +1,219 @@
+Enterprise KPI Dossier - On-Spec Rate (%)
+Skip to dossier content
+Workspace
+Main
+Dashboard
+KPI Portfolio
+Discovery Workspace
+Enterprise KPIs
+Governance
+RACI Directory
+Governance State
+Evidence
+Evidence & Lineage
+Utilities
+Search
+Index
+Workspace Mode
+Offline Governance
+Certified metric dossier
+KPI Intelligence Workspace
+--
+Light Teal
+Dark
+Classic
+Confidence
+95%
+Source
+SQL
+Owner
+Enterprise Data Owner
+Offline
+Enterprise KPI Dossier
+On-Spec Rate (%)
+Enterprise intelligence record connecting business definition, certified formula, ownership, and operational evidence.
+Validated
+Ready for governed operational use.
+Owner accountability confirmed through Enterprise Data Owner with 95% formula confidence.
+Business Domain
+Enterprise
+Confidence
+95%
+Governance Status
+Validated
+Owner
+Enterprise Data Owner
+Source
+SQL
+Last Validation
+2026-09-21
+LEAP
+/
+KPI Catalog
+/
+On-Spec Rate (%)
+Executive Briefing
+Executive Summary
+If this KPI trends up: Indicates a material change in the measured business condition and should be interpreted with the owner. If it trends down: Indicates a material change in the measured business condition and should be checked against source-data timing. Owner check: What changed in source data, business process, or KPI logic that explains movement in On-Spec Rate (%)?
+Business Meaning
+Certified operational definition for "On-Spec Rate (%)".
+Decision
+Business objective is not declared in the source evidence. Owner confirmation is required before executive use.
+Trust
+Governed metric ready for operational decision support.
+Risk
+Incorrect interpretation may affect Enterprise planning, accountability, or exception response.
+Action
+Enterprise Data Owner should monitor movement and confirm context when the metric changes materially.
+Mathematical Formulation
+Formal Formula
+\[ \mathrm{On\,Spec} = \frac{\mathrm{On\,Spec\,Batches}}{\mathrm{Total\,Batches}} \times 100 \]
+Where:
+Numerator:
+On Spec Batches
+Denominator:
+Total Batches
+Scale:
+×100
+Annotated Formula
+Business Interpretation
+Developer Lineage
+Cast
+CAST
+100.0
+100.0
+Multiplied By
+×
+On Spec Batches
+on_spec_batches
+Divided By
+÷
+Total Batches
+total_batches
+Developer Lineage Breakdown
+1 | -- KPI: On-Spec Rate (%)
+KPI marker: tells LEAP this nearby code defines or documents a KPI.
+2 | -- Formula: \mathrm{On\text{-}Spec\,\%} = \frac{\mathrm{On\text{-}Spec\,Batches}}{\mathrm{Total\,Batches}} \times 100
+Calculation hint: documents the business expression expected inside the KPI implementation.
+3 | CREATE VIEW kpi_on_spec_rate AS
+Source context: supports the KPI definition or execution boundary.
+4 | SELECT
+Query entry point: starts the data-selection logic used to calculate the KPI.
+5 | CAST(100.0 * on_spec_batches / NULLIF(total_batches, 0) AS FLOAT) AS on_spec_percentage
+Output alias: maps this expression to FLOAT in the result set.
+6 | FROM batch_quality_summary;
+Source relation: identifies the table, view, or dataset read by the KPI.
+Evidence & Lineage
+Operational Logic
+Formula Lineage
+Provenance
+Inputs
+-- KPI: On-Spec Rate (%)
+-- Formula: \mathrm{On\text{-}Spec\,\%} = \frac{\mathrm{On\text{-}Spec\,Batches}}{\mathrm{Total\,Batches}} \times 100
+CREATE VIEW kpi_on_spec_rate AS
+SELECT
+CAST(100.0 * on_spec_batches / NULLIF(total_batches, 0) AS FLOAT) AS on_spec_percentage
+FROM batch_quality_summary;
+Inline evidence snippet
+1 | -- KPI: On-Spec Rate (%)
+2 | -- Formula: \mathrm{On\text{-}Spec\,\%} = \frac{\mathrm{On\text{-}Spec\,Batches}}{\mathrm{Total\,Batches}} \times 100
+3 | CREATE VIEW kpi_on_spec_rate AS
+4 | SELECT
+5 |     CAST(100.0 * on_spec_batches / NULLIF(total_batches, 0) AS FLOAT) AS on_spec_percentage
+Developer Lineage Breakdown
+1 | -- KPI: On-Spec Rate (%)
+KPI marker: tells LEAP this nearby code defines or documents a KPI.
+2 | -- Formula: \mathrm{On\text{-}Spec\,\%} = \frac{\mathrm{On\text{-}Spec\,Batches}}{\mathrm{Total\,Batches}} \times 100
+Calculation hint: documents the business expression expected inside the KPI implementation.
+3 | CREATE VIEW kpi_on_spec_rate AS
+Source context: supports the KPI definition or execution boundary.
+4 | SELECT
+Query entry point: starts the data-selection logic used to calculate the KPI.
+5 | CAST(100.0 * on_spec_batches / NULLIF(total_batches, 0) AS FLOAT) AS on_spec_percentage
+Output alias: maps this expression to FLOAT in the result set.
+6 | FROM batch_quality_summary;
+Source relation: identifies the table, view, or dataset read by the KPI.
+Operational Intent
+Certified operational definition for "On-Spec Rate (%)". LEAP frames this as an operational evidence signal for enterprise decision-making.
+Verified Logic Mapping
+First, LEAP certifies the KPI definition against sql_kpi.sql and classifies the implementation as SQL evidence.
+Second, it presents the certified calculation expression (\mathrm{On\text{-}Spec\,\%} = \frac{\mathrm{On\text{-}Spec\,Batches}}{\mathrm{Total\,Batches}} \times 100) in the formal MathJax formula shown above.
+Finally, it preserves the executable context and code fingerprint so future changes to the KPI logic can be identified.
+Logic Safeguards
+OK
+Zero-Division Guard:
+Implementation logic uses NULLIF so denominator values of zero do not create invalid ratio calculations.
+OK
+Formula Consistency Check:
+The business formula and implementation evidence share compatible calculation structure based on LEAP's structured comparison.
+OK
+Change Detection:
+Code Fingerprint cf277247f6 records the current implementation so drift can be identified after the next workspace refresh.
+OK
+RACI Accountability:
+Enterprise Data Owner is assigned as accountable owner for rule confirmation and escalation.
+Executive Alignment
+Business rules are aligned to default rule; no path/name governance match (SQL). RACI Owner: Enterprise Data Owner. Consulted reviewer: Domain Subject Matter Expert. Current status: Validated.
+Business Data System
+EXPLICIT SOURCE TABLE(S): batch_quality_summary
+Source File
+sql_kpi.sql
+Source Line
+1
+Definition Pattern
+Sql Comment
+Governance Domain
+Enterprise
+KPI ID
+KPI-CF277247F6
+Business Usage
+Business-process usage mapping is not declared in the source evidence.
+Input Evidence
+Explicit input-field list is not declared in the source evidence.
+Definition
+Certified operational definition for "On-Spec Rate (%)". Source evidence confirms the calculation path; accountable ownership confirms business use.
+Business Context
+Business objective is not declared in the source evidence. Owner confirmation is required before executive use.
+Edge Cases / Comments
+Compliance mode preserved only implementation-grounded evidence; unresolved business context is routed to owner confirmation.
+Governance
+Validated
+Confidence:
+95%
+Accountable:
+Enterprise Data Owner
+RACI
+Responsible:
+Data Engineering Team
+Accountable:
+Enterprise Data Owner
+Consulted:
+Domain Subject Matter Expert
+Informed:
+Business Stakeholders
+Metadata
+KPI_ID:
+KPI-CF277247F6
+Fingerprint:
+cf277247
+Validated:
+2026-09-21
+Type:
+SQL operational definition
+Runtime:
+Offline
+Frequency:
+On Demand
+Operational Actions
+Print Certified Dossier
+Edit Dossier
+Open Discovery Workspace
+Open RACI Directory
+LEAP AXIS KPI Intelligence Workspace
+AI: Offline Mode · Deterministic AST Engine
+Workspace
+Discovery
+RACI
+SDAIA PDPL
+NCA ECC
+ISO 22400

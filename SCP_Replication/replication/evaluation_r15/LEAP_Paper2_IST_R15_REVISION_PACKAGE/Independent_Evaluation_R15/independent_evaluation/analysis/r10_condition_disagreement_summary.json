@@ -1,0 +1,13 @@
+{
+  "condition_checker_majority_disagreements": 3,
+  "condition_vote_pattern": {
+    "R1": "PASS",
+    "R2": "PASS",
+    "R3": "FAIL",
+    "checker": "FAIL"
+  },
+  "authority_possible_labels": 84,
+  "authority_blank_to_na_normalizations": 0,
+  "authority_fleiss_kappa": -0.2847058823529411,
+  "interpretation": "Authority kappa is unconditional with respect to blank-to-NA normalization; all 84 authority labels were explicit."
+}

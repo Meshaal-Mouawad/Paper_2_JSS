@@ -1,0 +1,259 @@
+Enterprise KPI Dossier - Compressor Vibration Index
+Skip to dossier content
+Workspace
+Main
+Dashboard
+KPI Portfolio
+Discovery Workspace
+Enterprise KPIs
+Governance
+RACI Directory
+Governance State
+Evidence
+Evidence & Lineage
+Utilities
+Search
+Index
+Workspace Mode
+Offline Governance
+Certified metric dossier
+KPI Intelligence Workspace
+--
+Light Teal
+Dark
+Classic
+Confidence
+90%
+Source
+PYTHON
+Owner
+Maintenance Data Owner
+Offline
+Enterprise KPI Dossier
+Compressor Vibration Index
+Maintenance intelligence record connecting business definition, certified formula, ownership, and operational evidence.
+Needs Review
+Owner confirmation required before executive use.
+Maintenance Data Owner remains accountable while governance review is resolved.
+Business Domain
+Maintenance
+Confidence
+90%
+Governance Status
+Needs Review
+Owner
+Maintenance Data Owner
+Source
+PYTHON
+Last Validation
+2026-09-21
+LEAP
+/
+KPI Catalog
+/
+Compressor Vibration Index
+Executive Briefing
+Executive Summary
+If this KPI trends up: Indicates a material change in the measured business condition and should be interpreted with the owner. If it trends down: Indicates a material change in the measured business condition and should be checked against source-data timing. Owner check: What changed in source data, business process, or KPI logic that explains movement in Compressor Vibration Index?
+Business Meaning
+Normalized vibration severity for rotating compressor units.
+Decision
+Early detection of mechanical degradation before catastrophic failure.
+Trust
+Decision use requires owner confirmation.
+Risk
+Incorrect interpretation may affect Maintenance planning, accountability, or exception response.
+Action
+Maintenance Data Owner should monitor movement and confirm context when the metric changes materially.
+Mathematical Formulation
+Formal Formula
+\[ \mathrm{Compressor\,Vibration\,Index} = \frac{\mathrm{Peak\,Vibration\,Amplitude}}{\mathrm{Baseline\,Threshold}} \]
+Where:
+Numerator:
+Peak Vibration Amplitude
+Denominator:
+Baseline Threshold
+Annotated Formula
+Business Interpretation
+Developer Lineage
+Peak Vibration Amplitude
+Peak Vibration Amplitude
+Divided By
+÷
+Baseline Threshold
+Baseline Threshold
+Developer Lineage Breakdown
+1 | def calculate_vibration_index(peak_vibration_mm_s: float, baseline_threshold_mm_s: float) -> float:
+Calculation expression: combines source variables used by the formal formula.
+2 | if baseline_threshold_mm_s <= 0:
+Source context: supports the KPI definition or execution boundary.
+3 | return 0.0
+Source context: supports the KPI definition or execution boundary.
+4 | index = peak_vibration_mm_s / baseline_threshold_mm_s
+Calculation expression: combines source variables used by the formal formula.
+5 | # CONFLICT: threshold interpretation is inverted.
+KPI marker: tells LEAP this nearby code defines or documents a KPI.
+6 | # Business: index > 1.0 means threshold EXCEEDED — bad condition.
+KPI marker: tells LEAP this nearby code defines or documents a KPI.
+7 | # Code below labels high index as GOOD performance — directly contradicts business rule.
+KPI marker: tells LEAP this nearby code defines or documents a KPI.
+8 | if index >= 1.0:
+Source context: supports the KPI definition or execution boundary.
+9 | status = "GOOD_PERFORMANCE"   # BUG: should be ALERT or CRITICAL
+Source context: supports the KPI definition or execution boundary.
+10 | else:
+Source context: supports the KPI definition or execution boundary.
+Evidence & Lineage
+Operational Logic
+Formula Lineage
+Provenance
+Inputs
+def calculate_vibration_index(peak_vibration_mm_s: float, baseline_threshold_mm_s: float) -> float:
+if baseline_threshold_mm_s <= 0:
+return 0.0
+index = peak_vibration_mm_s / baseline_threshold_mm_s
+# CONFLICT: threshold interpretation is inverted.
+# Business: index > 1.0 means threshold EXCEEDED — bad condition.
+# Code below labels high index as GOOD performance — directly contradicts business rule.
+if index >= 1.0:
+status = "GOOD_PERFORMANCE"   # BUG: should be ALERT or CRITICAL
+else:
+status = "BELOW_THRESHOLD"    # BUG: this is actually the SAFE state
+return index
+Inline evidence snippet
+1 | def calculate_vibration_index(peak_vibration_mm_s: float, baseline_threshold_mm_s: float) -&gt; float:
+2 |     if baseline_threshold_mm_s &lt;= 0:
+3 |         return 0.0
+4 |     index = peak_vibration_mm_s / baseline_threshold_mm_s
+5 |
+Developer Lineage Breakdown
+1 | def calculate_vibration_index(peak_vibration_mm_s: float, baseline_threshold_mm_s: float) -> float:
+Calculation expression: combines source variables used by the formal formula.
+2 | if baseline_threshold_mm_s <= 0:
+Source context: supports the KPI definition or execution boundary.
+3 | return 0.0
+Source context: supports the KPI definition or execution boundary.
+4 | index = peak_vibration_mm_s / baseline_threshold_mm_s
+Calculation expression: combines source variables used by the formal formula.
+5 | # CONFLICT: threshold interpretation is inverted.
+KPI marker: tells LEAP this nearby code defines or documents a KPI.
+6 | # Business: index > 1.0 means threshold EXCEEDED — bad condition.
+KPI marker: tells LEAP this nearby code defines or documents a KPI.
+7 | # Code below labels high index as GOOD performance — directly contradicts business rule.
+KPI marker: tells LEAP this nearby code defines or documents a KPI.
+8 | if index >= 1.0:
+Source context: supports the KPI definition or execution boundary.
+9 | status = "GOOD_PERFORMANCE"   # BUG: should be ALERT or CRITICAL
+Source context: supports the KPI definition or execution boundary.
+10 | else:
+Source context: supports the KPI definition or execution boundary.
+Operational Intent
+Normalized vibration severity for rotating compressor units. LEAP frames this as an operational evidence signal for maintenance decision-making.
+Verified Logic Mapping
+First, LEAP certifies the KPI definition against conflict_threshold_vibration.py and classifies the implementation as PYTHON evidence.
+Second, it presents the certified calculation expression (Vibration Index = Peak Vibration Amplitude / Baseline Threshold) in the formal MathJax formula shown above.
+Finally, it preserves the executable context and code fingerprint so future changes to the KPI logic can be identified.
+Logic Safeguards
+OK
+Implementation Traceability:
+Executable evidence is locked to conflict_threshold_vibration.py at line 1.
+OK
+Governance Conflict Flag:
+Threshold interpretation conflict: business comment states 'higher is worse', but implementation assigns 'GOOD_PERFORMANCE' to the high-value condition. This inverts the business meaning of the KPI.
+OK
+Change Detection:
+Code Fingerprint 0843a34321 records the current implementation so drift can be identified after the next workspace refresh.
+OK
+RACI Accountability:
+Maintenance Data Owner is assigned as accountable owner for rule confirmation and escalation.
+Executive Alignment
+Business rules are aligned to inferred from KPI name: Maintenance KPI name. RACI Owner: Maintenance Data Owner. Consulted reviewer: Reliability Engineering Team. Current status: Needs Review.
+Business Data System
+EXPLICIT SOURCE: OSIsoft PI System (Historian)
+Source File
+conflict_threshold_vibration.py
+Source Line
+1
+Definition Pattern
+Comment
+Governance Domain
+Maintenance
+KPI ID
+KPI-0843A34321
+Business Usage
+Reliability Dashboard, Predictive Maintenance Alert System
+Input Evidence
+Peak vibration (mm/s), Baseline safe threshold (mm/s)
+Definition
+Normalized vibration severity for rotating compressor units.
+Business Context
+Early detection of mechanical degradation before catastrophic failure.
+Edge Cases / Comments
+Compliance mode preserved only implementation-grounded evidence; unresolved business context is routed to owner confirmation.
+Governance
+Needs Review
+Confidence:
+90%
+Accountable:
+Maintenance Data Owner
+GOVERNANCE CONFLICT
+Conflict detected. See Review Queue for details.
+RACI
+Responsible:
+Reliability Data Engineering Team
+Accountable:
+Maintenance Data Owner
+Consulted:
+Reliability Engineering Team
+Informed:
+Maintenance Leadership
+Metadata
+KPI_ID:
+KPI-0843A34321
+Fingerprint:
+0843a343
+Validated:
+2026-09-21
+Type:
+PYTHON operational definition
+Runtime:
+Offline
+Frequency:
+On Demand
+Operational Actions
+Print Certified Dossier
+Edit Dossier
+Open Discovery Workspace
+Open RACI Directory
+Review Queue
+Needs Review
+Governance Review Required
+Governance conflict detected
+Business rule and implementation require review
+Threshold interpretation conflict: business comment states 'higher is worse', but implementation assigns 'GOOD_PERFORMANCE' to the high-value condition. This inverts the business meaning of the KPI.
+Technical Review Required
+Potential Development Issues
+Found potential development issues (BUG/TODO/FIXME) in source code lineage.
+Please review this governed KPI evidence package.
+KPI: Compressor Vibration Index
+KPI ID: KPI-0843A34321
+Accountable owner: Maintenance Data Owner
+Consulted SME: Reliability Engineering Team
+Source: conflict_threshold_vibration.py
+Line: 1
+Review questions:
+- Does the business meaning match how the KPI is used?
+- Does the formula reflect the approved business rule?
+- Are the source fields, filters, and reporting period correct?
+- Should this KPI be marked Validated or Needs Review?
+Send or copy this review request to the accountable owner or domain subject matter expert (SME).
+Open Email Draft
+Copy Review Text
+LEAP AXIS KPI Intelligence Workspace
+AI: Offline Mode · Deterministic AST Engine
+Workspace
+Discovery
+RACI
+SDAIA PDPL
+NCA ECC
+ISO 22400

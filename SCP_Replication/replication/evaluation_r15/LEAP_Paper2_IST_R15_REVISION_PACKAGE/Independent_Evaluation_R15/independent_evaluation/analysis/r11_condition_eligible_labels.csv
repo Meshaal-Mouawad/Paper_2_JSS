@@ -1,0 +1,11 @@
+case_id,original_dossier_filename,R1,R2,R3,condition_disclosure
+C01,gross_margin_percentage.html,PASS,PASS,FAIL,FAIL
+C02,mean_time_between_failures_mtbf.html,FAIL,FAIL,FAIL,FAIL
+C04,specific_catalyst_cost_ton.html,PASS,PASS,PASS,PASS
+C07,daily_feedstock_throughput_tonsday.html,PASS,PASS,PASS,PASS
+C08,kpi_flare_recovery_pct.html,PASS,PASS,PASS,PASS
+C10,compressor_vibration_index.html,FAIL,FAIL,FAIL,FAIL
+C11,propylene_to_ethylene_pe_ratio.html,PASS,PASS,PASS,PASS
+C12,ethylene_production_yield.html,PASS,PASS,FAIL,FAIL
+C26,yield_percentage.html,PASS,PASS,FAIL,FAIL
+C27,onspec_rate.html,PASS,PASS,PASS,PASS

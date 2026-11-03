@@ -1,0 +1,17 @@
+# Experimental materials: input, task, output, and analysis
+
+| Manuscript evidence | Input and task instructions | Outcome files | Analysis or verification |
+|---|---|---|---|
+| 28 primary KPI documents | `replication/evidence/primary/artifact_28/dossiers/` and `generation.log` | `replication/evidence/primary/audit/` | `replication/evidence/primary/audit/audit_primary_r3.py` |
+| 18 historical documents | `replication/evidence/historical/dossiers/` | `replication/evidence/historical/audit/` | `replication/evidence/historical/audit/audit_historical_r3.py` |
+| 29 scenario and 8 challenge outputs | `replication/evidence/robustness/scenarios/` and `robustness/challenge/` | `replication/evidence/robustness/audit/` | `replication/evidence/robustness/audit/audit_replication_r3.py` |
+| 32 prepared rule controls | `replication/evidence/method/CHECKER_CONTROL_ORACLE.csv`, `ARTIFACT_MUTATION_ORACLE.csv`, and protocol R5 | `replication/evidence/method/*VALIDATION_RESULT.json` | `replication/evidence/method/validate_audit_rules.py`, `validate_mutated_artifacts.py`, `verify_control_oracles.py` |
+| Phase A free-form reviews | `replication/evaluation_r15/LEAP_Paper2_IST_R15_REVISION_PACKAGE/Independent_Evaluation_R15/independent_evaluation/INDEPENDENT_EVALUATION_PACKET/INDEPENDENT_EVALUATION_PACKET/README.md`; 28 blinded documents | `replication/evaluation_r15/LEAP_Paper2_IST_R15_REVISION_PACKAGE/Independent_Evaluation_R15/independent_evaluation/raw/R*_manual_review_form.csv` | `replication/evaluation_r15/LEAP_Paper2_IST_R15_REVISION_PACKAGE/Independent_Evaluation_R15/independent_evaluation/analysis/` |
+| Phase B categorical reviews | `replication/reporting_correction/REVIEWER_GUIDANCE.md`; `COLLECTION_AND_ANALYSIS_GUIDANCE.md` | `replication/reporting_correction/original_responses/R*_obligation_review_form.csv` | `replication/reporting_correction/LABEL_RECONCILIATION.csv`; `replication/audit/independent_recompute.py` |
+| Source-role defect comparison | Source files, generated descriptions, all three reviewers' notes, and checker flags | `replication/audit/source_role_failure_ledger.csv` | `replication/audit/build_source_role_ledger.py` |
+| Condition disclosure comparison | Ten eligible documents, checker flags, original ratings | `replication/audit/condition_reference_evidence.json` | `replication/audit/independent_recompute.py` |
+| Reviewer agreement / statistical tests | All 336 preserved ratings and normalized derivatives | `replication/evaluation_r15/LEAP_Paper2_IST_R15_REVISION_PACKAGE/Independent_Evaluation_R15/independent_evaluation/analysis/` | Four commands in `replication/audit/evaluation_rerun_commands.json`; `replication/audit/independent_recompute.py` |
+| Root-cause explanations | `replication/generator_source/main.py`, `kpi_template.rst.j2` | `replication/audit/root_cause_reexecution.json` | `replication/audit/reexecute_root_cause.py` |
+| FastAPI adapter | `replication/evidence/external_fastapi/source/` and `requirements.txt` | `replication/evidence/external_fastapi/generated/` and `audit/` | `replication/evidence/external_fastapi/generate_and_audit.py` |
+
+The preserved `evaluation_r15` directory contains a historical wrapper with a long nested name. The accompanying source data were not renamed to avoid breaking archived scripts or masking their provenance. For a shorter route, use the top-level `replication/audit` and `replication/reporting_correction` paths.

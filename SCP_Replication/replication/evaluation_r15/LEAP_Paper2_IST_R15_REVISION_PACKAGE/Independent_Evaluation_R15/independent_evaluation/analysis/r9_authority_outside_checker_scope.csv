@@ -1,0 +1,4 @@
+case_id,original_dossier_filename,R1,R2,R3,majority_label,checker_label
+C15,signed_lineage_audit_trail.html,FAIL,PASS,FAIL,FAIL,NA
+C22,governed_eu_data_export.html,FAIL,PASS,FAIL,FAIL,NA
+C25,governed_inventory_modification.html,FAIL,PASS,FAIL,FAIL,NA

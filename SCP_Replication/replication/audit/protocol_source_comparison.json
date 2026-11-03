@@ -1,0 +1,241 @@
+[
+  {
+    "source": "recovery/original_reviews/Reviewer_2_Independent_Evaluation 3.39.48\u202fAM/Reviewer_2_Independent_Evaluation/REVIEWER_GUIDANCE.md",
+    "sha256": "9dca9e578a938f1e3eda96ce51ed4595dae928c3588965247ec8e697d11443fa",
+    "relevant_lines": [
+      "- completed forms from other reviewers."
+    ]
+  },
+  {
+    "source": "recovery/original_reviews/Reviewer_2_Independent_Evaluation 3.39.48\u202fAM/Reviewer_2_Independent_Evaluation/ANALYSIS_PLAN.md",
+    "sha256": "d3876ad9620ead5fba631e5ef4ee9b1619327065cf9897e65b00bb9659f2f487",
+    "relevant_lines": [
+      "- Planned independent reviewers: 3.",
+      "1. Do independent reviewers assign the same obligation labels to the same dossier evidence?",
+      "- Cohen's kappa when mathematically defined;",
+      "- checker/human TP, FP, FN, TN after adjudication;",
+      "- precision and recall only for the adjudicated 28-case set, with no population interpretation.",
+      "## Adjudication",
+      "After independent forms are frozen, reviewers discuss disagreements and create one adjudicated label per case/obligation. The adjudication file must preserve both original labels, the final label, and the evidence rationale.",
+      "All 28 cases must receive independent labels from the planned reviewers before the checker-evaluation result is incorporated into the manuscript."
+    ]
+  },
+  {
+    "source": "recovery/original_reviews/Reviewer_2_Independent_Evaluation 3.39.48\u202fAM/Reviewer_2_Independent_Evaluation/README.md",
+    "sha256": "002e32d8d70bbbddf1bf400674a36768f26eb6d0f778ba19d3ebbe107279e831",
+    "relevant_lines": [
+      "Three independent reviewers are planned. Each reviewer completes Phase A and Phase B independently. Preserve each completed form separately. Resolve disagreements only after the independent forms are frozen.",
+      "- report raw agreement between reviewers per obligation;",
+      "- report Cohen's kappa where both labels vary and the statistic is defined;",
+      "- report confusion counts against the post-review adjudicated labels;",
+      "No manuscript claim should use these results until completed forms and the adjudication record are archived."
+    ]
+  },
+  {
+    "source": "recovery/original_reviews/Reviewer_2_Independent_Evaluation(2)/Reviewer_2_Independent_Evaluation/REVIEWER_GUIDANCE.md",
+    "sha256": "9dca9e578a938f1e3eda96ce51ed4595dae928c3588965247ec8e697d11443fa",
+    "relevant_lines": [
+      "- completed forms from other reviewers."
+    ]
+  },
+  {
+    "source": "recovery/original_reviews/Reviewer_2_Independent_Evaluation(2)/Reviewer_2_Independent_Evaluation/ANALYSIS_PLAN.md",
+    "sha256": "d3876ad9620ead5fba631e5ef4ee9b1619327065cf9897e65b00bb9659f2f487",
+    "relevant_lines": [
+      "- Planned independent reviewers: 3.",
+      "1. Do independent reviewers assign the same obligation labels to the same dossier evidence?",
+      "- Cohen's kappa when mathematically defined;",
+      "- checker/human TP, FP, FN, TN after adjudication;",
+      "- precision and recall only for the adjudicated 28-case set, with no population interpretation.",
+      "## Adjudication",
+      "After independent forms are frozen, reviewers discuss disagreements and create one adjudicated label per case/obligation. The adjudication file must preserve both original labels, the final label, and the evidence rationale.",
+      "All 28 cases must receive independent labels from the planned reviewers before the checker-evaluation result is incorporated into the manuscript."
+    ]
+  },
+  {
+    "source": "recovery/original_reviews/Reviewer_2_Independent_Evaluation(2)/Reviewer_2_Independent_Evaluation/README.md",
+    "sha256": "002e32d8d70bbbddf1bf400674a36768f26eb6d0f778ba19d3ebbe107279e831",
+    "relevant_lines": [
+      "Three independent reviewers are planned. Each reviewer completes Phase A and Phase B independently. Preserve each completed form separately. Resolve disagreements only after the independent forms are frozen.",
+      "- report raw agreement between reviewers per obligation;",
+      "- report Cohen's kappa where both labels vary and the statistic is defined;",
+      "- report confusion counts against the post-review adjudicated labels;",
+      "No manuscript claim should use these results until completed forms and the adjudication record are archived."
+    ]
+  },
+  {
+    "source": "recovery/original_reviews/Reviewer_3_Independent_Evaluation_COMPLETED_Muhammed_Mansour/Reviewer_3_Independent_Evaluation/REVIEWER_GUIDANCE.md",
+    "sha256": "9dca9e578a938f1e3eda96ce51ed4595dae928c3588965247ec8e697d11443fa",
+    "relevant_lines": [
+      "- completed forms from other reviewers."
+    ]
+  },
+  {
+    "source": "recovery/original_reviews/Reviewer_3_Independent_Evaluation_COMPLETED_Muhammed_Mansour/Reviewer_3_Independent_Evaluation/ANALYSIS_PLAN.md",
+    "sha256": "d3876ad9620ead5fba631e5ef4ee9b1619327065cf9897e65b00bb9659f2f487",
+    "relevant_lines": [
+      "- Planned independent reviewers: 3.",
+      "1. Do independent reviewers assign the same obligation labels to the same dossier evidence?",
+      "- Cohen's kappa when mathematically defined;",
+      "- checker/human TP, FP, FN, TN after adjudication;",
+      "- precision and recall only for the adjudicated 28-case set, with no population interpretation.",
+      "## Adjudication",
+      "After independent forms are frozen, reviewers discuss disagreements and create one adjudicated label per case/obligation. The adjudication file must preserve both original labels, the final label, and the evidence rationale.",
+      "All 28 cases must receive independent labels from the planned reviewers before the checker-evaluation result is incorporated into the manuscript."
+    ]
+  },
+  {
+    "source": "recovery/original_reviews/Reviewer_3_Independent_Evaluation_COMPLETED_Muhammed_Mansour/Reviewer_3_Independent_Evaluation/README.md",
+    "sha256": "002e32d8d70bbbddf1bf400674a36768f26eb6d0f778ba19d3ebbe107279e831",
+    "relevant_lines": [
+      "Three independent reviewers are planned. Each reviewer completes Phase A and Phase B independently. Preserve each completed form separately. Resolve disagreements only after the independent forms are frozen.",
+      "- report raw agreement between reviewers per obligation;",
+      "- report Cohen's kappa where both labels vary and the statistic is defined;",
+      "- report confusion counts against the post-review adjudicated labels;",
+      "No manuscript claim should use these results until completed forms and the adjudication record are archived."
+    ]
+  },
+  {
+    "source": "recovery/original_reviews/Reviewer_2_Independent_Evaluation 2/Reviewer_2_Independent_Evaluation/REVIEWER_GUIDANCE.md",
+    "sha256": "9dca9e578a938f1e3eda96ce51ed4595dae928c3588965247ec8e697d11443fa",
+    "relevant_lines": [
+      "- completed forms from other reviewers."
+    ]
+  },
+  {
+    "source": "recovery/original_reviews/Reviewer_2_Independent_Evaluation 2/Reviewer_2_Independent_Evaluation/ANALYSIS_PLAN.md",
+    "sha256": "d3876ad9620ead5fba631e5ef4ee9b1619327065cf9897e65b00bb9659f2f487",
+    "relevant_lines": [
+      "- Planned independent reviewers: 3.",
+      "1. Do independent reviewers assign the same obligation labels to the same dossier evidence?",
+      "- Cohen's kappa when mathematically defined;",
+      "- checker/human TP, FP, FN, TN after adjudication;",
+      "- precision and recall only for the adjudicated 28-case set, with no population interpretation.",
+      "## Adjudication",
+      "After independent forms are frozen, reviewers discuss disagreements and create one adjudicated label per case/obligation. The adjudication file must preserve both original labels, the final label, and the evidence rationale.",
+      "All 28 cases must receive independent labels from the planned reviewers before the checker-evaluation result is incorporated into the manuscript."
+    ]
+  },
+  {
+    "source": "recovery/original_reviews/Reviewer_2_Independent_Evaluation 2/Reviewer_2_Independent_Evaluation/README.md",
+    "sha256": "002e32d8d70bbbddf1bf400674a36768f26eb6d0f778ba19d3ebbe107279e831",
+    "relevant_lines": [
+      "Three independent reviewers are planned. Each reviewer completes Phase A and Phase B independently. Preserve each completed form separately. Resolve disagreements only after the independent forms are frozen.",
+      "- report raw agreement between reviewers per obligation;",
+      "- report Cohen's kappa where both labels vary and the statistic is defined;",
+      "- report confusion counts against the post-review adjudicated labels;",
+      "No manuscript claim should use these results until completed forms and the adjudication record are archived."
+    ]
+  },
+  {
+    "source": "recovery/original_reviews/Reviewer_1_Independent_Evaluation(2)/Reviewer_1_Independent_Evaluation/REVIEWER_GUIDANCE.md",
+    "sha256": "9dca9e578a938f1e3eda96ce51ed4595dae928c3588965247ec8e697d11443fa",
+    "relevant_lines": [
+      "- completed forms from other reviewers."
+    ]
+  },
+  {
+    "source": "recovery/original_reviews/Reviewer_1_Independent_Evaluation(2)/Reviewer_1_Independent_Evaluation/ANALYSIS_PLAN.md",
+    "sha256": "d3876ad9620ead5fba631e5ef4ee9b1619327065cf9897e65b00bb9659f2f487",
+    "relevant_lines": [
+      "- Planned independent reviewers: 3.",
+      "1. Do independent reviewers assign the same obligation labels to the same dossier evidence?",
+      "- Cohen's kappa when mathematically defined;",
+      "- checker/human TP, FP, FN, TN after adjudication;",
+      "- precision and recall only for the adjudicated 28-case set, with no population interpretation.",
+      "## Adjudication",
+      "After independent forms are frozen, reviewers discuss disagreements and create one adjudicated label per case/obligation. The adjudication file must preserve both original labels, the final label, and the evidence rationale.",
+      "All 28 cases must receive independent labels from the planned reviewers before the checker-evaluation result is incorporated into the manuscript."
+    ]
+  },
+  {
+    "source": "recovery/original_reviews/Reviewer_1_Independent_Evaluation(2)/Reviewer_1_Independent_Evaluation/README.md",
+    "sha256": "002e32d8d70bbbddf1bf400674a36768f26eb6d0f778ba19d3ebbe107279e831",
+    "relevant_lines": [
+      "Three independent reviewers are planned. Each reviewer completes Phase A and Phase B independently. Preserve each completed form separately. Resolve disagreements only after the independent forms are frozen.",
+      "- report raw agreement between reviewers per obligation;",
+      "- report Cohen's kappa where both labels vary and the statistic is defined;",
+      "- report confusion counts against the post-review adjudicated labels;",
+      "No manuscript claim should use these results until completed forms and the adjudication record are archived."
+    ]
+  },
+  {
+    "source": "recovery/original_reviews/Reviewer_2_Independent_Evaluation(1)/Reviewer_2_Independent_Evaluation/REVIEWER_GUIDANCE.md",
+    "sha256": "9dca9e578a938f1e3eda96ce51ed4595dae928c3588965247ec8e697d11443fa",
+    "relevant_lines": [
+      "- completed forms from other reviewers."
+    ]
+  },
+  {
+    "source": "recovery/original_reviews/Reviewer_2_Independent_Evaluation(1)/Reviewer_2_Independent_Evaluation/ANALYSIS_PLAN.md",
+    "sha256": "d3876ad9620ead5fba631e5ef4ee9b1619327065cf9897e65b00bb9659f2f487",
+    "relevant_lines": [
+      "- Planned independent reviewers: 3.",
+      "1. Do independent reviewers assign the same obligation labels to the same dossier evidence?",
+      "- Cohen's kappa when mathematically defined;",
+      "- checker/human TP, FP, FN, TN after adjudication;",
+      "- precision and recall only for the adjudicated 28-case set, with no population interpretation.",
+      "## Adjudication",
+      "After independent forms are frozen, reviewers discuss disagreements and create one adjudicated label per case/obligation. The adjudication file must preserve both original labels, the final label, and the evidence rationale.",
+      "All 28 cases must receive independent labels from the planned reviewers before the checker-evaluation result is incorporated into the manuscript."
+    ]
+  },
+  {
+    "source": "recovery/original_reviews/Reviewer_2_Independent_Evaluation(1)/Reviewer_2_Independent_Evaluation/README.md",
+    "sha256": "002e32d8d70bbbddf1bf400674a36768f26eb6d0f778ba19d3ebbe107279e831",
+    "relevant_lines": [
+      "Three independent reviewers are planned. Each reviewer completes Phase A and Phase B independently. Preserve each completed form separately. Resolve disagreements only after the independent forms are frozen.",
+      "- report raw agreement between reviewers per obligation;",
+      "- report Cohen's kappa where both labels vary and the statistic is defined;",
+      "- report confusion counts against the post-review adjudicated labels;",
+      "No manuscript claim should use these results until completed forms and the adjudication record are archived."
+    ]
+  },
+  {
+    "source": "recovery/reporting_correction/COLLECTION_AND_ANALYSIS_GUIDANCE.md",
+    "sha256": "3ba06b92664193b0233505e453f4d00d99fb6d2c5e172d59b594896fc4e44e45",
+    "relevant_lines": [
+      "Use **3 independent reviewers**.",
+      "Three reviewers are preferred because:",
+      "- two reviewers allow agreement measurement;",
+      "- majority agreement can be reported where all three provide applicable labels;",
+      "Two reviewers is the minimum workable design. Three is the recommended design for this submission.",
+      "Reviewers complete Phase A before Phase B and work independently.",
+      "Preserve the original returned files before any adjudication.",
+      "- Fleiss' kappa across three reviewers where mathematically defined;",
+      "- final adjudicated label;",
+      "- checker versus adjudicated TP, FP, FN, TN;",
+      "## Adjudication",
+      "2. Conduct adjudication using the visible dossier evidence.",
+      "4. Create an adjudication file with:",
+      "   - final adjudicated label;"
+    ]
+  },
+  {
+    "source": "recovery/reporting_correction/REVIEWER_GUIDANCE.md",
+    "sha256": "9dca9e578a938f1e3eda96ce51ed4595dae928c3588965247ec8e697d11443fa",
+    "relevant_lines": [
+      "- completed forms from other reviewers."
+    ]
+  },
+  {
+    "source": "recovery/reporting_correction/REVIEWER_PACKET_README.md",
+    "sha256": "f42794693907b073f4c77e2eae90f689075c4eec14ddc355846f73b44b5a4de3",
+    "relevant_lines": [
+      "Two independent reviewers are preferred. Each reviewer completes Phase A and Phase B independently. Preserve each completed form separately. Resolve disagreements only after the independent forms are frozen.",
+      "- report raw agreement between reviewers per obligation;",
+      "- report Cohen's kappa where both labels vary and the statistic is defined;",
+      "- report confusion counts against the post-review adjudicated labels;",
+      "No manuscript claim should use these results until completed forms and the adjudication record are archived."
+    ]
+  },
+  {
+    "source": "recovery/reporting_correction/REPORTING_CLARIFICATIONS.md",
+    "sha256": "816c0b1d27cfb9493b1dc875f6d7e7860f9d012db44a99708a68471e36a7a298",
+    "relevant_lines": [
+      "Agreement restricted to seven disagreement cases is a comparison among cases all three reviewers judged applicable (PASS/FAIL). The whole-set result includes NA as a label. Both statistics are preserved.",
+      "`REVIEWER_PACKET_README.md` contains both phases and instructs reviewers to complete Phase A using their own judgment before applying the checklist. Checker outputs and organizer mappings were withheld; availability of the phase instructions is stated explicitly in the manuscript.",
+      "`COLLECTION_AND_ANALYSIS_GUIDANCE.md` recommends three reviewers, Fleiss' kappa and majority agreement, with subsequent adjudication. The reviewer packet recommends two reviewers, Cohen's kappa, and post-review adjudicated comparison labels. The manuscript reports what the existing analysis used: three returned forms, Fleiss' kappa, and a majority reference. This revision records no new adjudication or participant collection."
+    ]
+  }
+]

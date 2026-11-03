@@ -1,0 +1,278 @@
+Enterprise KPI Dossier - Flare Emission Recovery Rate
+Skip to dossier content
+Workspace
+Main
+Dashboard
+KPI Portfolio
+Discovery Workspace
+Enterprise KPIs
+Governance
+RACI Directory
+Governance State
+Evidence
+Evidence & Lineage
+Utilities
+Search
+Index
+Workspace Mode
+Offline Governance
+Certified metric dossier
+KPI Intelligence Workspace
+--
+Light Teal
+Dark
+Classic
+Confidence
+90%
+Source
+ABAP
+Owner
+Finance Data Owner
+Offline
+Enterprise KPI Dossier
+Flare Emission Recovery Rate
+Finance intelligence record connecting business definition, certified formula, ownership, and operational evidence.
+Needs Review
+Owner confirmation required before executive use.
+Finance Data Owner remains accountable while governance review is resolved.
+Business Domain
+Finance
+Confidence
+90%
+Governance Status
+Needs Review
+Owner
+Finance Data Owner
+Source
+ABAP
+Last Validation
+2026-09-21
+LEAP
+/
+KPI Catalog
+/
+Flare Emission Recovery Rate
+Executive Briefing
+Executive Summary
+If this KPI trends up: Usually signals a higher burden, risk, or exception volume that should be reviewed by the accountable owner. If it trends down: Usually signals lower burden or improved control, provided the data capture process has not changed. Owner check: What changed in source data, business process, or KPI logic that explains movement in Flare Emission Recovery Rate?
+Business Meaning
+Measures the fraction of flared gas captured and returned to process.
+Decision
+Reduce atmospheric flaring and improve environmental compliance under HSE mandate.
+Trust
+Decision use requires owner confirmation.
+Risk
+Incorrect interpretation may affect Finance planning, accountability, or exception response.
+Action
+Finance Data Owner should monitor movement and confirm context when the metric changes materially.
+Mathematical Formulation
+Formal Formula
+\[ \mathrm{Flare\,Emission\,Recovery\,Rate} = \left(\frac{\mathrm{Gas\,Recovered}}{\mathrm{Total\,Flared}}\right) \times 100 \]
+Where:
+Numerator:
+Gas Recovered
+Denominator:
+Total Flared
+Scale:
+×100
+Annotated Formula
+Business Interpretation
+Developer Lineage
+Gas Recovered
+Gas Recovered
+Divided By
+÷
+Total Flared
+Total Flared
+Scaled by 100
+× 100
+Developer Lineage Breakdown
+1 | * KPI: Flare Emission Recovery Rate
+Calculation expression: combines source variables used by the formal formula.
+2 | * Formula: Flare Recovery % = (Gas Recovered / Total Flared) * 100
+Calculation hint: documents the business expression expected inside the KPI implementation.
+3 | * Description: Measures the fraction of flared gas captured and returned to process.
+Calculation expression: combines source variables used by the formal formula.
+4 | * Objective: Reduce atmospheric flaring and improve environmental compliance under HSE mandate.
+Calculation expression: combines source variables used by the formal formula.
+5 | * Input: Gas recovered (m3), Total gas flared (m3)
+Calculation expression: combines source variables used by the formal formula.
+6 | * Unit: %
+Calculation expression: combines source variables used by the formal formula.
+7 | * Reporting Source: SAP PM Flare Management, DCS historian
+Calculation expression: combines source variables used by the formal formula.
+8 | * Accountable Owner: HSE Data Owner
+Calculation expression: combines source variables used by the formal formula.
+9 | * Used In: HSE Compliance Report, Environmental Dashboard
+Calculation expression: combines source variables used by the formal formula.
+10 | * Owner conflict: Business comment declares HSE Data Owner as accountable,
+Output alias: maps this expression to accountable in the result set.
+Evidence & Lineage
+Operational Logic
+Formula Lineage
+Provenance
+Inputs
+* KPI: Flare Emission Recovery Rate
+* Formula: Flare Recovery % = (Gas Recovered / Total Flared) * 100
+* Description: Measures the fraction of flared gas captured and returned to process.
+* Objective: Reduce atmospheric flaring and improve environmental compliance under HSE mandate.
+* Input: Gas recovered (m3), Total gas flared (m3)
+* Unit: %
+* Reporting Source: SAP PM Flare Management, DCS historian
+* Accountable Owner: HSE Data Owner
+* Used In: HSE Compliance Report, Environmental Dashboard
+* Owner conflict: Business comment declares HSE Data Owner as accountable,
+* but governance rule infers Finance Data Owner based on 'recovery' keyword
+* mapping to financial domain in governance_rules.json name_rules.
+DATA: lv_recovered TYPE f VALUE 320.0,
+lv_total_flared TYPE f VALUE 500.0,
+lv_recovery_pct TYPE f.
+lv_recovery_pct = ( lv_recovered / lv_total_flared ) * 100.
+WRITE: / 'Flare Recovery Rate (%):', lv_recovery_pct.
+Inline evidence snippet
+1 | * KPI: Flare Emission Recovery Rate
+2 | * Formula: Flare Recovery % = (Gas Recovered / Total Flared) * 100
+3 | * Description: Measures the fraction of flared gas captured and returned to process.
+4 | * Objective: Reduce atmospheric flaring and improve environmental compliance under HSE mandate.
+5 | * Input: Gas recovered (m3), Total gas flared (m3)
+Developer Lineage Breakdown
+1 | * KPI: Flare Emission Recovery Rate
+Calculation expression: combines source variables used by the formal formula.
+2 | * Formula: Flare Recovery % = (Gas Recovered / Total Flared) * 100
+Calculation hint: documents the business expression expected inside the KPI implementation.
+3 | * Description: Measures the fraction of flared gas captured and returned to process.
+Calculation expression: combines source variables used by the formal formula.
+4 | * Objective: Reduce atmospheric flaring and improve environmental compliance under HSE mandate.
+Calculation expression: combines source variables used by the formal formula.
+5 | * Input: Gas recovered (m3), Total gas flared (m3)
+Calculation expression: combines source variables used by the formal formula.
+6 | * Unit: %
+Calculation expression: combines source variables used by the formal formula.
+7 | * Reporting Source: SAP PM Flare Management, DCS historian
+Calculation expression: combines source variables used by the formal formula.
+8 | * Accountable Owner: HSE Data Owner
+Calculation expression: combines source variables used by the formal formula.
+9 | * Used In: HSE Compliance Report, Environmental Dashboard
+Calculation expression: combines source variables used by the formal formula.
+10 | * Owner conflict: Business comment declares HSE Data Owner as accountable,
+Output alias: maps this expression to accountable in the result set.
+Operational Intent
+Measures the fraction of flared gas captured and returned to process. LEAP frames this as an operational evidence signal for finance decision-making.
+Verified Logic Mapping
+First, LEAP certifies the KPI definition against conflict_owner_hse.abap and classifies the implementation as ABAP evidence.
+Second, it presents the certified calculation expression (Flare Recovery % = (Gas Recovered / Total Flared) * 100) in the formal MathJax formula shown above.
+Finally, it preserves the executable context and code fingerprint so future changes to the KPI logic can be identified.
+Logic Safeguards
+OK
+Implementation Traceability:
+Executable evidence is locked to conflict_owner_hse.abap at line 1.
+OK
+Governance Conflict Flag:
+Owner accountability conflict: source comment declares 'HSE Data Owner' as accountable owner, but governance rules inferred 'Finance Data Owner'.
+OK
+Change Detection:
+Code Fingerprint db1dee6a67 records the current implementation so drift can be identified after the next workspace refresh.
+OK
+RACI Accountability:
+Finance Data Owner is assigned as accountable owner for rule confirmation and escalation.
+Executive Alignment
+Business rules are aligned to inferred from KPI name: Financial KPI name. RACI Owner: Finance Data Owner. Consulted reviewer: Finance BI Team. Current status: Needs Review.
+Business Data System
+EXPLICIT SOURCE: SAP PM Flare Management, DCS historian
+Source File
+conflict_owner_hse.abap
+Source Line
+1
+Definition Pattern
+Comment
+Governance Domain
+Finance
+KPI ID
+KPI-DB1DEE6A67
+Business Usage
+HSE Compliance Report, Environmental Dashboard
+Input Evidence
+Gas recovered (m3), Total gas flared (m3)
+Definition
+Measures the fraction of flared gas captured and returned to process.
+Business Context
+Reduce atmospheric flaring and improve environmental compliance under HSE mandate.
+Edge Cases / Comments
+Compliance mode preserved only implementation-grounded evidence; unresolved business context is routed to owner confirmation.
+Governance
+Needs Review
+Confidence:
+90%
+Accountable:
+Finance Data Owner
+GOVERNANCE CONFLICT
+Conflict detected. See Review Queue for details.
+RACI
+Responsible:
+Finance Data Engineering Team
+Accountable:
+Finance Data Owner
+Consulted:
+Finance BI Team
+Informed:
+CFO Office
+Metadata
+KPI_ID:
+KPI-DB1DEE6A67
+Fingerprint:
+db1dee6a
+Validated:
+2026-09-21
+Type:
+ABAP operational definition
+Runtime:
+Offline
+Frequency:
+On Demand
+Operational Actions
+Print Certified Dossier
+Edit Dossier
+Open Discovery Workspace
+Open RACI Directory
+Review Queue
+Needs Review
+Alert detected: KSA-NCA-ECC-AUD-02
+Compliance review required
+Mapped Standard:
+KSA NCA ECC
+Category:
+COMPLIANCE_AUDIT_GAP
+Severity:
+COMPLIANCE_AUDIT_GAP
+NCA audit alert: No-Code IDE modifications must be recorded with immutable lineage tracking and operational ledger entry.
+Evidence:
+Missing audit signature elements: actor, Missing audit signature elements: timestamp, Missing audit signature elements: before value, Missing audit signature elements: after value, Missing audit signature elements: diff or lineage record
+Recommended Action:
+Review required. Document complete before/after values, actor, timestamp, and diff logic in audit trail.
+Governance Review Required
+Governance conflict detected
+Business rule and implementation require review
+Owner accountability conflict: source comment declares 'HSE Data Owner' as accountable owner, but governance rules inferred 'Finance Data Owner'.
+Please review this governed KPI evidence package.
+KPI: Flare Emission Recovery Rate
+KPI ID: KPI-DB1DEE6A67
+Accountable owner: Finance Data Owner
+Consulted SME: Finance BI Team
+Source: conflict_owner_hse.abap
+Line: 1
+Review questions:
+- Does the business meaning match how the KPI is used?
+- Does the formula reflect the approved business rule?
+- Are the source fields, filters, and reporting period correct?
+- Should this KPI be marked Validated or Needs Review?
+Send or copy this review request to the accountable owner or domain subject matter expert (SME).
+Open Email Draft
+Copy Review Text
+LEAP AXIS KPI Intelligence Workspace
+AI: Offline Mode · Deterministic AST Engine
+Workspace
+Discovery
+RACI
+SDAIA PDPL
+NCA ECC
+ISO 22400

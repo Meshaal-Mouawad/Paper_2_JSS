@@ -1,0 +1,6 @@
+case_id,dossier,unaided_majority_issue,guided_majority_issue,guided_majority_fail_obligations
+C03,oee.html,False,True,review_authority_consistency
+C08,kpi_flare_recovery_pct.html,False,True,review_authority_consistency
+C11,propylene_to_ethylene_pe_ratio.html,False,True,review_authority_consistency
+C20,cooling_water_deltat_c.html,False,True,review_authority_consistency
+C21,masked_customer_activity_index.html,False,True,review_authority_consistency

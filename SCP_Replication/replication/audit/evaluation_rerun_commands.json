@@ -1,0 +1,34 @@
+{
+  "commands": [
+    {
+      "command": [
+        "python",
+        "analysis/analyze_independent_evaluation.py"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "python",
+        "analysis/analyze_r9_interpretation.py"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "python",
+        "analysis/analyze_r10_condition_disagreements.py"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "python",
+        "analysis/analyze_r11_condition_criteria.py"
+      ],
+      "exit_code": 0
+    }
+  ],
+  "changed": [],
+  "dependency_note": "tabulate was installed then analyze_r9_interpretation.py rerun successfully."
+}

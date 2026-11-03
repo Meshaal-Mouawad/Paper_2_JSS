@@ -1,0 +1,490 @@
+{
+  "status": "PASS",
+  "passed": 26,
+  "total": 26,
+  "checks": [
+    {
+      "name": "supplement_manifest",
+      "passed": true,
+      "detail": {
+        "entries": 155,
+        "bad": []
+      }
+    },
+    {
+      "name": "checker_rule_fixtures",
+      "passed": true,
+      "detail": {
+        "fixture_cases": 18,
+        "binary_cases": 16,
+        "matched": 18,
+        "mismatched": 0,
+        "false_alarms_on_benign_controls": 0,
+        "misses_on_defect_controls": 0,
+        "all_expected_outcomes_matched": true,
+        "interpretation": "Controlled checker-validation fixtures only; not an empirical estimate of defect prevalence or checker accuracy in a population.",
+        "cases": [
+          {
+            "case": "role_correct",
+            "family": "source_role",
+            "expected": "PASS",
+            "observed": "PASS",
+            "matched": true,
+            "detail": "published role and name match source"
+          },
+          {
+            "case": "role_wrong_location",
+            "family": "source_role",
+            "expected": "FAIL",
+            "observed": "FAIL",
+            "matched": true,
+            "detail": "published location 'header' != source location 'query'"
+          },
+          {
+            "case": "role_wrong_name",
+            "family": "source_role",
+            "expected": "FAIL",
+            "observed": "FAIL",
+            "matched": true,
+            "detail": "published name 'wrong-parameter' != source name 'item-query'"
+          },
+          {
+            "case": "lineage_comment_benign",
+            "family": "source_role",
+            "expected": "PASS",
+            "observed": "PASS",
+            "matched": true,
+            "detail": "benign comment assigned a non-executable role"
+          },
+          {
+            "case": "lineage_comment_as_alias",
+            "family": "source_role",
+            "expected": "FAIL",
+            "observed": "FAIL",
+            "matched": true,
+            "detail": "docstring assigned executable output-alias role"
+          },
+          {
+            "case": "guard_zero_correct",
+            "family": "condition_disclosure",
+            "expected": "PASS",
+            "observed": "PASS",
+            "matched": true,
+            "detail": "guard, displayed denominator, and handling semantics align"
+          },
+          {
+            "case": "guard_missing_denominator",
+            "family": "condition_disclosure",
+            "expected": "FAIL",
+            "observed": "FAIL",
+            "matched": true,
+            "detail": "displayed formula denominator is missing"
+          },
+          {
+            "case": "guard_wrong_denominator",
+            "family": "condition_disclosure",
+            "expected": "FAIL",
+            "observed": "FAIL",
+            "matched": true,
+            "detail": "guarded variable does not match displayed formula denominator"
+          },
+          {
+            "case": "guard_contradictory_text",
+            "family": "condition_disclosure",
+            "expected": "FAIL",
+            "observed": "FAIL",
+            "matched": true,
+            "detail": "reader-facing safeguard text contradicts the existence of handling"
+          },
+          {
+            "case": "guard_disabled_text",
+            "family": "condition_disclosure",
+            "expected": "FAIL",
+            "observed": "FAIL",
+            "matched": true,
+            "detail": "reader-facing safeguard text contradicts the existence of handling"
+          },
+          {
+            "case": "guard_nonpositive_correct",
+            "family": "condition_disclosure",
+            "expected": "PASS",
+            "observed": "PASS",
+            "matched": true,
+            "detail": "guard, displayed denominator, and handling semantics align"
+          },
+          {
+            "case": "guard_nonpositive_reduced_to_zero",
+            "family": "condition_disclosure",
+            "expected": "FAIL",
+            "observed": "FAIL",
+            "matched": true,
+            "detail": "non-positive guard reduced to zero-only wording"
+          },
+          {
+            "case": "conflict_routing_correct",
+            "family": "conflict_routing",
+            "expected": "PASS",
+            "observed": "PASS",
+            "matched": true,
+            "detail": "explicit conflict remains routed to Needs Review and Review Queue"
+          },
+          {
+            "case": "conflict_routing_suppressed",
+            "family": "conflict_routing",
+            "expected": "FAIL",
+            "observed": "FAIL",
+            "matched": true,
+            "detail": "Review Queue removed from an explicit conflict"
+          },
+          {
+            "case": "conflict_not_applicable",
+            "family": "conflict_routing",
+            "expected": "N/A",
+            "observed": "N/A",
+            "matched": true,
+            "detail": "benign non-conflict control"
+          },
+          {
+            "case": "authority_unresolved_clean",
+            "family": "review_authority",
+            "expected": "PASS",
+            "observed": "PASS",
+            "matched": true,
+            "detail": "unresolved page without certification wording"
+          },
+          {
+            "case": "authority_unresolved_certified",
+            "family": "review_authority",
+            "expected": "FAIL",
+            "observed": "FAIL",
+            "matched": true,
+            "detail": "certification wording beside unresolved status"
+          },
+          {
+            "case": "authority_validated_control",
+            "family": "review_authority",
+            "expected": "N/A",
+            "observed": "N/A",
+            "matched": true,
+            "detail": "resolved-status benign applicability control"
+          }
+        ]
+      }
+    },
+    {
+      "name": "checker_artifact_derived_controls",
+      "passed": true,
+      "detail": {
+        "cases": 14,
+        "matched": 14,
+        "mismatched": 0,
+        "false_alarms_on_benign_controls": 0,
+        "misses_on_defect_controls": 0,
+        "all_expected_outcomes_matched": true,
+        "interpretation": "Artifact-derived controls validate the released checker on specified archived baselines/substitutions plus one reparsed document mutation; they do not estimate population-level sensitivity or specificity.",
+        "details": [
+          {
+            "case": "actual_guard_baseline",
+            "family": "condition_disclosure",
+            "expected": "PASS",
+            "observed": "PASS",
+            "matched": true,
+            "detail": "guard, displayed denominator, and handling semantics align"
+          },
+          {
+            "case": "actual_guard_missing_denominator",
+            "family": "condition_disclosure",
+            "expected": "FAIL",
+            "observed": "FAIL",
+            "matched": true,
+            "detail": "displayed formula denominator is missing"
+          },
+          {
+            "case": "actual_guard_wrong_denominator",
+            "family": "condition_disclosure",
+            "expected": "FAIL",
+            "observed": "FAIL",
+            "matched": true,
+            "detail": "guarded variable does not match displayed formula denominator"
+          },
+          {
+            "case": "actual_guard_contradictory_safeguard",
+            "family": "condition_disclosure",
+            "expected": "FAIL",
+            "observed": "FAIL",
+            "matched": true,
+            "detail": "reader-facing safeguard text contradicts the existence of handling"
+          },
+          {
+            "case": "actual_guard_heading_only_document_mutation",
+            "family": "condition_disclosure",
+            "expected": "FAIL",
+            "observed": "FAIL",
+            "matched": true,
+            "detail": "reparsed HTML safeguard='Zero-Division Guard:'; reader-facing safeguard contains only a heading and no handling semantics"
+          },
+          {
+            "case": "actual_yield_lineage_defect",
+            "family": "source_role",
+            "expected": "FAIL",
+            "observed": "FAIL",
+            "matched": true,
+            "detail": "Output alias: maps this expression to a in the result set."
+          },
+          {
+            "case": "actual_yield_lineage_benign_label",
+            "family": "source_role",
+            "expected": "PASS",
+            "observed": "PASS",
+            "matched": true,
+            "detail": "Source context: supports the KPI definition or execution boundary."
+          },
+          {
+            "case": "actual_conflict_routing_baseline",
+            "family": "conflict_routing",
+            "expected": "PASS",
+            "observed": "PASS",
+            "matched": true,
+            "detail": "actual page includes Needs Review and Review Queue"
+          },
+          {
+            "case": "actual_conflict_routing_suppressed",
+            "family": "conflict_routing",
+            "expected": "FAIL",
+            "observed": "FAIL",
+            "matched": true,
+            "detail": "in-memory negative control removes Review Queue"
+          },
+          {
+            "case": "actual_authority_certification_defect",
+            "family": "review_authority",
+            "expected": "FAIL",
+            "observed": "FAIL",
+            "matched": true,
+            "detail": "certification phrases=['Certified metric dossier', 'certified formula', 'certifies the KPI definition', 'certified calculation expression', 'Print Certified Dossier', 'certified implementation path']"
+          },
+          {
+            "case": "actual_authority_benign_control",
+            "family": "review_authority",
+            "expected": "PASS",
+            "observed": "PASS",
+            "matched": true,
+            "detail": "in-memory benign control removes certification wording while retaining Needs Review"
+          },
+          {
+            "case": "actual_external_role_baseline",
+            "family": "external_source_role",
+            "expected": "PASS",
+            "observed": "PASS",
+            "matched": true,
+            "detail": "published role and name match source"
+          },
+          {
+            "case": "actual_external_role_wrong_location",
+            "family": "external_source_role",
+            "expected": "FAIL",
+            "observed": "FAIL",
+            "matched": true,
+            "detail": "published location 'header' != source location 'query'"
+          },
+          {
+            "case": "actual_external_role_wrong_name",
+            "family": "external_source_role",
+            "expected": "FAIL",
+            "observed": "FAIL",
+            "matched": true,
+            "detail": "published name 'wrong-parameter' != source name 'item-query'"
+          }
+        ]
+      }
+    },
+    {
+      "name": "checker_control_oracles",
+      "passed": true,
+      "detail": {
+        "status": "PASS",
+        "checks": [
+          {
+            "oracle": "CHECKER_CONTROL_ORACLE.csv",
+            "output": "CHECKER_VALIDATION_CASES.csv",
+            "oracle_cases": 18,
+            "missing": [],
+            "extra": [],
+            "mismatches": [],
+            "passed": true
+          },
+          {
+            "oracle": "ARTIFACT_MUTATION_ORACLE.csv",
+            "output": "MUTATED_ARTIFACT_CONTROLS.csv",
+            "oracle_cases": 14,
+            "missing": [],
+            "extra": [],
+            "mismatches": [],
+            "passed": true
+          }
+        ],
+        "interpretation": "Control labels are read from predeclared oracle tables separate from the released checker output."
+      }
+    },
+    {
+      "name": "checker_heading_only_reparse",
+      "passed": true,
+      "detail": [
+        {
+          "case": "actual_guard_heading_only_document_mutation",
+          "family": "condition_disclosure",
+          "expected": "FAIL",
+          "observed": "FAIL",
+          "matched": true,
+          "detail": "reparsed HTML safeguard='Zero-Division Guard:'; reader-facing safeguard contains only a heading and no handling semantics"
+        }
+      ]
+    },
+    {
+      "name": "external_role_negative_controls",
+      "passed": true,
+      "detail": [
+        {
+          "control": "wrong_location",
+          "expected": "FAIL",
+          "observed": "FAIL",
+          "reason": "published location 'header' != source location 'query'"
+        },
+        {
+          "control": "wrong_name",
+          "expected": "FAIL",
+          "observed": "FAIL",
+          "reason": "published name 'wrong-parameter' != source name 'item-query'"
+        }
+      ]
+    },
+    {
+      "name": "primary_corpus",
+      "passed": true,
+      "detail": {
+        "dossiers": 28,
+        "needs_review": 19,
+        "validated": 9,
+        "generation_log_sha256": "b4efc7bcfea301ca376c24ffff9c71216a1374eb0f715c466b37a01d762d989f"
+      }
+    },
+    {
+      "name": "primary_defect_classes",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "primary_working_mechanism",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "primary_guard_inventory",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "historical_corpus",
+      "passed": true,
+      "detail": {
+        "dossiers": 18,
+        "needs_review": 12,
+        "validated": 6,
+        "lineage": {
+          "affected_dossiers": 4,
+          "instances": 12
+        },
+        "guards": {
+          "instances": 9,
+          "failures": 4,
+          "preserved": 5
+        },
+        "authority": {
+          "eligible": 12,
+          "affected": 12
+        },
+        "conflict_routing": {
+          "eligible": 6,
+          "preserved": 6
+        }
+      }
+    },
+    {
+      "name": "historical_defects",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "historical_conflict_routing",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "scenario_build",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "challenge_build",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "public_primary_identity",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "root_cause_lineage_comment_order",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "root_cause_lineage_comment_prefix",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "root_cause_alias_rule",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "root_cause_guard_nullif",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "root_cause_guard_eq_zero",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "root_cause_certified_formula",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "root_cause_certify_definition",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "root_cause_print_certified",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "no_manual_condition_adjudication",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "no_bryan_in_evidence",
+      "passed": true,
+      "detail": null
+    }
+  ]
+}
+
+STDERR

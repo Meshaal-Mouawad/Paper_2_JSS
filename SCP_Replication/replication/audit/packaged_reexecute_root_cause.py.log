@@ -1,0 +1,100 @@
+{
+  "generator_sha256": "e4a26797c6c7dccb49603745720e4dce7b85bd27e2c2c86f8292183b4b2188c5",
+  "method": "Reexecution of two unchanged functions, not complete generator regeneration",
+  "results": [
+    {
+      "document": "ethylene_production_yield.html",
+      "source": "\"\"\"Calculates ethylene production yield as a percentage of feedstock input.\"\"\"",
+      "published": "Output alias: maps this expression to a in the result set.",
+      "regenerated": "Output alias: maps this expression to a in the result set.",
+      "exact_match": true
+    },
+    {
+      "document": "flare_emission_recovery_rate.html",
+      "source": "* KPI: Flare Emission Recovery Rate",
+      "published": "Calculation expression: combines source variables used by the formal formula.",
+      "regenerated": "Calculation expression: combines source variables used by the formal formula.",
+      "exact_match": true
+    },
+    {
+      "document": "flare_emission_recovery_rate.html",
+      "source": "* Description: Measures the fraction of flared gas captured and returned to process.",
+      "published": "Calculation expression: combines source variables used by the formal formula.",
+      "regenerated": "Calculation expression: combines source variables used by the formal formula.",
+      "exact_match": true
+    },
+    {
+      "document": "flare_emission_recovery_rate.html",
+      "source": "* Objective: Reduce atmospheric flaring and improve environmental compliance under HSE mandate.",
+      "published": "Calculation expression: combines source variables used by the formal formula.",
+      "regenerated": "Calculation expression: combines source variables used by the formal formula.",
+      "exact_match": true
+    },
+    {
+      "document": "flare_emission_recovery_rate.html",
+      "source": "* Input: Gas recovered (m3), Total gas flared (m3)",
+      "published": "Calculation expression: combines source variables used by the formal formula.",
+      "regenerated": "Calculation expression: combines source variables used by the formal formula.",
+      "exact_match": true
+    },
+    {
+      "document": "flare_emission_recovery_rate.html",
+      "source": "* Unit: %",
+      "published": "Calculation expression: combines source variables used by the formal formula.",
+      "regenerated": "Calculation expression: combines source variables used by the formal formula.",
+      "exact_match": true
+    },
+    {
+      "document": "flare_emission_recovery_rate.html",
+      "source": "* Reporting Source: SAP PM Flare Management, DCS historian",
+      "published": "Calculation expression: combines source variables used by the formal formula.",
+      "regenerated": "Calculation expression: combines source variables used by the formal formula.",
+      "exact_match": true
+    },
+    {
+      "document": "flare_emission_recovery_rate.html",
+      "source": "* Accountable Owner: HSE Data Owner",
+      "published": "Calculation expression: combines source variables used by the formal formula.",
+      "regenerated": "Calculation expression: combines source variables used by the formal formula.",
+      "exact_match": true
+    },
+    {
+      "document": "flare_emission_recovery_rate.html",
+      "source": "* Used In: HSE Compliance Report, Environmental Dashboard",
+      "published": "Calculation expression: combines source variables used by the formal formula.",
+      "regenerated": "Calculation expression: combines source variables used by the formal formula.",
+      "exact_match": true
+    },
+    {
+      "document": "flare_emission_recovery_rate.html",
+      "source": "* Owner conflict: Business comment declares HSE Data Owner as accountable,",
+      "published": "Output alias: maps this expression to accountable in the result set.",
+      "regenerated": "Output alias: maps this expression to accountable in the result set.",
+      "exact_match": true
+    },
+    {
+      "document": "onspec_rate.html",
+      "source": "CAST(100.0 * on_spec_batches / NULLIF(total_batches, 0) AS FLOAT) AS on_spec_percentage",
+      "published": "Output alias: maps this expression to FLOAT in the result set.",
+      "regenerated": "Output alias: maps this expression to FLOAT in the result set.",
+      "exact_match": true
+    },
+    {
+      "document": "polymer_melt_flow_index_mfi_variance.html",
+      "source": "* KPI: Polymer Melt Flow Index (MFI) Variance",
+      "published": "Calculation expression: combines source variables used by the formal formula.",
+      "regenerated": "Calculation expression: combines source variables used by the formal formula.",
+      "exact_match": true
+    },
+    {
+      "source_file": "evidence/detailed_cases/control_no_conflict_yield.py",
+      "sha256": "bcbe6f52920321e544374308ebcf180a12875b8752c2420c94aa036291195930",
+      "regenerated_safeguards": "<div class=\"walkthrough-proof-list\"><div class=\"walkthrough-proof-item\"><span class=\"walkthrough-check\">OK</span><div><strong>Implementation Traceability:</strong> Executable evidence is locked to the captured implementation file at line 1.</div></div><div class=\"walkthrough-proof-item\"><span class=\"walkthrough-check\">OK</span><div><strong>Formula Consistency Check:</strong> The business formula and implementation evidence share compatible calculation structure based on LEAP&#x27;s structured comparison.</div></div><div class=\"walkthrough-proof-item\"><span class=\"walkthrough-check\">OK</span><div><strong>Change Detection:</strong> Code Fingerprint  records the current implementation so drift can be identified after the next workspace refresh.</div></div></div>"
+    },
+    {
+      "source_file": "evidence/detailed_cases/conflict_formula_margin.py",
+      "sha256": "78cfb5e20447f19d36c1b25adcdf3d5542edc09199194f97bddabb6963067ef1",
+      "regenerated_safeguards": "<div class=\"walkthrough-proof-list\"><div class=\"walkthrough-proof-item\"><span class=\"walkthrough-check\">OK</span><div><strong>Zero-Division Guard:</strong> Implementation logic checks for a zero denominator before returning the KPI value.</div></div><div class=\"walkthrough-proof-item\"><span class=\"walkthrough-check\">OK</span><div><strong>Formula Consistency Check:</strong> The business formula and implementation evidence share compatible calculation structure based on LEAP&#x27;s structured comparison.</div></div><div class=\"walkthrough-proof-item\"><span class=\"walkthrough-check\">OK</span><div><strong>Change Detection:</strong> Code Fingerprint  records the current implementation so drift can be identified after the next workspace refresh.</div></div></div>"
+    }
+  ]
+}

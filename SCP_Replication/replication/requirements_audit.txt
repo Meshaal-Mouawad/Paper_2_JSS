@@ -1,0 +1,8 @@
+beautifulsoup4==4.15.0
+fastapi==0.128.2
+pydantic==2.13.4
+pandas==2.2.3
+numpy==2.3.5
+tabulate==0.10.0
+httpx==0.28.1
+starlette==0.50.0

@@ -1,0 +1,5 @@
+obligation,triply_explicit_items,categories,average_pair_agreement,fleiss_kappa
+condition_disclosure,12,"FAIL,PASS",0.7777777777777777,0.4461538461538459
+disagreement_preservation,7,"FAIL,PASS",0.42857142857142855,-0.1666666666666665
+review_authority_consistency,28,"FAIL,PASS",0.380952380952381,-0.2847058823529411
+source_role_accuracy,28,"FAIL,PASS",0.7142857142857142,0.4070588235294116

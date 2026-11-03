@@ -1,0 +1,257 @@
+[
+  {
+    "case": "C01",
+    "reviewer": "R1",
+    "label": "PASS",
+    "original_evidence_note": "SOURCE-ROLE: Annotated formula labels the implementation expression (revenue/cost)*100 with source roles 'Total Sales Revenue÷Cost÷Total Sales Revenue' misrepresenting the actual computation direction — roles imply (Revenue-Cost)/Revenue but code does revenue/cost. CONDITION: Zero-guard condition (cost==0) is disclosed. DISAGREEMENT: The conflict comment in source is visible in the lineage section, but the formal formula in the dossier header still shows the correct business formula without flagging it as conflicted — the headline certified formula does not carry the conflict marker. REVIEW-AUTHORITY: Header badge reads 'Certified metric dossier' but Governance Status is 'Needs Review'; these are contradictory authority statements.",
+    "original_source": "recovery/reporting_correction/original_responses/R1_obligation_review_form.csv",
+    "checker_and_reference_labels": {
+      "case": "C01",
+      "document": "gross_margin_percentage.html",
+      "criterion": "condition_disclosure",
+      "R1": "PASS",
+      "R2": "PASS",
+      "R3": "FAIL",
+      "majority": "PASS",
+      "checker": "FAIL"
+    }
+  },
+  {
+    "case": "C02",
+    "reviewer": "R1",
+    "label": "FAIL",
+    "original_evidence_note": "SOURCE-ROLE: Source elements correctly mapped. CONDITION: The zero-guard condition is visible but returns operatingHours (not 0/null) when numberOfFailures=0 — the governed variable behavior under this condition is not faithfully disclosed (returning operatingHours as MTBF is mathematically undefined, not the MTBF value). DISAGREEMENT: No explicit formula/source conflict is documented. REVIEW-AUTHORITY: Governance Validated and Trust states 'Governed metric ready for operational decision support'; consistent.",
+    "original_source": "recovery/reporting_correction/original_responses/R1_obligation_review_form.csv",
+    "checker_and_reference_labels": {
+      "case": "C02",
+      "document": "mean_time_between_failures_mtbf.html",
+      "criterion": "condition_disclosure",
+      "R1": "FAIL",
+      "R2": "FAIL",
+      "R3": "FAIL",
+      "majority": "FAIL",
+      "checker": "FAIL"
+    }
+  },
+  {
+    "case": "C10",
+    "reviewer": "R1",
+    "label": "FAIL",
+    "original_evidence_note": "SOURCE-ROLE: The annotated formula labels 'Peak Vibration Amplitude ÷ Baseline Threshold' correctly. However Developer Lineage assigns 'KPI marker' role to the comments documenting the inversion bug — these comments document a bug, not a KPI marker; the role assignment misleads the reader. CONDITION: The condition 'if index>=1.0 → GOOD_PERFORMANCE' governs the status variable; the dossier does not faithfully disclose in the business-facing explanation that this condition inverts the intended business rule. DISAGREEMENT: The conflict IS visible in the source code and in the 'Governance Conflict Flag' safeguard, so the disagreement is technically preserved in the review routing — PASS at evidence level but the formal formula section does not carry the conflict. REVIEW-AUTHORITY: Logic Safeguards show 'Governance Conflict Flag: OK' implying the flag is merely informational rather than blocking; combined with 'Needs Review' status this is inconsistent treatment.",
+    "original_source": "recovery/reporting_correction/original_responses/R1_obligation_review_form.csv",
+    "checker_and_reference_labels": {
+      "case": "C10",
+      "document": "compressor_vibration_index.html",
+      "criterion": "condition_disclosure",
+      "R1": "FAIL",
+      "R2": "FAIL",
+      "R3": "FAIL",
+      "majority": "FAIL",
+      "checker": "FAIL"
+    }
+  },
+  {
+    "case": "C12",
+    "reviewer": "R1",
+    "label": "PASS",
+    "original_evidence_note": "SOURCE-ROLE: Roles correctly assigned. CONDITION: Zero guard (feedstock_input_tons<=0) disclosed. DISAGREEMENT: No conflict. REVIEW-AUTHORITY: Governance Validated; Trust consistent.",
+    "original_source": "recovery/reporting_correction/original_responses/R1_obligation_review_form.csv",
+    "checker_and_reference_labels": {
+      "case": "C12",
+      "document": "ethylene_production_yield.html",
+      "criterion": "condition_disclosure",
+      "R1": "PASS",
+      "R2": "PASS",
+      "R3": "FAIL",
+      "majority": "PASS",
+      "checker": "FAIL"
+    }
+  },
+  {
+    "case": "C26",
+    "reviewer": "R1",
+    "label": "PASS",
+    "original_evidence_note": "SOURCE-ROLE: PL/SQL package roles correctly assigned. CONDITION: Zero guard (total_input=0) faithfully disclosed. DISAGREEMENT: No conflict. REVIEW-AUTHORITY: Governance Validated; Trust consistent.",
+    "original_source": "recovery/reporting_correction/original_responses/R1_obligation_review_form.csv",
+    "checker_and_reference_labels": {
+      "case": "C26",
+      "document": "yield_percentage.html",
+      "criterion": "condition_disclosure",
+      "R1": "PASS",
+      "R2": "PASS",
+      "R3": "FAIL",
+      "majority": "PASS",
+      "checker": "FAIL"
+    }
+  },
+  {
+    "case": "C01",
+    "reviewer": "R2",
+    "label": "PASS",
+    "original_evidence_note": "Developer Lineage 2-6 shows the business/code conflict and the zero-cost guard; Governance Conflict and Review Queue keep the formula disagreement visible while status remains Needs Review.",
+    "original_source": "recovery/reporting_correction/original_responses/R2_obligation_review_form.csv",
+    "checker_and_reference_labels": {
+      "case": "C01",
+      "document": "gross_margin_percentage.html",
+      "criterion": "condition_disclosure",
+      "R1": "PASS",
+      "R2": "PASS",
+      "R3": "FAIL",
+      "majority": "PASS",
+      "checker": "FAIL"
+    }
+  },
+  {
+    "case": "C02",
+    "reviewer": "R2",
+    "label": "FAIL",
+    "original_evidence_note": "The visible code maps the MTBF inputs and division correctly, but Developer Lineage 5-8 shows the zero-failure return without a corresponding condition in Formal Formula or safeguards.",
+    "original_source": "recovery/reporting_correction/original_responses/R2_obligation_review_form.csv",
+    "checker_and_reference_labels": {
+      "case": "C02",
+      "document": "mean_time_between_failures_mtbf.html",
+      "criterion": "condition_disclosure",
+      "R1": "FAIL",
+      "R2": "FAIL",
+      "R3": "FAIL",
+      "majority": "FAIL",
+      "checker": "FAIL"
+    }
+  },
+  {
+    "case": "C10",
+    "reviewer": "R2",
+    "label": "FAIL",
+    "original_evidence_note": "Developer Lineage 5-10 explicitly says the threshold interpretation is inverted; baseline_threshold <= 0 is not represented in the formula, but Governance Conflict and Review Queue preserve the inversion.",
+    "original_source": "recovery/reporting_correction/original_responses/R2_obligation_review_form.csv",
+    "checker_and_reference_labels": {
+      "case": "C10",
+      "document": "compressor_vibration_index.html",
+      "criterion": "condition_disclosure",
+      "R1": "FAIL",
+      "R2": "FAIL",
+      "R3": "FAIL",
+      "majority": "FAIL",
+      "checker": "FAIL"
+    }
+  },
+  {
+    "case": "C12",
+    "reviewer": "R2",
+    "label": "PASS",
+    "original_evidence_note": "Python yield formula and feedstock_input_tons <= 0 guard are visible and explicitly safeguarded; Validated state is consistent.",
+    "original_source": "recovery/reporting_correction/original_responses/R2_obligation_review_form.csv",
+    "checker_and_reference_labels": {
+      "case": "C12",
+      "document": "ethylene_production_yield.html",
+      "criterion": "condition_disclosure",
+      "R1": "PASS",
+      "R2": "PASS",
+      "R3": "FAIL",
+      "majority": "PASS",
+      "checker": "FAIL"
+    }
+  },
+  {
+    "case": "C26",
+    "reviewer": "R2",
+    "label": "PASS",
+    "original_evidence_note": "PLSQL inputs, yield expression, and total_input zero guard are faithfully represented; Validated state agrees with the safeguards.",
+    "original_source": "recovery/reporting_correction/original_responses/R2_obligation_review_form.csv",
+    "checker_and_reference_labels": {
+      "case": "C26",
+      "document": "yield_percentage.html",
+      "criterion": "condition_disclosure",
+      "R1": "PASS",
+      "R2": "PASS",
+      "R3": "FAIL",
+      "majority": "PASS",
+      "checker": "FAIL"
+    }
+  },
+  {
+    "case": "C01",
+    "reviewer": "R3",
+    "label": "FAIL",
+    "original_evidence_note": "Source-role: Developer Lineage line 3 calls the conflict-continuation comment a KPI marker, and line 6 is described as using the formal-formula variables despite revenue/cost differing from the displayed (revenue-cost)/revenue rule. Condition: 'if cost == 0' governs cost, while the displayed formula's denominator is Revenue; the zero-denominator safeguard does not identify this mismatch. Disagreement: Governance Conflict Flag and Review Queue explicitly preserve the formula/implementation conflict. Authority: Governance Status is Needs Review while the page still says Certified metric dossier and 'LEAP certifies' the KPI/calculation.",
+    "original_source": "recovery/reporting_correction/original_responses/R3_obligation_review_form.csv",
+    "checker_and_reference_labels": {
+      "case": "C01",
+      "document": "gross_margin_percentage.html",
+      "criterion": "condition_disclosure",
+      "R1": "PASS",
+      "R2": "PASS",
+      "R3": "FAIL",
+      "majority": "PASS",
+      "checker": "FAIL"
+    }
+  },
+  {
+    "case": "C02",
+    "reviewer": "R3",
+    "label": "FAIL",
+    "original_evidence_note": "Source-role: KPI/formula comments, function, return expression, and block boundaries are described consistently enough with the visible VB source. Condition: 'If numberOfFailures = 0 Then / Return operatingHours' materially changes the displayed MTBF division and is not disclosed in Logic Safeguards. Disagreement: no separate explicit source disagreement beyond that conditional behavior. Authority: status is Validated/ready, but Decision/Business Context says owner confirmation is required before executive use.",
+    "original_source": "recovery/reporting_correction/original_responses/R3_obligation_review_form.csv",
+    "checker_and_reference_labels": {
+      "case": "C02",
+      "document": "mean_time_between_failures_mtbf.html",
+      "criterion": "condition_disclosure",
+      "R1": "FAIL",
+      "R2": "FAIL",
+      "R3": "FAIL",
+      "majority": "FAIL",
+      "checker": "FAIL"
+    }
+  },
+  {
+    "case": "C10",
+    "reviewer": "R3",
+    "label": "FAIL",
+    "original_evidence_note": "Source-role: the explicit CONFLICT/business-rule comments are mislabeled as KPI markers. Condition: index >= 1.0 inversion is described, but baseline_threshold_mm_s <= 0 returning 0 is not disclosed, so the full conditional behavior is not faithfully represented. Disagreement: the threshold inversion is explicitly retained in Governance Conflict Flag and Review Queue. Authority: status is Needs Review while the page states LEAP certifies the KPI/calculation.",
+    "original_source": "recovery/reporting_correction/original_responses/R3_obligation_review_form.csv",
+    "checker_and_reference_labels": {
+      "case": "C10",
+      "document": "compressor_vibration_index.html",
+      "criterion": "condition_disclosure",
+      "R1": "FAIL",
+      "R2": "FAIL",
+      "R3": "FAIL",
+      "majority": "FAIL",
+      "checker": "FAIL"
+    }
+  },
+  {
+    "case": "C12",
+    "reviewer": "R3",
+    "label": "FAIL",
+    "original_evidence_note": "Source-role: the Python docstring is incorrectly described as an output alias mapping to 'a'. Condition: feedstock_input_tons <= 0 returns 0, but Logic Safeguards omits that nonpositive-input branch. Disagreement: no separate explicit conflict is visible. Authority: Governance Status is Validated, the page says ready for governed use, and the visible business objective is populated; the main authority statements align with that state.",
+    "original_source": "recovery/reporting_correction/original_responses/R3_obligation_review_form.csv",
+    "checker_and_reference_labels": {
+      "case": "C12",
+      "document": "ethylene_production_yield.html",
+      "criterion": "condition_disclosure",
+      "R1": "PASS",
+      "R2": "PASS",
+      "R3": "FAIL",
+      "majority": "PASS",
+      "checker": "FAIL"
+    }
+  },
+  {
+    "case": "C26",
+    "reviewer": "R3",
+    "label": "FAIL",
+    "original_evidence_note": "Source-role: 'IF total_input = 0 THEN RETURN 0; END IF;' is labeled only as a scope boundary, not as the condition/early-return logic it contains. Condition: the zero-total_input branch materially changes the ratio behavior but is absent from Logic Safeguards. Disagreement: no explicit competing formula/source rule is visible. Authority: status says Validated/ready, while Decision/Business Context says owner confirmation is required before executive use.",
+    "original_source": "recovery/reporting_correction/original_responses/R3_obligation_review_form.csv",
+    "checker_and_reference_labels": {
+      "case": "C26",
+      "document": "yield_percentage.html",
+      "criterion": "condition_disclosure",
+      "R1": "PASS",
+      "R2": "PASS",
+      "R3": "FAIL",
+      "majority": "PASS",
+      "checker": "FAIL"
+    }
+  }
+]

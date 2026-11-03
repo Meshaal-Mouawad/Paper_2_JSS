@@ -1,0 +1,266 @@
+Enterprise KPI Dossier - Catalyst Replacement Frequency
+Skip to dossier content
+Workspace
+Main
+Dashboard
+KPI Portfolio
+Discovery Workspace
+Enterprise KPIs
+Governance
+RACI Directory
+Governance State
+Evidence
+Evidence & Lineage
+Utilities
+Search
+Index
+Workspace Mode
+Offline Governance
+Certified metric dossier
+KPI Intelligence Workspace
+--
+Light Teal
+Dark
+Classic
+Confidence
+95%
+Source
+SQL
+Owner
+Enterprise Data Owner
+Offline
+Enterprise KPI Dossier
+Catalyst Replacement Frequency
+Enterprise intelligence record connecting business definition, certified formula, ownership, and operational evidence.
+Needs Review
+Owner confirmation required before executive use.
+Enterprise Data Owner remains accountable while governance review is resolved.
+Business Domain
+Enterprise
+Confidence
+95%
+Governance Status
+Needs Review
+Owner
+Enterprise Data Owner
+Source
+SQL
+Last Validation
+2026-09-21
+LEAP
+/
+KPI Catalog
+/
+Catalyst Replacement Frequency
+Executive Briefing
+Executive Summary
+If this KPI trends up: Indicates a material change in the measured business condition and should be interpreted with the owner. If it trends down: Indicates a material change in the measured business condition and should be checked against source-data timing. Owner check: What changed in source data, business process, or KPI logic that explains movement in Catalyst Replacement Frequency?
+Business Meaning
+Average rate at which catalysts are replaced across all reactor units.
+Decision
+Optimize catalyst lifecycle management and reduce unplanned shutdowns.
+Trust
+Decision use requires owner confirmation.
+Risk
+Incorrect interpretation may affect Enterprise planning, accountability, or exception response.
+Action
+Enterprise Data Owner should monitor movement and confirm context when the metric changes materially.
+Mathematical Formulation
+Formal Formula
+\[ \mathrm{Catalyst\,Replacement\,Frequency} = \frac{\mathrm{Total\,Replacements}}{\mathrm{Operating\,Months}} \]
+Where:
+Numerator:
+Total Replacements
+Denominator:
+Operating Months
+Annotated Formula
+Business Interpretation
+Developer Lineage
+Total Replacements
+Total Replacements
+Divided By
+÷
+Operating Months
+Operating Months
+Developer Lineage Breakdown
+1 | -- KPI: Catalyst Replacement Frequency
+KPI marker: tells LEAP this nearby code defines or documents a KPI.
+2 | -- Formula: Catalyst Frequency = Total Replacements / Operating Months
+Calculation hint: documents the business expression expected inside the KPI implementation.
+3 | -- Description: Average rate at which catalysts are replaced across all reactor units.
+KPI marker: tells LEAP this nearby code defines or documents a KPI.
+4 | -- Objective: Optimize catalyst lifecycle management and reduce unplanned shutdowns.
+KPI marker: tells LEAP this nearby code defines or documents a KPI.
+5 | -- Input: Count of catalyst replacement events, months of reactor operation
+KPI marker: tells LEAP this nearby code defines or documents a KPI.
+6 | -- Unit: replacements/month
+KPI marker: tells LEAP this nearby code defines or documents a KPI.
+7 | -- Reporting Source: SAP PM (Plant Maintenance) — PM order type ZM01
+KPI marker: tells LEAP this nearby code defines or documents a KPI.
+8 | -- Used In: Maintenance Performance Dashboard, Reliability Review
+KPI marker: tells LEAP this nearby code defines or documents a KPI.
+9 | -- Source system conflict: Business comment declares source system is SAP PM.
+KPI marker: tells LEAP this nearby code defines or documents a KPI.
+10 | -- However this file loads data from a manual CSV export (flat-file staging area),
+KPI marker: tells LEAP this nearby code defines or documents a KPI.
+Evidence & Lineage
+Operational Logic
+Formula Lineage
+Provenance
+Inputs
+-- KPI: Catalyst Replacement Frequency
+-- Formula: Catalyst Frequency = Total Replacements / Operating Months
+-- Description: Average rate at which catalysts are replaced across all reactor units.
+-- Objective: Optimize catalyst lifecycle management and reduce unplanned shutdowns.
+-- Input: Count of catalyst replacement events, months of reactor operation
+-- Unit: replacements/month
+-- Reporting Source: SAP PM (Plant Maintenance) — PM order type ZM01
+-- Used In: Maintenance Performance Dashboard, Reliability Review
+-- Source system conflict: Business comment declares source system is SAP PM.
+-- However this file loads data from a manual CSV export (flat-file staging area),
+-- indicating the certified source does not match the declared system of record.
+-- csv_stage is a flat-file import area populated by manual export — NOT SAP PM live data
+SELECT
+r.unit_code,
+COUNT(r.replacement_id) AS total_replacements,
+DATEDIFF(MONTH, MIN(r.event_date), MAX(r.event_date)) + 1 AS operating_months,
+COUNT(r.replacement_id) * 1.0
+/ NULLIF(DATEDIFF(MONTH, MIN(r.event_date), MAX(r.event_date)) + 1, 0)
+AS catalyst_replacement_frequency
+FROM csv_stage.catalyst_replacement_log r
+GROUP BY r.unit_code
+ORDER BY catalyst_replacement_frequency DESC;
+Inline evidence snippet
+1 | -- KPI: Catalyst Replacement Frequency
+2 | -- Formula: Catalyst Frequency = Total Replacements / Operating Months
+3 | -- Description: Average rate at which catalysts are replaced across all reactor units.
+4 | -- Objective: Optimize catalyst lifecycle management and reduce unplanned shutdowns.
+5 | -- Input: Count of catalyst replacement events, months of reactor operation
+Developer Lineage Breakdown
+1 | -- KPI: Catalyst Replacement Frequency
+KPI marker: tells LEAP this nearby code defines or documents a KPI.
+2 | -- Formula: Catalyst Frequency = Total Replacements / Operating Months
+Calculation hint: documents the business expression expected inside the KPI implementation.
+3 | -- Description: Average rate at which catalysts are replaced across all reactor units.
+KPI marker: tells LEAP this nearby code defines or documents a KPI.
+4 | -- Objective: Optimize catalyst lifecycle management and reduce unplanned shutdowns.
+KPI marker: tells LEAP this nearby code defines or documents a KPI.
+5 | -- Input: Count of catalyst replacement events, months of reactor operation
+KPI marker: tells LEAP this nearby code defines or documents a KPI.
+6 | -- Unit: replacements/month
+KPI marker: tells LEAP this nearby code defines or documents a KPI.
+7 | -- Reporting Source: SAP PM (Plant Maintenance) — PM order type ZM01
+KPI marker: tells LEAP this nearby code defines or documents a KPI.
+8 | -- Used In: Maintenance Performance Dashboard, Reliability Review
+KPI marker: tells LEAP this nearby code defines or documents a KPI.
+9 | -- Source system conflict: Business comment declares source system is SAP PM.
+KPI marker: tells LEAP this nearby code defines or documents a KPI.
+10 | -- However this file loads data from a manual CSV export (flat-file staging area),
+KPI marker: tells LEAP this nearby code defines or documents a KPI.
+Operational Intent
+Average rate at which catalysts are replaced across all reactor units. LEAP frames this as an operational evidence signal for enterprise decision-making.
+Verified Logic Mapping
+First, LEAP certifies the KPI definition against conflict_source_catalyst.sql and classifies the implementation as SQL evidence.
+Second, it presents the certified calculation expression (Catalyst Frequency = Total Replacements / Operating Months) in the formal MathJax formula shown above.
+Finally, it preserves the executable context and code fingerprint so future changes to the KPI logic can be identified.
+Logic Safeguards
+OK
+Zero-Division Guard:
+Implementation logic uses NULLIF so denominator values of zero do not create invalid ratio calculations.
+OK
+Governance Conflict Flag:
+Source lineage conflict: source comment declares 'SAP PM (Plant Maintenance) — PM order type ZM01' as the certified system of record, but executable SQL reads from staging/manual table(s): csv_stage.catalyst_replacement_log. Manual or staged data does not constitute certified source lineage.
+OK
+Change Detection:
+Code Fingerprint 0c5cfa58f5 records the current implementation so drift can be identified after the next workspace refresh.
+OK
+RACI Accountability:
+Enterprise Data Owner is assigned as accountable owner for rule confirmation and escalation.
+Executive Alignment
+Business rules are aligned to default rule; no path/name governance match (SQL). RACI Owner: Enterprise Data Owner. Consulted reviewer: Domain Subject Matter Expert. Current status: Needs Review.
+Business Data System
+EXPLICIT SOURCE TABLE(S): csv_stage.catalyst_replacement_log
+Source File
+conflict_source_catalyst.sql
+Source Line
+1
+Definition Pattern
+Sql Comment
+Governance Domain
+Enterprise
+KPI ID
+KPI-0C5CFA58F5
+Business Usage
+Maintenance Performance Dashboard, Reliability Review
+Input Evidence
+Count of catalyst replacement events, months of reactor operation
+Definition
+Average rate at which catalysts are replaced across all reactor units.
+Business Context
+Optimize catalyst lifecycle management and reduce unplanned shutdowns.
+Edge Cases / Comments
+Compliance mode preserved only implementation-grounded evidence; unresolved business context is routed to owner confirmation.
+Governance
+Needs Review
+Confidence:
+95%
+Accountable:
+Enterprise Data Owner
+GOVERNANCE CONFLICT
+Conflict detected. See Review Queue for details.
+RACI
+Responsible:
+Data Engineering Team
+Accountable:
+Enterprise Data Owner
+Consulted:
+Domain Subject Matter Expert
+Informed:
+Business Stakeholders
+Metadata
+KPI_ID:
+KPI-0C5CFA58F5
+Fingerprint:
+0c5cfa58
+Validated:
+2026-09-21
+Type:
+SQL operational definition
+Runtime:
+Offline
+Frequency:
+On Demand
+Operational Actions
+Print Certified Dossier
+Edit Dossier
+Open Discovery Workspace
+Open RACI Directory
+Review Queue
+Needs Review
+Governance Review Required
+Governance conflict detected
+Business rule and implementation require review
+Source lineage conflict: source comment declares 'SAP PM (Plant Maintenance) — PM order type ZM01' as the certified system of record, but executable SQL reads from staging/manual table(s): csv_stage.catalyst_replacement_log. Manual or staged data does not constitute certified source lineage.
+Please review this governed KPI evidence package.
+KPI: Catalyst Replacement Frequency
+KPI ID: KPI-0C5CFA58F5
+Accountable owner: Enterprise Data Owner
+Consulted SME: Domain Subject Matter Expert
+Source: conflict_source_catalyst.sql
+Line: 1
+Review questions:
+- Does the business meaning match how the KPI is used?
+- Does the formula reflect the approved business rule?
+- Are the source fields, filters, and reporting period correct?
+- Should this KPI be marked Validated or Needs Review?
+Send or copy this review request to the accountable owner or domain subject matter expert (SME).
+Open Email Draft
+Copy Review Text
+LEAP AXIS KPI Intelligence Workspace
+AI: Offline Mode · Deterministic AST Engine
+Workspace
+Discovery
+RACI
+SDAIA PDPL
+NCA ECC
+ISO 22400

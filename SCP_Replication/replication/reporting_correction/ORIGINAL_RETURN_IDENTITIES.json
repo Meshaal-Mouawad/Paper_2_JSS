@@ -1,0 +1,20 @@
+[
+  {
+    "reviewer": "R1",
+    "source_file": "Reviewer_1_Independent_Evaluation(2).zip",
+    "source_member": "Reviewer_1_Independent_Evaluation/obligation_review_form.csv",
+    "sha256": "db5a85146642fc80549a7991dd6e3508481f82a6b35eced65ca7897162d5ef8d"
+  },
+  {
+    "reviewer": "R2",
+    "source_file": "obligation_review_form.csv",
+    "source_member": "",
+    "sha256": "559589f6e9b7732754916767be6e854cb45ef8c60ba5a82a42875728a563194e"
+  },
+  {
+    "reviewer": "R3",
+    "source_file": "obligation_review_form_completed.csv",
+    "source_member": "",
+    "sha256": "e142d0d6ed9133613bd8e3ace0456f8641ac3b0101a6eeae0acdebd0ed6a9e94"
+  }
+]

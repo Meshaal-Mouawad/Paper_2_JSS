@@ -1,0 +1,80 @@
+[
+  {
+    "command": [
+      "python",
+      "method/validate_audit_rules.py"
+    ],
+    "exit_code": 0
+  },
+  {
+    "command": [
+      "python",
+      "method/validate_mutated_artifacts.py"
+    ],
+    "exit_code": 0
+  },
+  {
+    "command": [
+      "python",
+      "method/verify_control_oracles.py"
+    ],
+    "exit_code": 0
+  },
+  {
+    "command": [
+      "python",
+      "primary/audit/audit_primary_r3.py"
+    ],
+    "exit_code": 0
+  },
+  {
+    "command": [
+      "python",
+      "historical/audit/audit_historical_r3.py",
+      "historical/dossiers",
+      "historical/audit"
+    ],
+    "exit_code": 0
+  },
+  {
+    "command": [
+      "python",
+      "robustness/audit/audit_replication_r3.py",
+      "robustness/scenarios",
+      "robustness/audit",
+      "scenarios"
+    ],
+    "exit_code": 0
+  },
+  {
+    "command": [
+      "python",
+      "robustness/audit/audit_replication_r3.py",
+      "robustness/challenge",
+      "robustness/audit",
+      "challenge"
+    ],
+    "exit_code": 0
+  },
+  {
+    "command": [
+      "python",
+      "external_fastapi/generate_and_audit.py"
+    ],
+    "exit_code": 0
+  },
+  {
+    "command": [
+      "python",
+      "verification/verify_r5_evidence.py"
+    ],
+    "exit_code": 0
+  },
+  {
+    "command": [
+      "python",
+      "verification/verify_release_evidence.py"
+    ],
+    "exit_code": 0
+  }
+]

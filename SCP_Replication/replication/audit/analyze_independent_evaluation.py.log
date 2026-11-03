@@ -1,0 +1,34 @@
+{
+  "reviewers": 3,
+  "cases": 28,
+  "guided_obligation_cells": 112,
+  "blank_to_NA_normalizations": 94,
+  "majority_labels": {
+    "FAIL": 44,
+    "PASS": 34,
+    "NA": 33,
+    "UNRESOLVED": 1
+  },
+  "unresolved_cells": [
+    {
+      "case_id": "C17",
+      "obligation": "condition_disclosure",
+      "R1": "NA",
+      "R2": "PASS",
+      "R3": "FAIL"
+    }
+  ],
+  "unaided_majority_issue_cases": 18,
+  "guided_majority_issue_cases": 23,
+  "cases_added_by_guided_majority": [
+    "C03",
+    "C08",
+    "C11",
+    "C20",
+    "C21"
+  ],
+  "checker_exact_resolvable_cells": 77,
+  "checker_resolvable_cells": 111
+}
+
+STDERR

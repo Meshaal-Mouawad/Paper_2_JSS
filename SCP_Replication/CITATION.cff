@@ -1,0 +1,13 @@
+cff-version: 1.2.0
+message: "Please cite the associated research manuscript when using this replication material."
+title: "Replication materials for evaluating checks for generated KPI documentation"
+type: dataset
+authors:
+  - family-names: Mouawad
+    given-names: Meshaal Obaid
+    orcid: "https://orcid.org/0000-0002-1152-8324"
+  - family-names: Jones
+    given-names: Bryan
+    orcid: "https://orcid.org/0000-0002-5807-8797"
+repository-code: "https://github.com/Meshaal-Mouawad/Paper_2_JSS"
+abstract: "Data, source-code checks, reviewer instructions, original ratings, and reproducible analysis for the Science of Computer Programming manuscript SCICO-D-26-00865."

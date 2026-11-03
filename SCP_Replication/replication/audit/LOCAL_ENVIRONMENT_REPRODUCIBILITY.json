@@ -1,0 +1,39 @@
+{
+  "environment": {
+    "python": "3.13.5",
+    "pydantic": "2.13.5 (installed; archive records 2.13.4)",
+    "fastapi": "0.128.2",
+    "beautifulsoup4": "4.14.3 (installed; requirements record 4.15.0)"
+  },
+  "independent_rerun": {
+    "source_role_ledger": true,
+    "independent_recompute": true,
+    "statistics": [
+      {
+        "command": "/opt/pyvenv/bin/python analysis/analyze_independent_evaluation.py",
+        "exit_code": 0
+      },
+      {
+        "command": "/opt/pyvenv/bin/python analysis/analyze_r9_interpretation.py",
+        "exit_code": 0
+      },
+      {
+        "command": "/opt/pyvenv/bin/python analysis/analyze_r10_condition_disagreements.py",
+        "exit_code": 0
+      },
+      {
+        "command": "/opt/pyvenv/bin/python analysis/analyze_r11_condition_criteria.py",
+        "exit_code": 0
+      }
+    ],
+    "source_files_changed": []
+  },
+  "technical_run": {
+    "technical_commands_executed": 10,
+    "nine_first_commands_exit": 0,
+    "final_verifier": "FAIL because generated FastAPI metadata records Pydantic 2.13.5, not pinned 2.13.4",
+    "scientific_outputs": "same; only recorded Pydantic version differs in external_transfer_summary.json",
+    "original_evidence_archive_modified": false
+  },
+  "reproducibility": "Exact byte reproduction of the last technical command requires installing the pinned dependency versions; no historical hash was altered to force a pass."
+}

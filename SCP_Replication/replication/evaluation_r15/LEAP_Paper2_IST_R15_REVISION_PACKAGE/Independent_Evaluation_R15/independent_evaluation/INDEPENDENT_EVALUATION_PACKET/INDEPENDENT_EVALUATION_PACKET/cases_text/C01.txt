@@ -1,0 +1,242 @@
+Enterprise KPI Dossier - Gross Margin Percentage
+Skip to dossier content
+Workspace
+Main
+Dashboard
+KPI Portfolio
+Discovery Workspace
+Enterprise KPIs
+Governance
+RACI Directory
+Governance State
+Evidence
+Evidence & Lineage
+Utilities
+Search
+Index
+Workspace Mode
+Offline Governance
+Certified metric dossier
+KPI Intelligence Workspace
+--
+Light Teal
+Dark
+Classic
+Confidence
+90%
+Source
+PYTHON
+Owner
+Enterprise Data Owner
+Offline
+Enterprise KPI Dossier
+Gross Margin Percentage
+Enterprise intelligence record connecting business definition, certified formula, ownership, and operational evidence.
+Needs Review
+Owner confirmation required before executive use.
+Enterprise Data Owner remains accountable while governance review is resolved.
+Business Domain
+Enterprise
+Confidence
+90%
+Governance Status
+Needs Review
+Owner
+Enterprise Data Owner
+Source
+PYTHON
+Last Validation
+2026-09-21
+LEAP
+/
+KPI Catalog
+/
+Gross Margin Percentage
+Executive Briefing
+Executive Summary
+If this KPI trends up: Indicates a material change in the measured business condition and should be interpreted with the owner. If it trends down: Indicates a material change in the measured business condition and should be checked against source-data timing. Owner check: What changed in source data, business process, or KPI logic that explains movement in Gross Margin Percentage?
+Business Meaning
+Percentage of revenue retained after direct production costs.
+Decision
+Track financial health and pricing efficiency across product lines.
+Trust
+Decision use requires owner confirmation.
+Risk
+Incorrect interpretation may affect Enterprise planning, accountability, or exception response.
+Action
+Enterprise Data Owner should monitor movement and confirm context when the metric changes materially.
+Mathematical Formulation
+Formal Formula
+\[ \mathrm{Gross\,Margin\,Percentage} = \frac{\left(\mathrm{Revenue} - \mathrm{Cost}\right)}{\mathrm{Revenue}} \times 100 \]
+Where:
+Numerator:
+Revenue - Cost
+Denominator:
+Revenue
+Scale:
+×100
+Annotated Formula
+Business Interpretation
+Developer Lineage
+Total Sales Revenue
+Revenue
+Minus
+-
+Cost
+Cost
+Divided By
+÷
+Total Sales Revenue
+Revenue
+Scaled by 100
+× 100
+Developer Lineage Breakdown
+1 | def calculate_gross_margin_pct(revenue, cost):
+Source context: supports the KPI definition or execution boundary.
+2 | # CONFLICT: business formula specifies (Revenue - Cost) / Revenue * 100
+Calculation hint: documents the business expression expected inside the KPI implementation.
+3 | # but implementation divides revenue by cost instead — operator conflict
+KPI marker: tells LEAP this nearby code defines or documents a KPI.
+4 | if cost == 0:
+Source context: supports the KPI definition or execution boundary.
+5 | return 0.0
+Source context: supports the KPI definition or execution boundary.
+6 | return (revenue / cost) * 100
+Calculation expression: combines source variables used by the formal formula.
+Evidence & Lineage
+Operational Logic
+Formula Lineage
+Provenance
+Inputs
+def calculate_gross_margin_pct(revenue, cost):
+# CONFLICT: business formula specifies (Revenue - Cost) / Revenue * 100
+# but implementation divides revenue by cost instead — operator conflict
+if cost == 0:
+return 0.0
+return (revenue / cost) * 100
+Inline evidence snippet
+1 | def calculate_gross_margin_pct(revenue, cost):
+2 |     # CONFLICT: business formula specifies (Revenue - Cost) / Revenue * 100
+3 |     # but implementation divides revenue by cost instead — operator conflict
+4 |     if cost == 0:
+5 |         return 0.0
+Developer Lineage Breakdown
+1 | def calculate_gross_margin_pct(revenue, cost):
+Source context: supports the KPI definition or execution boundary.
+2 | # CONFLICT: business formula specifies (Revenue - Cost) / Revenue * 100
+Calculation hint: documents the business expression expected inside the KPI implementation.
+3 | # but implementation divides revenue by cost instead — operator conflict
+KPI marker: tells LEAP this nearby code defines or documents a KPI.
+4 | if cost == 0:
+Source context: supports the KPI definition or execution boundary.
+5 | return 0.0
+Source context: supports the KPI definition or execution boundary.
+6 | return (revenue / cost) * 100
+Calculation expression: combines source variables used by the formal formula.
+Operational Intent
+Percentage of revenue retained after direct production costs. LEAP frames this as an operational evidence signal for enterprise decision-making.
+Verified Logic Mapping
+First, LEAP certifies the KPI definition against conflict_formula_margin.py and classifies the implementation as PYTHON evidence.
+Second, it presents the certified calculation expression (Gross Margin % = (Revenue - Cost) / Revenue * 100) in the formal MathJax formula shown above.
+Finally, it preserves the executable context and code fingerprint so future changes to the KPI logic can be identified.
+Logic Safeguards
+OK
+Zero-Division Guard:
+Implementation logic checks for a zero denominator before returning the KPI value.
+OK
+Governance Conflict Flag:
+LEAP identified that the documented business formula and implementation path disagree, so the KPI is explicitly flagged for owner review.
+OK
+Change Detection:
+Code Fingerprint 440ae64a44 records the current implementation so drift can be identified after the next workspace refresh.
+OK
+RACI Accountability:
+Enterprise Data Owner is assigned as accountable owner for rule confirmation and escalation.
+Executive Alignment
+Business rules are aligned to default rule; no path/name governance match (PYTHON). RACI Owner: Enterprise Data Owner. Consulted reviewer: Domain Subject Matter Expert. Current status: Needs Review.
+Business Data System
+EXPLICIT SOURCE: Finance ERP (SAP FI-CO module)
+Source File
+conflict_formula_margin.py
+Source Line
+1
+Definition Pattern
+Comment
+Governance Domain
+Enterprise
+KPI ID
+KPI-440AE64A44
+Business Usage
+CFO Dashboard, Quarterly Financial Review
+Input Evidence
+Revenue, Cost of Goods Sold
+Definition
+Percentage of revenue retained after direct production costs.
+Business Context
+Track financial health and pricing efficiency across product lines.
+Edge Cases / Comments
+Compliance mode preserved only implementation-grounded evidence; unresolved business context is routed to owner confirmation.
+Governance
+Needs Review
+Confidence:
+90%
+Accountable:
+Enterprise Data Owner
+GOVERNANCE CONFLICT
+Conflict detected. See Review Queue for details.
+RACI
+Responsible:
+Data Engineering Team
+Accountable:
+Enterprise Data Owner
+Consulted:
+Domain Subject Matter Expert
+Informed:
+Business Stakeholders
+Metadata
+KPI_ID:
+KPI-440AE64A44
+Fingerprint:
+440ae64a
+Validated:
+2026-09-21
+Type:
+PYTHON operational definition
+Runtime:
+Offline
+Frequency:
+On Demand
+Operational Actions
+Print Certified Dossier
+Edit Dossier
+Open Discovery Workspace
+Open RACI Directory
+Review Queue
+Needs Review
+Governance Review Required
+Governance conflict detected
+Business rule and implementation require review
+The operational logic defined by business documentation does not align with the certified implementation path.
+Please review this governed KPI evidence package.
+KPI: Gross Margin Percentage
+KPI ID: KPI-440AE64A44
+Accountable owner: Enterprise Data Owner
+Consulted SME: Domain Subject Matter Expert
+Source: conflict_formula_margin.py
+Line: 1
+Review questions:
+- Does the business meaning match how the KPI is used?
+- Does the formula reflect the approved business rule?
+- Are the source fields, filters, and reporting period correct?
+- Should this KPI be marked Validated or Needs Review?
+Send or copy this review request to the accountable owner or domain subject matter expert (SME).
+Open Email Draft
+Copy Review Text
+LEAP AXIS KPI Intelligence Workspace
+AI: Offline Mode · Deterministic AST Engine
+Workspace
+Discovery
+RACI
+SDAIA PDPL
+NCA ECC
+ISO 22400
